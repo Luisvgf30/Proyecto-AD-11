@@ -9,13 +9,21 @@
         <div class="card-body">
           <form action="/asignaturas/add" method="post">
             <div class="form-group">
-              <input class="form-control" type="text" name="title" placeholder="Title">
+              <input class="form-control" type="text" name="nombre" placeholder="Nombre">
             </div>
             <div class="form-group">
-              <textarea class="form-control" name="description" cols="80"
-                placeholder="Add a Description"
-                ></textarea>
+                <input class="form-control" type="text" name="plan" placeholder="Plan de estudio">
             </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="cuatrimestre" placeholder="Cuatrimestre">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="curso" placeholder="Curso">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="software" placeholder="Software">
+            </div>
+            
             <button class="btn btn-primary" type="submit">
               Add
             </button>
@@ -35,16 +43,18 @@
             <th>Cuatrimestre</th>
             <th>Curso</th>
             <th>Software</th>
-            <th>Responsbles</th>
-            <th>Alumnos</th>
+            <th>Operations</th>
           </tr>
         </thead>
         <tbody>
           <% for(var i=0; i < asignaturas.length; i++) { %>
             <tr>
               <td><%= i + 1%></td>
-              <td><strong><%= asignaturas[i].title %></strong></td>
-              <td><%= asignaturas[i].description %></td>
+              <td><strong><%= asignaturas[i].nombre %></nombre></td>
+              <td><%= asignaturas[i].plan %></td>
+              <td><%= asignaturas[i].cuatrimestre %></td>
+              <td><%= asignaturas[i].curso %></td>
+              <td><%= asignaturas[i].software %></td>
               <td>
                 <a
                   class="<%= asignaturas[i].status ? 'btn btn-success' : 'btn btn-dark'%>"
