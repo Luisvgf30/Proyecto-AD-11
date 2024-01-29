@@ -3,11 +3,20 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// connection to db
+mongoose.connect('mongodb+srv://ricardodr13:eQYoUORHFA3S7pt8@tema11.kvjyb6h.mongodb.net/?retryWrites=true&w=majority',
+ { useNewUrlParser:true,useUnifiedTopology:true
+  })
+  .then(db=>console.log('db connect'))
+  .catch(err=>console.log(err));
+  
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
