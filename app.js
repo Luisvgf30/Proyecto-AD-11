@@ -10,6 +10,7 @@ const passport = require('passport');
 var app = express();
 require('./database');
 require('./passport/local-auth');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +20,13 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// connection to db
+mongoose.connect('mongodb+srv://ricardodr13:eQYoUORHFA3S7pt8@tema11.kvjyb6h.mongodb.net/?retryWrites=true&w=majority',
+ { useNewUrlParser:true,useUnifiedTopology:true
+  })
+  .then(db=>console.log('db connect'))
+  .catch(err=>console.log(err));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
