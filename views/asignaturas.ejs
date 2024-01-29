@@ -1,0 +1,70 @@
+<% include partials/_header %>
+
+<div class="container">
+
+  <div class="row">
+    <!--FORM-->
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <form action="/asignaturas/add" method="post">
+            <div class="form-group">
+              <input class="form-control" type="text" name="title" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" name="description" cols="80"
+                placeholder="Add a Description"
+                ></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">
+              Add
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIST -->
+    <div class="col-md-7">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Plan de estudios</th>
+            <th>Cuatrimestre</th>
+            <th>Curso</th>
+            <th>Software</th>
+            <th>Responsbles</th>
+            <th>Alumnos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i < asignaturas.length; i++) { %>
+            <tr>
+              <td><%= i + 1%></td>
+              <td><strong><%= asignaturas[i].title %></strong></td>
+              <td><%= asignaturas[i].description %></td>
+              <td>
+                <a
+                  class="<%= asignaturas[i].status ? 'btn btn-success' : 'btn btn-dark'%>"
+                  href="/asignaturas/turn/<%= asignaturas[i]._id %>">Done</a>
+                <a href="/asignaturas/delete/<%= asignaturas[i]._id %>"
+                  class="btn btn-danger">
+                  Delete
+                </a>
+                <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-info">
+                  Edit
+                </a>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<% include partials/_footer %>
