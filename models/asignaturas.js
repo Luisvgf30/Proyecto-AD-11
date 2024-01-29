@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const subjectSchema = new Schema({
-  name: { type: String, required: true },
-  professors: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  students: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  installationInstructions: { type: String },
-  externalLinks: [{ type: String }],
+    nombre: { type: String, required: true },
+    planEstudios: { type: String},
+    cuatrimestre:  { type: Number },
+    curso: {type: Number},
+    software: {type:  Array}
+
 });
 
 module.exports = mongoose.model('Subject', subjectSchema);
