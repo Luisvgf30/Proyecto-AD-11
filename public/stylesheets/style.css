@@ -11,3 +11,7 @@ h1 .error{
   text-align: center;
   color:red;
 }
+
+p .msing{
+  color:red;
+}
