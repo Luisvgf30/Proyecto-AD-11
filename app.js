@@ -16,7 +16,6 @@ mongoose.connect('mongodb+srv://ricardodr13:eQYoUORHFA3S7pt8@tema11.kvjyb6h.mong
   })
   .then(db=>console.log('db connect'))
   .catch(err=>console.log(err));
-  
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
