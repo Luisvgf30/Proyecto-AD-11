@@ -4,12 +4,11 @@ const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  username: { type: String, required: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['Administrador', 'Profesor', 'Alumno'], required: true },
-  nombre: { type: String },
+  nombre: { type: String, required: true},
   apellidos: { type: String },
+  rol: { type: String, enum: ['Administrador', 'Profesor', 'Alumno'], required: true },
   email: { type: String },
+  password: { type: String, required: true },
   asignaturas: [{ type: Schema.Types.ObjectId, ref: 'asignaturas' }]
 });
 
@@ -33,10 +32,13 @@ userSchema.methods.findEmail= async (email) => {
 //Insertar usuario
 userSchema.methods.insert= async function () {
   //await this.save();
-  await this.save((err, res) => {
-    err ? console.log(err) : "";
+  await this.save()
+  .then(res => {
     console.log("saved: " + res);
-  });
+  })  .catch(err => {
+    console.log(err)  });
+ 
+
 };
 
 // update usuario
