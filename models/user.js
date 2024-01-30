@@ -39,4 +39,23 @@ userSchema.methods.insert= async function () {
   });
 };
 
+// update usuario
+userSchema.methods.update= async (id, task) => {
+  const User = mongoose.model("users", userSchema);
+  await User.updateOne({_id: id}, task, err => {
+    if (err) console.log(err);
+  });
+  console.log(id + " updated");
+};
+
+// delete usuario
+userSchema.methods.delete= async function (id) {
+  const User = mongoose.model("users", userSchema);
+  await User.deleteOne({_id: id}, err => {
+    if (err) console.log(err);
+  });
+  console.log(id + " deleted");
+
+};
+
 module.exports = mongoose.model('user', userSchema);
