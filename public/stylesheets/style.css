@@ -16,6 +16,10 @@ p .msing{
   color:red;
 }
 
+.color-primario{
+  background-color: #5499c7;
+}
+
 .divider:after,
 .divider:before {
 content: "";
