@@ -2,7 +2,8 @@ const router = require('express').Router();
 const passport = require('passport');
 
 router.get('/', (req, res, next) => {
-  res.render('index');
+  let title = 'Mario';
+  res.render('index',{ title: title});
 });
 
 router.get('/signup', (req, res, next) => {
