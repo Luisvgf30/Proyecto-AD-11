@@ -23,6 +23,13 @@
             <div class="form-group">
                 <input class="form-control" type="text" name="software" placeholder="Software">
             </div>
+            <div class="form-group">
+              <select name="responsable" id="responsable" class="form-control"></select>
+              
+          </div>
+          <div class="form-group">
+            <select name="alumnos" id="alumnos" class="form-control"></select>
+        </div>
             
             <button class="btn btn-primary" type="submit">
               Add
@@ -43,7 +50,9 @@
             <th>Cuatrimestre</th>
             <th>Curso</th>
             <th>Software</th>
-            <th>Operations</th>
+            <th>Resposable</th>
+            <th>Alumnos</th>
+            <th>Operaciones</th>
           </tr>
         </thead>
         <tbody>
@@ -55,6 +64,8 @@
               <td><%= asignaturas[i].cuatrimestre %></td>
               <td><%= asignaturas[i].curso %></td>
               <td><%= asignaturas[i].software %></td>
+              <td><%= asignaturas[i].responsable %></td>
+              <td><%= asignaturas[i].alumnos %></td>
               <td>
                 <a
                   class="<%= asignaturas[i].status ? 'btn btn-success' : 'btn btn-dark'%>"

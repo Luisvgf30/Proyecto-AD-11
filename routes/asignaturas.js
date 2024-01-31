@@ -6,8 +6,9 @@ const Asignatura = require('../models/asignatura');
 router.get('/asignaturas',isAuthenticated, async (req, res) => {
   const asignatura = new Asignatura();
   const asignaturas = await asignatura.findAll(req.user._id);
+  console.log(asignaturas);
   res.render('asignaturas', {
-    asignaturas: asignaturas, routes: asignaturas, routes
+    asignaturas
   });
 });
 
