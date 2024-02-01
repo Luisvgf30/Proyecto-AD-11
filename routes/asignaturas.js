@@ -33,8 +33,9 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   var asignatura = new Asignatura();
   var usuario = new Usuario();
   const asignaturas = await asignatura.findAll(req.user._id);
-  const profesores = await Usuario.find(req.body.tipo);
-  const alumnos = await Usuario.findOne(req.body.tipo);
+
+  const profesores = await Usuario.find("Alumno");
+  const alumnos = await Usuario.find('Profesor');
 
   asignatura = await asignatura.findById(req.params.id);
   res.render('edit', { asignatura, profesores,alumnos});
