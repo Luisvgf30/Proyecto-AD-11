@@ -1,28 +1,61 @@
 <% include partials/_header %>
+  <div class="container">
+    <div class="row">
+      <!--FORM-->
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body">
+            <form action="/asignaturas/edit/<%= asignatura._id %>" method="post">
+              <div class="form-group">
+                <input class="form-control" type="text" name="id"
+                  value="<%= asignatura.id %>">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="nombre"
+                  value="<%= asignatura.nombre %>">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="plan" 
+                  value="<%= asignatura.plan %>">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="quatrimestre"
+                  value="<%= asignatura.cuatrimestre %>">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="curso" 
+                  value="<%= asignatura.curso %>">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="software" 
+                  value="<%= asignatura.software %>">
+              </div>
+              <div class="form-group">
+                <select name="responsable" id="responsable"
+                value="<%= asignatura.responsable %>">
+                </select>
+               
+              </div>
+              <div class="form-group">
+                <select name="alumnos" id="alumnos"
+                value="<%= asignatura.alumnos %>">
 
-<div class="container">
-  <div class="row">
-    <!--FORM   -->
-    <div class="col-md-5 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <form action="/asignaturas/edit/<%= asignatura._id %>" method="post">
-            <div class="form-group">
-              <input class="form-control" type="text" name="title" placeholder="Title" value="<%= asignatura.title %>">
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" name="description" cols="80"
-                placeholder="Add a Description"
-                ><%= asignatura.description %></textarea>
-            </div>
-            <button class="btn btn-primary" type="submit">
-              Update 
-            </button>
-          </form>
+                </select>
+              </div>
+
+            
+              <button class="btn btn-primary" type="submit">
+                Update
+              </button>
+             
+            </form>
+          </div>
         </div>
       </div>
+
+
+   
     </div>
   </div>
-</div>
 
-<% include partials/_footer%>
+  <% include partials/_footer%>
