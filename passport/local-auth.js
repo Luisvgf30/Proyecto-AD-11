@@ -17,17 +17,24 @@ passport.use('local-signup', new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true
 }, async (req, nombre, apellidos, rol, email, password, asignaturas, done) => {
+
+
   var user = new User();
-   user = await user.findEmail( email)
+   user = await user.findEmail( req.body.email);
+
   if(user) {
     return done(null, false, req.flash('signupMessage', 'The Email is already Taken.'));
   } else {
+    //console.log(req.body);
     const newUser = new User();
-    newUser.nombre = nombre;
-    newUser.apellidos = apellidos;
-    newUser.rol = rol;
-    newUser.asignaturas = asignaturas;
-    newUser.password = newUser.encryptPassword(password);
+    newUser.nombre = req.body.nombre;
+    newUser.apellidos = req.body.apellidos;
+    newUser.email = req.body.email;
+    newUser.rol = req.body.rol;
+    newUser.asignaturas = req.body.asignaturas;
+    newUser.password = newUser.encryptPassword(req.body.password);
+    //console.log(newUser);
+
     await newUser.insert();
     //done(null, null);
     //done(null, req.user);

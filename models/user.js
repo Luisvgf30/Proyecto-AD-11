@@ -6,10 +6,10 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   nombre: { type: String, required: true},
   apellidos: { type: String },
-  rol: { type: String, enum: ['Administrador', 'Profesor', 'Alumno'], required: true },
+  rol: { type: String, required: true },
   email: { type: String },
   password: { type: String, required: true },
-  asignaturas: [{ type: Schema.Types.ObjectId, ref: 'asignaturas' }]
+  asignaturas: Array//[{ type: Schema.Types.ObjectId, ref: 'asignaturas' }]
 });
 
 //Encryption passsword
