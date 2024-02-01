@@ -12,6 +12,8 @@ const userSchema = new Schema({
   asignaturas: Array//[{ type: Schema.Types.ObjectId, ref: 'asignaturas' }]
 });
 
+// encontrar profesores y encontrar alumnos
+
 //Encryption passsword
 userSchema.methods.encryptPassword = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -26,6 +28,12 @@ userSchema.methods.comparePassword= function (password) {
 userSchema.methods.findEmail= async (email) => {
   const User = mongoose.model("user", userSchema);
   return  await User.findOne({'email': email})
+
+};
+
+userSchema.methods.findTipo= async (tipo) => {
+  const User = mongoose.model("user", userSchema);
+  return  await User.find({'tipo': tipo})
 
 };
 
