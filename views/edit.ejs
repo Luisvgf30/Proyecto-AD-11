@@ -2,9 +2,10 @@
   <div class="container">
     <div class="row">
       <!--FORM-->
-      <div class="col-md-5">
+      <div class="col-md-12">
         <div class="card">
           <div class="card-body">
+            
             <form action="/asignaturas/edit/<%= asignatura._id %>" method="post">
               <div class="form-group">
                 <input class="form-control" type="text" name="id"
@@ -29,19 +30,31 @@
               <div class="form-group">
                 <input class="form-control" type="text" name="software" 
                   value="<%= asignatura.software %>">
-              </div>
-              <div class="form-group">
-                <select name="responsable" id="responsable"
-                value="<%= asignatura.responsable %>">
-                </select>
-               
-              </div>
-              <div class="form-group">
-                <select name="alumnos" id="alumnos"
-                value="<%= asignatura.alumnos %>">
-
-                </select>
-              </div>
+                  </div>
+            
+                  <div class="form-group">
+                    <label for="responsable">Profesor Responsable:</label>
+                    <select name="responsable" id="responsable" class="form-control">
+                      <% for(var i=0; i < profesores.length; i++) { %>
+                        <option value="<%= profesores[i].nombre %>" >
+                          <%= profesores[i].nombre %>
+                        </option>
+                      <% } %>
+                    </select>
+                  </div>
+              
+              
+              
+                <div class="form-group">
+                  <select name="alumnos" id="alumnos" class="form-control">
+                    <% for(var j=0; j < alumnos.length; j++) { %>
+                      <option value="<%= alumnos[j].nombre %>" <% if (alumnos[j].tipo == "Alumno") { %> selected <% } %> >
+                        <%= alumnos[j].nombre %>
+                      </option>
+                    <% } %>
+                  </select>
+                </div>
+             
 
             
               <button class="btn btn-primary" type="submit">

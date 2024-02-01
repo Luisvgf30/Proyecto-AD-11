@@ -31,6 +31,12 @@ userSchema.methods.findEmail= async (email) => {
 
 };
 
+userSchema.methods.findTipo= async (tipo) => {
+  const User = mongoose.model("user", userSchema);
+  return  await User.find({'tipo': tipo})
+
+};
+
 //Insertar usuario
 userSchema.methods.insert= async function () {
   //await this.save();

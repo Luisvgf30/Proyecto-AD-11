@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Asignatura = require('../models/asignatura');
+const Usuario = require("../models/user");
 
 
 router.get('/asignaturas',isAuthenticated, async (req, res) => {
@@ -27,15 +28,22 @@ router.get('/asignaturas/turn/:id',isAuthenticated, async (req, res, next) => {
   res.redirect('/asignaturas');
 });
 
-
+//  *****************************************************
 router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   var asignatura = new Asignatura();
+  var usuario = new Usuario();
+  const asignaturas = await asignatura.findAll(req.user._id);
+  const profesores = await Usuario.find(req.body.tipo);
+  const alumnos = await Usuario.findOne(req.body.tipo);
+
   asignatura = await asignatura.findById(req.params.id);
-  res.render('edit', { asignatura });
+  res.render('edit', { asignatura, profesores,alumnos});
 });
 
 router.post('/asignaturas/edit/:id',isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
+
+
   const { id } = req.params;
   await asignatura.update({_id: id}, req.body);
   res.redirect('/asignaturas');
