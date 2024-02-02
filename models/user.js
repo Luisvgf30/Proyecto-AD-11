@@ -31,10 +31,9 @@ userSchema.methods.findEmail= async (email) => {
 
 };
 
-userSchema.methods.findTipo= async (tipo) => {
+userSchema.methods.findRol= async (rol) => {
   const User = mongoose.model("user", userSchema);
-  return  await User.find({'tipo': tipo})
-
+  return  await User.find({'rol': rol})
 };
 
 //Insertar usuario
