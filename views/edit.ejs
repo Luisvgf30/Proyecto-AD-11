@@ -16,8 +16,8 @@
                   value="<%= asignatura.nombre %>">
               </div>
               <div class="form-group">
-                <input class="form-control" type="text" name="plan" 
-                  value="<%= asignatura.plan %>">
+                <input class="form-control" type="text" name="planEstudios" 
+                  value="<%= asignatura.planEstudios %>">
               </div>
               <div class="form-group">
                 <input class="form-control" type="text" name="quatrimestre"
@@ -31,43 +31,32 @@
                 <input class="form-control" type="text" name="software" 
                   value="<%= asignatura.software %>">
                   </div>
-            
                   <div class="form-group">
-                    <label for="responsable">Profesor Responsable:</label>
-                    <select name="responsable" id="responsable" class="form-control">
+                    <label for="profesores">Profesor Responsable:</label>
+                    <select name="profesores" id="profesores" class="form-control">
                       <% for(var i=0; i < profesores.length; i++) { %>
-                        <option value="<%= profesores[i].nombre %>" >
+                        <option value="<%= profesores[i]._id %>" >
                           <%= profesores[i].nombre %>
                         </option>
                       <% } %>
                     </select>
                   </div>
-              
-              
-              
                 <div class="form-group">
                   <select name="alumnos" id="alumnos" class="form-control">
                     <% for(var j=0; j < alumnos.length; j++) { %>
-                      <option value="<%= alumnos[j].nombre %>" <% if (alumnos[j].tipo == "Alumno") { %> selected <% } %> >
+                      <option value="<%= alumnos[j]._id %>">
                         <%= alumnos[j].nombre %>
                       </option>
                     <% } %>
                   </select>
                 </div>
-             
-
-            
               <button class="btn btn-primary" type="submit">
                 Update
               </button>
-             
             </form>
           </div>
         </div>
       </div>
-
-
-   
     </div>
   </div>
 

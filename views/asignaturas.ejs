@@ -12,7 +12,7 @@
               <input class="form-control" type="text" name="nombre" placeholder="Nombre">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="plan" placeholder="Plan de estudio">
+                <input class="form-control" type="text" name="planEstudios" placeholder="Plan de estudio">
             </div>
             <div class="form-group">
                 <input class="form-control" type="text" name="cuatrimestre" placeholder="Cuatrimestre">
@@ -60,11 +60,11 @@
             <tr>
               <td><%= i + 1%></td>
               <td><strong><%= asignaturas[i].nombre %></nombre></td>
-              <td><%= asignaturas[i].plan %></td>
+              <td><%= asignaturas[i].planEstudios %></td>
               <td><%= asignaturas[i].cuatrimestre %></td>
               <td><%= asignaturas[i].curso %></td>
               <td><%= asignaturas[i].software %></td>
-              <td><%= asignaturas[i].responsable %></td>
+              <td><%= asignaturas[i].profesores %></td>
               <td><%= asignaturas[i].alumnos %></td>
               <td>
                 <a
