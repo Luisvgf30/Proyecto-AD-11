@@ -12,6 +12,7 @@ const userSchema = new Schema({
   asignaturas: Array//[{ type: Schema.Types.ObjectId, ref: 'asignaturas' }]
 });
 
+//prueba 
 // encontrar profesores y encontrar alumnos
 
 //Encryption passsword
