@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-  	<title>Sesión y CRUD con Nodejs y MongoDb</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sesión y CRUD con Nodejs y MongoDb</title>
+    <!-- BOOTSTRAP CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="stylesheets/style.css">
 
-  <body class="fondo_negro">
+  </head>
+  <body>
 <!--Navbar-->
-<div class="page">
+<div class="menu-principal text-center">
   
     <!-- NAVIGATION -->
-  <nav id="colorlib-main-nav" role="navigation">
-      <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
-      <div class="js-fullheight colorlib-table">
-        <div class="img" style="background-image: url(images/bg_3.jpg);"></div>
-        <div class="colorlib-table-cell js-fullheight">
-          <div class="row no-gutters">
-            <div class="col-md-12 text-center">
-              <h1 class="mb-4"><a href="/" class="logo">Sesión y CRUD Nodejs Y Mongodb</a></h1>
-              <ul>
-                <% if (!user) { %>
-                  <li class="active"><a class="nav-link" href="/signin">Signin <span class="sr-only">(current)</span></a>></li>
-                  <li><a class="nav-link" href="/signup">Signup</a></li>
-                  <% } else { %>
-                  <li class="active"><a class="nav-link" href="/asignaturas">Asignaturas<span class="sr-only">(current)</span></a></li>
-                  <li> <a class="nav-link" href="/profile">Perfil <%=user.email%></a></li>
-                  <li><a class="nav-link disabled" href="/logout">Log out</a></li>
-                <% } %>
-              </ul>
-            </div>
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="/">Sesión y CRUD Nodejs Y Mongodb</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <% if (!user) { %>
+        <li class="nav-item active">
+          <a class="nav-link" href="/signin">Signin <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/signup">Signup</a>
+        </li>
+        <% } else { %>
+        <li class="nav-item active">
+          <a class="nav-link" href="/asignaturas">Asignaturas<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">Perfil <%=user.email%></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
           </div>
-        </div>
-      </div>
-    </nav>
-
-    <div id="colorlib-page">
-      <header>
-      	<div class="container">
-	        <div class="colorlib-navbar-brand">
-            <% if (!user) { %>
-	          <a class="colorlib-logo" href="/signin">Sesión y CRUD Nodejs Y Mongodb</a>
-            <% } else { %>
-            <a class="colorlib-logo" href="/asignaturas">Asignaturas</a>
-            <% } %>
-	        </div>
-	        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
-        </div>
-      </header>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="/logout">Log out</a>
+        </li>
+        <% } %>
+      </ul>
+      <% if (user) { %>
+      <!--<form action="/tasks/search" class="form-inline my-2 my-lg-0 text-center"  method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+        <button class="btn btn-outline-light my-2 my-sm-0 mx-auto " type="submit">Buscar</button>
+      </form>-->
+      <% } %>
+   
     </div>
-</div>
-
-
-
-
-
-
-
-
-
-
+  </nav>
  
+</div>
