@@ -42,7 +42,11 @@
       <header>
       	<div class="container">
 	        <div class="colorlib-navbar-brand">
+            <% if (!user) { %>
 	          <a class="colorlib-logo" href="/signin">Sesión y CRUD Nodejs Y Mongodb</a>
+            <% } else { %>
+            <a class="colorlib-logo" href="/asignaturas">Asignaturas</a>
+            <% } %>
 	        </div>
 	        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
         </div>
@@ -50,10 +54,7 @@
     </div>
 </div>
 
-<script src="../../public/javascripts/jquery.min.js"></script>
-<script src="../../public/javascripts/popper.js"></script>
-<script src="../../public/javascripts/bootstrap.min.js"></script>
-<script src="../../public/javascripts/main.js"></script>
+
 
 
 
