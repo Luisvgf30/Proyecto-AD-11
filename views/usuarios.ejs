@@ -40,7 +40,48 @@
       </div>
     </div>
 
-    
+    <!-- LIST -->
+    <div class="col-md-7">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Rol</th>
+            <th>Email</th>
+            <th>Clave</th>
+            <th>Asignaturas</th>
+            <th>Operaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i < usuarios.length; i++) { %>
+            <tr>
+              <td><%= i + 1%></td>
+              <td><strong><%= usuarios[i].nombre %></nombre></td>
+              <td><%= usuarios[i].apellidos %></td>
+              <td><%= usuarios[i].rol %></td>
+              <td><%= usuarios[i].email %></td>
+              <td><%= usuarios[i].Clave %></td>
+              <td><%= usuarios[i].asignaturas %></td>
+              
+              <td>
+                
+                <a href="/usuarios/delete/<%= usuarios[i]._id %>"
+                  class="btn btn-danger">
+                  Delete
+                </a>
+                <a href="/usuarios/edit/<%= usuarios[i]._id %>" class="btn btn-info">
+                  Edit
+                </a>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+    </div>
   </div>
 
 </div>

@@ -1,10 +1,14 @@
 const router = require('express').Router();
 const passport = require('passport');
 const Usuario = require('../models/user');
+const user = require('../models/user');
 router.get('/', (req, res, next) => {
   let title = 'Mario';
   res.render('index',{ title: title});
 });
+
+
+
 
 router.post('/usuarios/add', passport.authenticate('local-signup', {
   successRedirect: '/usuarios',
@@ -12,8 +16,12 @@ router.post('/usuarios/add', passport.authenticate('local-signup', {
   failureFlash: true
 })); 
 
-router.get('/usuarios', (req, res, next) => {
-  res.render('usuarios');
+router.get('/usuarios', async(req, res, next) => {
+  const usuario = new user;
+  const usuarios = await usuario.findAll(req.user._id);
+  res.render('usuarios', {
+    usuarios
+  });
 });
 
 router.get('/signup', (req, res, next) => {
