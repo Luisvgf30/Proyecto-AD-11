@@ -79,9 +79,6 @@
               <td><%= asignaturas[i].profesores %></td>
               <td><%= asignaturas[i].alumnos %></td>
               <td>
-                <a
-                  class="<%= asignaturas[i].status ? 'btn btn-success' : 'btn btn-dark'%>"
-                  href="/asignaturas/turn/<%= asignaturas[i]._id %>">Done</a>
                 <a href="/asignaturas/delete/<%= asignaturas[i]._id %>"
                   class="btn btn-danger">
                   Delete

@@ -29,9 +29,15 @@
                 <input class="form-control" type="text" name="password" placeholder="password">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="asignaturas" placeholder="asignaturas">
+              <label for="asignaturas">Asignaturas</label>
+              <select name="asignaturas" id="asignaturas" class="form-control" multiple>
+                <% for(var i=0; i < asignaturas.length; i++) { %>
+                  <option value="<%= asignaturas[i]._id %>" >
+                    <%= asignaturas[i].nombre %>
+                  </option>
+                <% } %>
+              </select>
             </div>
-            
             <button class="btn btn-primary" type="submit">
               Add
             </button>
@@ -72,7 +78,7 @@
                   class="btn btn-danger">
                   Delete
                 </a>
-                <a href="/usuarios/edit/<%= usuarios[i]._id %>" class="btn btn-info">
+                <a href="/usuarios/editusu/<%= usuarios[i]._id %>" class="btn btn-info">
                   Edit
                 </a>
               </td>
