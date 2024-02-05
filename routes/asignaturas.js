@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Asignatura = require('../models/asignatura');
-const Usuario = require("../models/user");
+const Usuario = require('../models/user');
 
 router.get('/asignaturas',isAuthenticated, async (req, res) => {
   const asignatura = new Asignatura();
-  const asignaturas = await asignatura.findAll(req.user._id);
-  console.log(asignaturas);
+  const usuario = new Usuario();
+  const asignaturas = await asignatura.findAll();
+  const alumnos = await usuario.findRol("Alumno");
+  const profesores = await usuario.findRol("Profesor");
+
   res.render('asignaturas', {
-    asignaturas
+    asignaturas : asignaturas, alumnos : alumnos, profesores : profesores
   });
 });
 
@@ -30,8 +33,9 @@ router.get('/asignaturas/turn/:id',isAuthenticated, async (req, res, next) => {
 //  *****************************************************
 router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   var asignatura = new Asignatura();
-  const profesores = await Usuario.find({ rol: "Profesor" }); // Busca directamente en el modelo
-  const alumnos = await Usuario.find({ rol: "Alumno" });
+  const usuario = new Usuario();
+  const alumnos = await usuario.findRol("Alumno");
+  const profesores = await usuario.findRol("Profesor");
   asignatura = await asignatura.findById(req.params.id);
   res.render('edit', { asignatura, profesores, alumnos });
 });

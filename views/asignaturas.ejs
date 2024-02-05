@@ -9,27 +9,39 @@
         <div class="card-body">
           <form action="/asignaturas/add" method="post">
             <div class="form-group">
-              <input class="form-control" type="text" name="nombre" placeholder="Nombre">
+              <input class="form-control" required type="text" name="nombre" placeholder="Nombre">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="planEstudios" placeholder="Plan de estudio">
+                <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="cuatrimestre" placeholder="Cuatrimestre">
+                <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="curso" placeholder="Curso">
+                <input class="form-control" required type="number" name="curso" placeholder="Curso">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="software" placeholder="Software">
+                <input class="form-control" required type="text" name="software" placeholder="Software">
             </div>
             <div class="form-group">
-              <select name="responsable" id="responsable" class="form-control"></select>
-              
-          </div>
+              <label for="profesores">Profesor Responsable:</label>
+              <select name="profesores" id="profesores" class="form-control" multiple>
+                <% for(var i=0; i < profesores.length; i++) { %>
+                  <option value="<%= profesores[i]._id %>" >
+                    <%= profesores[i].nombre %>
+                  </option>
+                <% } %>
+              </select>
+            </div>
           <div class="form-group">
-            <select name="alumnos" id="alumnos" class="form-control"></select>
-        </div>
+            <select name="alumnos" id="alumnos" class="form-control" multiple>
+              <% for(var j=0; j < alumnos.length; j++) { %>
+                <option value="<%= alumnos[j]._id %>">
+                  <%= alumnos[j].nombre %>
+                </option>
+              <% } %>
+            </select>
+          </div>
             
             <button class="btn btn-primary" type="submit">
               Add

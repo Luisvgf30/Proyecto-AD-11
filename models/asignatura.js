@@ -56,10 +56,11 @@ AsignaturaSchema.methods.update = async (id, asignatura) => {
 
 AsignaturaSchema.methods.delete = async function (id) {
   const Asignatura = mongoose.model("asignaturas", AsignaturaSchema);
-  await Asignatura.deleteOne({ _id: id }, err => {
-    if (err) console.log(err);
-  });
-  console.log(id + " deleted");
+  await Asignatura.deleteOne({ _id: id })
+  .then(res => {
+    console.log("saved: " + res);
+  })  .catch(err => {
+    console.log(err)  });
 };
 
 AsignaturaSchema.methods.findById = async function (id) {

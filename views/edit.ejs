@@ -8,10 +8,6 @@
             
             <form action="/asignaturas/edit/<%= asignatura._id %>" method="post">
               <div class="form-group">
-                <input class="form-control" type="text" name="id"
-                  value="<%= asignatura.id %>">
-              </div>
-              <div class="form-group">
                 <input class="form-control" type="text" name="nombre"
                   value="<%= asignatura.nombre %>">
               </div>
@@ -33,7 +29,7 @@
                   </div>
                   <div class="form-group">
                     <label for="profesores">Profesor Responsable:</label>
-                    <select name="profesores" id="profesores" class="form-control">
+                    <select name="profesores" id="profesores" class="form-control" multiple>
                       <% for(var i=0; i < profesores.length; i++) { %>
                         <option value="<%= profesores[i]._id %>" >
                           <%= profesores[i].nombre %>
@@ -42,7 +38,7 @@
                     </select>
                   </div>
                 <div class="form-group">
-                  <select name="alumnos" id="alumnos" class="form-control">
+                  <select name="alumnos" id="alumnos" class="form-control" multiple>
                     <% for(var j=0; j < alumnos.length; j++) { %>
                       <option value="<%= alumnos[j]._id %>">
                         <%= alumnos[j].nombre %>

@@ -31,11 +31,15 @@ userSchema.methods.findEmail= async (email) => {
   return  await User.findOne({'email': email})
 
 };
-
+userSchema.methods.findAll= async () => {
+  const User = mongoose.model("user", userSchema);
+  return  await User.find()
+};
 userSchema.methods.findRol= async (rol) => {
   const User = mongoose.model("user", userSchema);
   return  await User.find({'rol': rol})
 };
+
 
 //Insertar usuario
 userSchema.methods.insert= async function () {
@@ -61,11 +65,12 @@ userSchema.methods.update= async (id, task) => {
 // delete usuario
 userSchema.methods.delete= async function (id) {
   const User = mongoose.model("users", userSchema);
-  await User.deleteOne({_id: id}, err => {
-    if (err) console.log(err);
-  });
-  console.log(id + " deleted");
-
+  await User.deleteOne({_id: id})
+  .then(res => {
+    console.log("saved: " + res);
+  })  .catch(err => {
+    console.log(err)  });
 };
 
 module.exports = mongoose.model('user', userSchema);
+
