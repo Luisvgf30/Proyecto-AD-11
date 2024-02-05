@@ -9,26 +9,28 @@
         <div class="card-body">
           <form action="/asignaturas/add" method="post">
             <div class="form-group">
-              <input class="form-control" type="text" name="nombre" placeholder="Nombre">
+              <input class="form-control" type="text" name="nombre" placeholder="Nombre" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="plan" placeholder="Plan de estudio">
+                <input class="form-control" type="text" name="plan" placeholder="Plan de estudio" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="cuatrimestre" placeholder="Cuatrimestre">
+                <input class="form-control" type="number" name="cuatrimestre" placeholder="Cuatrimestre" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="curso" placeholder="Curso">
+                <input class="form-control" type="number" name="curso" placeholder="Curso" required>
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="software" placeholder="Software">
+                <input class="form-control" type="text" name="software" placeholder="Software" required>
             </div>
             <div class="form-group">
-              <select name="responsable" id="responsable" class="form-control"></select>
+              <select name="responsable" id="responsable" class="form-control" required>
+                
+              </select>
               
           </div>
           <div class="form-group">
-            <select name="alumnos" id="alumnos" class="form-control"></select>
+            <select name="alumnos" id="alumnos" class="form-control" required></select>
         </div>
             
             <button class="btn btn-primary" type="submit">

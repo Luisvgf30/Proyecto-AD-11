@@ -31,6 +31,17 @@ userSchema.methods.findEmail= async (email) => {
 
 };
 
+userSchema.methods.findId= async (id) => {
+  const User = mongoose.model("user", userSchema);
+  return  await User.findOne({'id': id})
+
+};
+
+userSchema.methods.findAll= async function () {
+  const User = mongoose.model("user", userSchema);
+  return await User.find();
+};
+
 userSchema.methods.findTipo= async (tipo) => {
   const User = mongoose.model("user", userSchema);
   return  await User.find({'tipo': tipo})
