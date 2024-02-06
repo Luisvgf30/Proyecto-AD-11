@@ -30,24 +30,17 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav ml-auto">
             <% if (!user) { %>
-            <li class="nav-item active">
-              <a class="nav-link" href="/signin"
-                >Signin <span class="sr-only">(current)</span></a
-              >
+            <li class="nav-item">
+              <a class="nav-link" href="/signin">Signin</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/signup">Signup</a>
             </li>
             <% } else { %>
-            <li class="nav-item active">
-              <a class="nav-link" href="/asignaturas"
-                >Asignaturas<span class="sr-only">(current)</span></a
-              >
-            </li>
             <li class="nav-item">
-              <a class="nav-link" href="/profile">Perfil <%=user.email%></a>
+              <a class="nav-link" href="/asignaturas">Asignaturas</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -59,28 +52,35 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Dropdown
+                <%= user.email %>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="/profile">Perfil</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="/logout">Cerrar sesión</a>
               </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" type="submit" href="/logout">Log out</a>
             </li>
             <% } %>
           </ul>
-          <% if (user) { %>
-          <!--<form action="/tasks/search" class="form-inline my-2 my-lg-0 text-center"  method="get">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
-        <button class="btn btn-outline-light my-2 my-sm-0 mx-auto " type="submit">Buscar</button>
-      </form>-->
-          <% } %>
         </div>
       </nav>
     </div>
+
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+      integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+      integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
