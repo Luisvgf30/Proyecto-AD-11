@@ -1,0 +1,50 @@
+<% include partials/_header %>
+    <div class="container">
+        <div class="row">
+            <!--FORM-->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form action="/usuarios/editusu/<%= usuario.id %>" method="post">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="nombre" value="<%= usuario.nombre %>">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="apellidos"
+                                    value="<%= usuario.apellidos %>">
+                            </div>
+                            <div class="form-group">
+                                <select name="rol" class="form-control" type="select">
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Profesor" selected>Profesor</option>
+                                    <option value="Alumno">Alumno</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="mail" name="email" value="<%= usuario.email %>">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="password" placeholder="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="asignaturas">Asignaturas</label>
+                                <select name="asignaturas" id="asignaturas" class="form-control" multiple>
+                                    <% for(var i=0; i < asignaturas.length; i++) { %>
+                                        <option value="<%= asignaturas[i]._id %>">
+                                            <%= asignaturas[i].nombre %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" type="submit">
+                                Update
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% include partials/_footer%>

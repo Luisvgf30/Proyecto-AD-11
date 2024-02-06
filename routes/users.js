@@ -1,10 +1,14 @@
 const router = require('express').Router();
 const passport = require('passport');
 const Usuario = require('../models/user');
+const user = require('../models/user');
+const Asignatura = require('../models/asignatura');
 router.get('/', (req, res, next) => {
-  let title = 'Mario';
-  res.render('index',{ title: title});
+  res.render('signin');
 });
+
+
+
 
 router.post('/usuarios/add', passport.authenticate('local-signup', {
   successRedirect: '/usuarios',
@@ -12,8 +16,40 @@ router.post('/usuarios/add', passport.authenticate('local-signup', {
   failureFlash: true
 })); 
 
-router.get('/usuarios', (req, res, next) => {
-  res.render('usuarios');
+router.get('/usuarios', async(req, res, next) => {
+  const usuario = new user;
+  const usuarios = await usuario.findAll(req.user._id);
+  const asignatura = new Asignatura;
+  const asignaturas = await asignatura.findAll();
+  res.render('usuarios', {
+    usuarios, asignaturas
+  });
+});
+
+router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
+  var usuario = new user();
+  var asignatura = new Asignatura();
+
+  const usuarios = await usuario.findAll(req.user._id);
+  const asignaturas = await asignatura.findAll();
+
+  usuario = await usuario.findById(req.params.id);
+  res.render('editusu', { usuario, asignaturas });
+});
+
+router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
+  const usuario = new user();
+
+  const { id } = req.params;
+  await usuario.update({_id: id}, req.body);
+  res.redirect('/usuarios');
+});
+
+router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
+  const usuario = new user();
+  let { id } = req.params;
+  await usuario.delete(id);
+  res.redirect('/usuarios');
 });
 
 router.get('/signup', (req, res, next) => {
@@ -41,9 +77,13 @@ router.get('/profile',isAuthenticated, (req, res, next) => {
   res.render('profile');
 });
 
-router.get('/logout', (req, res, next) => {
-  req.logout();
-  res.redirect('/');
+router.get("/logout", function(req, res, next) {
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 });
 
 

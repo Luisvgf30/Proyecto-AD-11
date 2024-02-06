@@ -9,8 +9,11 @@ const userSchema = new Schema({
   rol: { type: String, required: true },
   email: { type: String },
   password: { type: String, required: true },
-  asignaturas: Array//[{ type: Schema.Types.ObjectId, ref: 'asignaturas' }]
+  asignaturas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'asignaturas'}]
 });
+
+//prueba 
+// encontrar profesores y encontrar alumnos
 
 //Encryption passsword
 userSchema.methods.encryptPassword = (password) => {
@@ -28,6 +31,19 @@ userSchema.methods.findEmail= async (email) => {
   return  await User.findOne({'email': email})
 
 };
+userSchema.methods.findAll= async () => {
+  const User = mongoose.model("user", userSchema);
+  return  await User.find()
+};
+userSchema.methods.findRol= async (rol) => {
+  const User = mongoose.model("user", userSchema);
+  return  await User.find({'rol': rol})
+};
+
+userSchema.methods.findById = async function (id) {
+  const User = mongoose.model("user", userSchema);
+  return await User.findById(id);
+};
 
 //Insertar usuario
 userSchema.methods.insert= async function () {
@@ -37,27 +53,27 @@ userSchema.methods.insert= async function () {
     console.log("saved: " + res);
   })  .catch(err => {
     console.log(err)  });
- 
-
 };
 
 // update usuario
-userSchema.methods.update= async (id, task) => {
+userSchema.methods.update= async (id, usuario) => {
   const User = mongoose.model("users", userSchema);
-  await User.updateOne({_id: id}, task, err => {
-    if (err) console.log(err);
-  });
-  console.log(id + " updated");
+  await User.updateOne({_id: id}, usuario)
+  .then(res => {
+    console.log("delete: " + res);
+  })  .catch(err => {
+    console.log(err)  });
 };
 
 // delete usuario
 userSchema.methods.delete= async function (id) {
   const User = mongoose.model("users", userSchema);
-  await User.deleteOne({_id: id}, err => {
-    if (err) console.log(err);
-  });
-  console.log(id + " deleted");
-
+  await User.deleteOne({_id: id})
+  .then(res => {
+    console.log("delete: " + res);
+  })  .catch(err => {
+    console.log(err)  });
 };
 
 module.exports = mongoose.model('user', userSchema);
+
