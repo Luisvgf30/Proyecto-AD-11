@@ -73,8 +73,14 @@ router.post('/signin', passport.authenticate('local-signin', {
   failureFlash: true
 }));
 
-router.get('/profile',isAuthenticated, (req, res, next) => {
-  res.render('profile');
+router.get('/profile',isAuthenticated, async(req, res, next) => {
+  const usuario = new user;
+  const usuarios = await usuario.findAll(req.user._id);
+  const asignatura = new Asignatura;
+  const asignaturas = await asignatura.findAll();
+  res.render('profile', {
+    usuarios, asignaturas
+  });
 });
 
 router.get("/logout", function(req, res, next) {
