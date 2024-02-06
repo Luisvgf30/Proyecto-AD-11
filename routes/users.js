@@ -41,6 +41,7 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
   const usuario = new user();
 
   const { id } = req.params;
+  req.body.password = await usuario.encryptPassword(req.body.password);
   await usuario.update({_id: id}, req.body);
   res.redirect('/usuarios');
 });
