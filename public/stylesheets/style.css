@@ -32,3 +32,9 @@ flex: 1;
 height: 1px;
 background: #eee;
 }
+
+.scrollable-cell {
+  max-width: 200px; /* Ancho máximo de la celda */
+  max-height: 100px; /* Altura máxima de la celda */
+  overflow: auto; /* Habilitar el scroll cuando sea necesario */
+}

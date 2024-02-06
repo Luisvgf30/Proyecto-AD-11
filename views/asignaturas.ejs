@@ -1,127 +1,138 @@
 <% include partials/_header %>
 
-<div class="container mx-auto">
+  <div class="container mx-auto">
 
-  <div class="row mx-auto">
-    <% if (user.rol == "Administrador") { %>
-    <!--FORM-->
-    <div class="col-md-5">
-      <div class="card">
-        <div class="card-body">
-          <form action="/asignaturas/add" method="post">
-            <div class="form-group">
-              <input class="form-control" required type="text" name="nombre" placeholder="Nombre">
+    <div class="row mx-auto">
+      <% if (user.rol=="Administrador" ) { %>
+        <!--FORM-->
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-body">
+              <form action="/asignaturas/add" method="post">
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="number" name="curso" placeholder="Curso">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="software" placeholder="Software">
+                </div>
+                <div class="form-group">
+                  <label for="profesores">Profesor Responsable:</label>
+                  <select name="profesores" id="profesores" class="form-control" multiple>
+                    <% for(var i=0; i < profesores.length; i++) { %>
+                      <option value="<%= profesores[i]._id %>">
+                        <%= profesores[i].nombre %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="alumnos">Alumnos:</label>
+                  <select name="alumnos" id="alumnos" class="form-control" multiple>
+                    <% for(var j=0; j < alumnos.length; j++) { %>
+                      <option value="<%= alumnos[j]._id %>">
+                        <%= alumnos[j].nombre %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                  Add
+                </button>
+              </form>
             </div>
-            <div class="form-group">
-                <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
-            </div>
-            <div class="form-group">
-                <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
-            </div>
-            <div class="form-group">
-                <input class="form-control" required type="number" name="curso" placeholder="Curso">
-            </div>
-            <div class="form-group">
-                <input class="form-control" required type="text" name="software" placeholder="Software">
-            </div>
-            <div class="form-group">
-              <label for="profesores">Profesor Responsable:</label>
-              <select name="profesores" id="profesores" class="form-control" multiple >
-                <% for(var i=0; i < profesores.length; i++) { %>
-                  <option value="<%= profesores[i]._id %>" >
-                    <%= profesores[i].nombre %>
-                  </option>
-                <% } %>
-              </select>
-            </div>
-          <div class="form-group">
-            <label for="alumnos">Alumnos:</label>
-            <select name="alumnos" id="alumnos" class="form-control" multiple >
-              <% for(var j=0; j < alumnos.length; j++) { %>
-                <option value="<%= alumnos[j]._id %>">
-                  <%= alumnos[j].nombre %>
-                </option>
-              <% } %>
-            </select>
           </div>
-            
-            <button class="btn btn-primary" type="submit">
-              Add
-            </button>
-          </form>
         </div>
+        <% } %>
+
+        <!-- LIST -->
+        <% if (user.rol !="Administrador" ) { %>
+          <div class="col-md-12"></div>
+        <% }else { %>
+          <div class="col-md-7">
+        <% } %>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Plan de estudios</th>
+                <th>Cuatrimestre</th>
+                <th>Curso</th>
+                <th>Resposable</th>
+                <th>Alumnos</th>
+                <% if (user.rol=="Administrador" ) { %>
+                  <th>Operaciones</th>
+                <% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(var i=0; i < asignaturas.length; i++) { %>
+                <tr>
+                  <td>
+                    <%= i + 1%>
+                  </td>
+                  <td><strong>
+                      <%= asignaturas[i].nombre %>
+                        </nombre>
+                  </td>
+                  <td>
+                    <%= asignaturas[i].planEstudios %>
+                  </td>
+                  <td>
+                    <%= asignaturas[i].cuatrimestre %>
+                  </td>
+                  <td>
+                    <%= asignaturas[i].curso %>
+                  </td>
+                  <td class="scrollable-cell">
+                      <% for(var j=0; j < profesores.length; j++) { %>
+                        <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
+                          <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
+                            <p>
+                              <%=profesores[j].nombre %>
+                            </p>
+                            <% } %>
+                              <% } %>
+                                <% } %>
+                  </td>
+                  <td class="scrollable-cell">
+                      <% for(var j=0; j < alumnos.length; j++) { %>
+                        <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
+                          <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>
+                            <p>
+                              <%=alumnos[j].nombre %>
+                            </p>
+                            <% } %>
+                              <% } %>
+                                <% } %>
+                  </td>
+                  <% if (user.rol=="Administrador" ) { %>
+                    <td>
+                      <a href="/asignaturas/delete/<%= asignaturas[i]._id %>" class="btn btn-danger">
+                        Delete
+                      </a>
+                      <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-info">
+                        Edit
+                      </a>
+                    </td>
+                  <% } %> 
+                </tr>
+                <% } %>
+            </tbody>
+          </table>
       </div>
     </div>
-    <% } %>
 
-    <!-- LIST -->
-    <div class="col-md-7">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Plan de estudios</th>
-            <th>Cuatrimestre</th>
-            <th>Curso</th>
-          
-            <th>Resposable</th>
-            <th>Alumnos</th>
-            <th>Operaciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for(var i=0; i < asignaturas.length; i++) { %>
-            <tr>
-              <td><%= i + 1%></td>
-              <td><strong><%= asignaturas[i].nombre %></nombre></td>
-              <td><%= asignaturas[i].planEstudios %></td>
-              <td><%= asignaturas[i].cuatrimestre %></td>
-              <td><%= asignaturas[i].curso %></td>
-                <td><select name="profesores">
-
-                  <% for(var j=0; j < profesores.length; j++) { %>
-                    <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
-                      <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
-                      <option><%=profesores[j].nombre %></option>
-
-                  <% } %>
-                    <% } %>
-                  <% } %>
-                </select>
-              </td>
-              <td><select name="alumnos">
-
-                <% for(var j=0; j < alumnos.length; j++) { %>
-                  <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
-                    <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>
-                    <option><%=alumnos[j].nombre %></option>
-                  
-                   
-
-                    <% } %>
-                  <% } %>
-                <% } %>
-              </select>
-            </td>
-              <td>
-              
-                <a href="/asignaturas/delete/<%= asignaturas[i]._id %>"
-                  class="btn btn-danger">
-                  Delete
-                </a>
-                <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-info">
-                  Edit
-                </a>
-              </td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
-
-    </div>
   </div>
 
-</div>
-
-<% include partials/_footer %>
+  <% include partials/_footer %>
