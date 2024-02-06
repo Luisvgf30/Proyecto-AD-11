@@ -1,13 +1,3 @@
-body {
-  padding: 100px;
-  
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
 h1 .error{
   text-align: center;
   color:red;
@@ -31,4 +21,11 @@ content: "";
 flex: 1;
 height: 1px;
 background: #eee;
+}
+
+.caret {
+  display: none;
+}
+.btn-group .multiselect {
+  border: 1px solid #ced4da;
 }

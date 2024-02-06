@@ -15,8 +15,8 @@
                 <input class="form-control" type="text" name="apellidos" placeholder="apellidos">
             </div>
             <div class="form-group">
-             
                 <select name="rol" class="form-control" type="select">
+                  <option selected></option>
                   <option value="Administrador">Administrador</option>
                   <option value="Profesor" selected>Profesor</option>
                   <option value="Alumno">Alumno</option>
@@ -26,7 +26,7 @@
                 <input class="form-control" type="text" name="email" placeholder="email">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="password" placeholder="password">
+                <input class="form-control" type="text" name="password" placeholder="password" required>
             </div>
             <div class="form-group">
               <label for="asignaturas">Asignaturas</label>
@@ -48,7 +48,7 @@
 
     <!-- LIST -->
     <div class="col-md-7">
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover ">
         <thead>
           <tr>
             <th>ID</th>
@@ -56,7 +56,6 @@
             <th>Apellidos</th>
             <th>Rol</th>
             <th>Email</th>
-            <th>Clave</th>
             <th>Asignaturas</th>
             <th>Operaciones</th>
           </tr>
@@ -64,16 +63,23 @@
         <tbody>
           <% for(var i=0; i < usuarios.length; i++) { %>
             <tr>
-              <td><%= i + 1%></td>
-              <td><strong><%= usuarios[i].nombre %></nombre></td>
-              <td><%= usuarios[i].apellidos %></td>
-              <td><%= usuarios[i].rol %></td>
-              <td><%= usuarios[i].email %></td>
-              <td><%= usuarios[i].Clave %></td>
-              <td><%= usuarios[i].asignaturas %></td>
-              
-              <td>
-                
+              <td class="text-center"><%= i + 1%></td>
+              <td class="text-center"><strong><%= usuarios[i].nombre %></nombre></td>
+              <td class="text-center"><%= usuarios[i].apellidos %></td>
+              <td class="text-center"><%= usuarios[i].rol %></td>
+              <td class="text-center"><%= usuarios[i].email %></td>       
+              <td class="text-center">
+                <% for(var j=0; j < asignaturas.length; j++) { %>
+                  <% if(usuarios[i].asignaturas != undefined) {%>
+                  <% for(var k=0; k < usuarios[i].asignaturas.length; k++) { %>
+                    <% if(asignaturas[j]._id.toString()===usuarios[i].asignaturas[k].toString()){%>
+                    <span><%=asignaturas[j].nombre %></span>
+                    <% } %>
+                  <% } %>
+                  <% } %>
+                <% } %>
+            </td>
+              <td class="text-center">
                 <a href="/usuarios/delete/<%= usuarios[i]._id %>"
                   class="btn btn-danger">
                   Delete
