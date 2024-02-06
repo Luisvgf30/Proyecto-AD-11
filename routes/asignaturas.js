@@ -33,11 +33,11 @@ router.get('/asignaturas/turn/:id',isAuthenticated, async (req, res, next) => {
 //  *****************************************************
 router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   var asignatura = new Asignatura();
-  var usuario = new Usuario();
+  const usuario = new Usuario();
   const asignaturas = await asignatura.findAll(req.user._id);
 
-  const profesores = await Usuario.find("Alumno");
-  const alumnos = await Usuario.find('Profesor');
+  const profesores = await usuario.findRol("Alumno");
+  const alumnos = await usuario.findRol('Profesor');
 
   asignatura = await asignatura.findById(req.params.id);
   res.render('edit', { asignatura, profesores, alumnos });

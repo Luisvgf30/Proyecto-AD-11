@@ -70,7 +70,20 @@
               <td><%= usuarios[i].rol %></td>
               <td><%= usuarios[i].email %></td>
               <td><%= usuarios[i].Clave %></td>
-              <td><%= usuarios[i].asignaturas %></td>
+                            
+              <td><select name="asignaturas">
+
+                <% for(var j=0; j < asignaturas.length; j++) { %>
+                  <% if(usuarios[i].asignaturas != undefined) {%>
+                  <% for(var k=0; k < usuarios[i].asignaturas.length; k++) { %>
+                    <% if(asignaturas[j]._id.toString()===usuarios[i].asignaturas[k].toString()){%>
+                    <option><%=asignaturas[j].nombre %></option>
+                    <% } %>
+                  <% } %>
+                  <% } %>
+                <% } %>
+              </select>
+            </td>
               
               <td>
                 
