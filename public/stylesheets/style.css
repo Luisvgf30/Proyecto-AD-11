@@ -1,13 +1,3 @@
-body {
-  padding: 100px;
-  
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
 h1 .error{
   text-align: center;
   color:red;
@@ -33,8 +23,9 @@ height: 1px;
 background: #eee;
 }
 
-.scrollable-cell {
-  max-width: 200px; /* Ancho máximo de la celda */
-  max-height: 100px; /* Altura máxima de la celda */
-  overflow: auto; /* Habilitar el scroll cuando sea necesario */
+.caret {
+  display: none;
+}
+.btn-group .multiselect {
+  border: 1px solid #ced4da;
 }
