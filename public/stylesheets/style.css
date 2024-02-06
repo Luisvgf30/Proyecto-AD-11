@@ -1,5 +1,6 @@
 body {
-  padding: 50px;
+  padding: 100px;
+  
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -14,6 +15,10 @@ h1 .error{
 
 p .msing{
   color:red;
+}
+
+.fondo_negro{
+  background: rgb(32, 32, 32);
 }
 
 .color-primario{
