@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                   <label for="profesores">Profesor Responsable:</label>
-                  <select name="profesores" id="profesores" class="form-control" multiple>
+                  <select name="profesores" class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
                     <% for(var i=0; i < profesores.length; i++) { %>
                       <option value="<%= profesores[i]._id %>">
                         <%= profesores[i].nombre %>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                   <label for="alumnos">Alumnos:</label>
-                  <select name="alumnos" id="alumnos" class="form-control" multiple>
+                  <select name="alumnos" class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
                     <% for(var j=0; j < alumnos.length; j++) { %>
                       <option value="<%= alumnos[j]._id %>">
                         <%= alumnos[j].nombre %>
@@ -63,13 +63,13 @@
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Plan de estudios</th>
-                <th>Cuatrimestre</th>
-                <th>Curso</th>
-                <th>Resposable</th>
-                <th>Alumnos</th>
+                <th class="text-center">ID</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Plan de estudios</th>
+                <th class="text-center">Cuatrimestre</th>
+                <th class="text-center">Curso</th>
+                <th class="text-center">Resposable</th>
+                <th class="text-center">Alumnos</th>
                 <% if (user.rol=="Administrador" ) { %>
                   <th>Operaciones</th>
                 <% } %>
@@ -78,7 +78,7 @@
             <tbody>
               <% for(var i=0; i < asignaturas.length; i++) { %>
                 <tr>
-                  <td>
+                  <td class="text-center">
                     <%= i + 1%>
                   </td>
                   <td class="text-center"><strong>
