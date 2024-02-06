@@ -81,48 +81,48 @@
                   <td>
                     <%= i + 1%>
                   </td>
-                  <td><strong>
+                  <td class="text-center"><strong>
                       <%= asignaturas[i].nombre %>
                         </nombre>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <%= asignaturas[i].planEstudios %>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <%= asignaturas[i].cuatrimestre %>
                   </td>
-                  <td>
+                  <td class="text-center">
                     <%= asignaturas[i].curso %>
                   </td>
-                  <td class="scrollable-cell">
+                  <td class="text-center scrollable-cell">
                       <% for(var j=0; j < profesores.length; j++) { %>
                         <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
                           <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
-                            <p>
+                            <span>
                               <%=profesores[j].nombre %>
-                            </p>
+                            </span>
                             <% } %>
                               <% } %>
                                 <% } %>
                   </td>
-                  <td class="scrollable-cell">
+                  <td class="text-center scrollable-cell">
                       <% for(var j=0; j < alumnos.length; j++) { %>
                         <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
                           <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>
-                            <p>
+                            <span class="max-width">
                               <%=alumnos[j].nombre %>
-                            </p>
+                            </span>
                             <% } %>
                               <% } %>
                                 <% } %>
                   </td>
                   <% if (user.rol=="Administrador" ) { %>
-                    <td>
-                      <a href="/asignaturas/delete/<%= asignaturas[i]._id %>" class="btn btn-danger">
-                        Delete
-                      </a>
+                    <td class="text-center">                    
                       <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-info">
                         Edit
+                      </a>
+                      <a href="/asignaturas/delete/<%= asignaturas[i]._id %>" class="btn btn-danger">
+                        Delete
                       </a>
                     </td>
                   <% } %> 
