@@ -48,7 +48,7 @@
 
     <!-- LIST -->
     <div class="col-md-7 ">
-      <!-- <table class="table table-bordered table-hover table-responsive ">
+      <table class="table table-bordered table-hover table-responsive tabla-grande">
         <thead>
           <tr>
             <th>ID</th>
@@ -91,13 +91,14 @@
             </tr>
           <% } %>
         </tbody>
-      </table> -->
+      </table>
 
-      <table class="table table-bordered table-hover table-responsive ">
+      <table class="table table-responsive tabla-peque">
         <tbody>
           <% for(var i=0; i < usuarios.length; i++) { %>
               <tr>
                 <th>ID</th>
+                <td class="text-center"><%= i + 1%></td>
               </tr>
               <tr>
                 <th>Nombre</th>
