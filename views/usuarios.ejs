@@ -48,7 +48,7 @@
 
     <!-- LIST -->
     <div class="col-md-7 ">
-      <table class="table table-bordered table-hover table-responsive ">
+      <!-- <table class="table table-bordered table-hover table-responsive ">
         <thead>
           <tr>
             <th>ID</th>
@@ -89,6 +89,58 @@
                 </a>
               </td>
             </tr>
+          <% } %>
+        </tbody>
+      </table> -->
+
+      <table class="table table-bordered table-hover table-responsive ">
+        <tbody>
+          <% for(var i=0; i < usuarios.length; i++) { %>
+              <tr>
+                <th>ID</th>
+              </tr>
+              <tr>
+                <th>Nombre</th>
+                <td class="text-center"><strong><%= usuarios[i].nombre %></nombre></td>
+              </tr>
+              <tr>
+                <th>Apellidos</th>
+                <td class="text-center"><%= usuarios[i].apellidos %></td>
+              </tr> 
+              <tr>
+                <th>Rol</th>
+                <td class="text-center"><%= usuarios[i].rol %></td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td class="text-center"><%= usuarios[i].email %></td>       
+              </tr>
+              <tr>
+                <th>Asignaturas</th>
+                <td class="text-center scroll-container">
+                  <% for(var j=0; j < asignaturas.length; j++) { %>
+                    <% if(usuarios[i].asignaturas != undefined) {%>
+                    <% for(var k=0; k < usuarios[i].asignaturas.length; k++) { %>
+                      <% if(asignaturas[j]._id.toString()===usuarios[i].asignaturas[k].toString()){%>
+                      <span><%=asignaturas[j].nombre %></span>
+                      <% } %>
+                    <% } %>
+                    <% } %>
+                  <% } %>
+                </td>
+              </tr>
+              <tr>
+                <th>Operaciones</th>
+                <td class="text-center">
+                  <a href="/usuarios/delete/<%= usuarios[i]._id %>"
+                    class="btn btn-danger">
+                    Delete
+                  </a>
+                  <a href="/usuarios/editusu/<%= usuarios[i]._id %>" class="btn btn-info">
+                    Edit
+                  </a>
+                </td>
+              </tr>
           <% } %>
         </tbody>
       </table>
