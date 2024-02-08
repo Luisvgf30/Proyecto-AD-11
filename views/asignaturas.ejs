@@ -60,7 +60,7 @@
             <% }else { %>
               <div class="col-md-7">
                 <% } %>
-                  <table class="table table-bordered table-hover">
+                  <table class="table table-bordered table-hover table-responsive">
                     <thead>
                       <tr>
                         <th class="text-center">ID</th>
@@ -94,7 +94,7 @@
                           <td class="text-center">
                             <%= asignaturas[i].curso %>
                           </td>
-                          <td class="text-center scrollable-cell">
+                          <td class="text-center scroll-container">
                             <% for(var j=0; j < profesores.length; j++) { %>
                               <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
                                 <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
@@ -105,7 +105,7 @@
                                     <% } %>
                                       <% } %>
                           </td>
-                          <td class="text-center scrollable-cell">
+                          <td class="text-center scroll-container">
                             <% for(var j=0; j < alumnos.length; j++) { %>
                               <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
                                 <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>

@@ -47,8 +47,8 @@
     </div>
 
     <!-- LIST -->
-    <div class="col-md-7">
-      <table class="table table-bordered table-hover ">
+    <div class="col-md-7 ">
+      <table class="table table-bordered table-hover table-responsive ">
         <thead>
           <tr>
             <th>ID</th>
@@ -68,7 +68,7 @@
               <td class="text-center"><%= usuarios[i].apellidos %></td>
               <td class="text-center"><%= usuarios[i].rol %></td>
               <td class="text-center"><%= usuarios[i].email %></td>       
-              <td class="text-center">
+              <td class="text-center scroll-container">
                 <% for(var j=0; j < asignaturas.length; j++) { %>
                   <% if(usuarios[i].asignaturas != undefined) {%>
                   <% for(var k=0; k < usuarios[i].asignaturas.length; k++) { %>
