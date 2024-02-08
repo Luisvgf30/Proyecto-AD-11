@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Asignatura = require('../models/asignatura');
 const Usuario = require('../models/user');
+const mongoose = require('mongoose');
 
 router.get('/asignaturas',isAuthenticated, async (req, res) => {
   const asignatura = new Asignatura();
@@ -52,10 +53,32 @@ router.post('/asignaturas/edit/:id',isAuthenticated, async (req, res, next) => {
   res.redirect('/asignaturas');
 });
 
-router.get('/asignaturas/delete/:id', isAuthenticated,async (req, res, next) => {
-  const asignatura = new Asignatura();
+router.get('/asignaturas/delete/:id', isAuthenticated, async (req, res, next) => {
+  let Asignatura = mongoose.model('asignatura');
+  let Usuario = mongoose.model('user');
   let { id } = req.params;
-  await asignatura.delete(id);
+  
+  // Encuentra la asignatura por id
+  let asignatura = await Asignatura.findById(id);
+  
+  // Comprueba si asignatura.profesores y asignatura.alumnos son arrays
+  if (Array.isArray(asignatura.profesores)) {
+    for (let profesorId of asignatura.profesores) {
+      let profesor = await Usuario.findById(profesorId);
+      await profesor.editAsignaturas(profesor.id, id);
+    }
+  }
+  
+  if (Array.isArray(asignatura.alumnos)) {
+    for (let alumnoId of asignatura.alumnos) {
+      let alumno = await Usuario.findById(alumnoId);
+      await alumno.editAsignaturas(alumno.id, id);
+    }
+  }
+  
+  // Elimina la asignatura
+  await Asignatura.deleteOne({ _id: id });
+  
   res.redirect('/asignaturas');
 });
 
