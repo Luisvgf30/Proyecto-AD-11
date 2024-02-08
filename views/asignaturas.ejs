@@ -9,27 +9,40 @@
         <div class="card-body">
           <form action="/asignaturas/add" method="post">
             <div class="form-group">
-              <input class="form-control" type="text" name="nombre" placeholder="Nombre">
+              <input class="form-control" required type="text" name="nombre" placeholder="Nombre">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="planEstudios" placeholder="Plan de estudio">
+                <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="cuatrimestre" placeholder="Cuatrimestre">
+                <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="curso" placeholder="Curso">
+                <input class="form-control" required type="number" name="curso" placeholder="Curso">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="software" placeholder="Software">
+                <input class="form-control" required type="text" name="software" placeholder="Software">
             </div>
             <div class="form-group">
-              <select name="responsable" id="responsable" class="form-control"></select>
-              
-          </div>
+              <label for="profesores">Profesor Responsable:</label>
+              <select name="profesores" id="profesores" class="form-control" multiple >
+                <% for(var i=0; i < profesores.length; i++) { %>
+                  <option value="<%= profesores[i]._id %>" >
+                    <%= profesores[i].nombre %>
+                  </option>
+                <% } %>
+              </select>
+            </div>
           <div class="form-group">
-            <select name="alumnos" id="alumnos" class="form-control"></select>
-        </div>
+            <label for="alumnos">Alumnos:</label>
+            <select name="alumnos" id="alumnos" class="form-control" multiple >
+              <% for(var j=0; j < alumnos.length; j++) { %>
+                <option value="<%= alumnos[j]._id %>">
+                  <%= alumnos[j].nombre %>
+                </option>
+              <% } %>
+            </select>
+          </div>
             
             <button class="btn btn-primary" type="submit">
               Add
@@ -49,7 +62,7 @@
             <th>Plan de estudios</th>
             <th>Cuatrimestre</th>
             <th>Curso</th>
-            <th>Software</th>
+          
             <th>Resposable</th>
             <th>Alumnos</th>
             <th>Operaciones</th>
@@ -63,14 +76,34 @@
               <td><%= asignaturas[i].planEstudios %></td>
               <td><%= asignaturas[i].cuatrimestre %></td>
               <td><%= asignaturas[i].curso %></td>
-              <td><%= asignaturas[i].software %></td>
-              <td><%= asignaturas[i].profesores %></td>
-              <td><%= asignaturas[i].alumnos %></td>
+                <td><select name="profesores">
+
+                  <% for(var j=0; j < profesores.length; j++) { %>
+                    <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
+                      <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
+                      <option><%=profesores[j].nombre %></option>
+
+                  <% } %>
+                    <% } %>
+                  <% } %>
+                </select>
+              </td>
+              <td><select name="alumnos">
+
+                <% for(var j=0; j < alumnos.length; j++) { %>
+                  <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
+                    <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>
+                    <option><%=alumnos[j].nombre %></option>
+                  
+                   
+
+                    <% } %>
+                  <% } %>
+                <% } %>
+              </select>
+            </td>
               <td>
-                <a class="<%= asignaturas[i].status ? 'btn btn-success' : 'btn btn-dark'%>"
-                  href="/asignaturas/turn/<%= asignaturas[i]._id %>">
-                  Done
-                </a>
+              
                 <a href="/asignaturas/delete/<%= asignaturas[i]._id %>"
                   class="btn btn-danger">
                   Delete

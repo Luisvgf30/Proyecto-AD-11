@@ -29,9 +29,15 @@
                 <input class="form-control" type="text" name="password" placeholder="password">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="asignaturas" placeholder="asignaturas">
+              <label for="asignaturas">Asignaturas</label>
+              <select name="asignaturas" id="asignaturas" class="form-control" multiple>
+                <% for(var i=0; i < asignaturas.length; i++) { %>
+                  <option value="<%= asignaturas[i]._id %>" >
+                    <%= asignaturas[i].nombre %>
+                  </option>
+                <% } %>
+              </select>
             </div>
-            
             <button class="btn btn-primary" type="submit">
               Add
             </button>
@@ -40,7 +46,61 @@
       </div>
     </div>
 
-    
+    <!-- LIST -->
+    <div class="col-md-7">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Rol</th>
+            <th>Email</th>
+            <th>Clave</th>
+            <th>Asignaturas</th>
+            <th>Operaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i < usuarios.length; i++) { %>
+            <tr>
+              <td><%= i + 1%></td>
+              <td><strong><%= usuarios[i].nombre %></nombre></td>
+              <td><%= usuarios[i].apellidos %></td>
+              <td><%= usuarios[i].rol %></td>
+              <td><%= usuarios[i].email %></td>
+              <td><%= usuarios[i].Clave %></td>
+                            
+              <td><select name="asignaturas">
+
+                <% for(var j=0; j < asignaturas.length; j++) { %>
+                  <% if(usuarios[i].asignaturas != undefined) {%>
+                  <% for(var k=0; k < usuarios[i].asignaturas.length; k++) { %>
+                    <% if(asignaturas[j]._id.toString()===usuarios[i].asignaturas[k].toString()){%>
+                    <option><%=asignaturas[j].nombre %></option>
+                    <% } %>
+                  <% } %>
+                  <% } %>
+                <% } %>
+              </select>
+            </td>
+              
+              <td>
+                
+                <a href="/usuarios/delete/<%= usuarios[i]._id %>"
+                  class="btn btn-danger">
+                  Delete
+                </a>
+                <a href="/usuarios/editusu/<%= usuarios[i]._id %>" class="btn btn-info">
+                  Edit
+                </a>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+    </div>
   </div>
 
 </div>
