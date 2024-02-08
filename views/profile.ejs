@@ -1,8 +1,6 @@
 <% include partials/_header %>
 
-
-
-<div class="col-md-7 mx-auto" style="background-color: #5499c7;">
+<div class="col-md-7 mx-auto">
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
@@ -15,12 +13,26 @@
             <td><%= user._id%></td>
           </tr>
           <tr>
+            <th>Nombre</th>
+            <td><%= user.nombre%></td>
+          </tr>
+          <tr>
+            <th>Apellidos</th>
+            <td><%= user.apellidos%></td>
+          </tr>
+          <tr>
             <th>Email</th>
             <td><%= user.email%></td>
           </tr>          
           <tr>
-            <th>Password</th>
-            <td><%= user.password%></td>
+            <th>Asignaturas</th>
+            <td>
+              <% for(var i=0; i < asignaturas.length; i++) { %>
+                <p>
+                  <%= asignaturas[i].nombre %>
+                </p>
+              <% } %>
+            </td>
           </tr>
       </tbody>
     </table>
