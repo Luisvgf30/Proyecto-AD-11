@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                   <label for="profesores">Profesor Responsable:</label>
-                  <select id="multiple-checkboxes" class="form-control" multiple>
+                  <select name="profesores" id="multiple-checkboxes" class="form-control" multiple>
                     <% for(var i=0; i < profesores.length; i++) { %>
                       <option value="<%= profesores[i]._id %>">
                         <%= profesores[i].nombre %>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                   <label for="alumnos">Alumnos:</label>
-                  <select id="multiple-checkboxes" class="form-control" multiple>
+                  <select name="alumnos" id="multiple-checkboxes" class="form-control" multiple>
                     <% for(var j=0; j < alumnos.length; j++) { %>
                       <option value="<%= alumnos[j]._id %>">
                         <%= alumnos[j].nombre %>
