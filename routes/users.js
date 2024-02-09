@@ -14,9 +14,9 @@ router.post('/usuarios/add', passport.authenticate('local-signup', {
   successRedirect: '/usuarios',
   failureRedirect: '/usuarios',
   failureFlash: true
-})); 
+}));
 
-router.get('/usuarios', async(req, res, next) => {
+router.get('/usuarios', async (req, res, next) => {
   const usuario = new user;
   const usuarios = await usuario.findAll(req.user._id);
   const asignatura = new Asignatura;
@@ -37,16 +37,48 @@ router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
   res.render('editusu', { usuario, asignaturas });
 });
 
-router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
-  const usuario = new user();
+router.post('/usuarios/add', isAuthenticated, async (req, res, next) => {
+  const usuario = new Usuario(req.body);
 
-  const { id } = req.params;
-  req.body.password = await usuario.encryptPassword(req.body.password);
-  await usuario.update({_id: id}, req.body);
-  res.redirect('/usuarios');
+  // Verifica si usuario.asignaturas es un array
+  if (Array.isArray(usuario.asignaturas)) {
+    // Itera sobre las asignaturas asociadas al usuario
+    for (let asignaturaId of usuario.asignaturas) {
+      try {
+        // Encuentra la asignatura por su ID
+        let asignatura = await Asignatura.findById(asignaturaId);
+        // Verifica si la asignatura existe
+        if (asignatura) {
+          // Agrega el ID del usuario a la lista de profesores o alumnos de la asignatura
+          if (usuario.rol === 'Profesor') {
+            // Agrega el ID del usuario como profesor
+            asignatura.profesores.push(usuario._id);
+          } else if (usuario.rol === 'Alumno') {
+            // Agrega el ID del usuario como alumno
+            asignatura.alumnos.push(usuario._id);
+          }
+          // Guarda los cambios en la asignatura
+          await asignatura.save();
+        }
+      } catch (error) {
+        console.error('Error al agregar asignatura al usuario:', error);
+        // Puedes manejar el error según sea necesario
+      }
+    }
+  }
+
+  try {
+    // Guarda el usuario en la base de datos
+    await usuario.save();
+    res.redirect('/usuarios');
+  } catch (error) {
+    console.error('Error al guardar usuario:', error);
+    // Puedes manejar el error según sea necesario
+    res.status(500).send('Error al guardar usuario');
+  }
 });
 
-router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
+router.get('/usuarios/delete/:id', isAuthenticated, async (req, res, next) => {
   const usuario = new user();
   let { id } = req.params;
   await usuario.delete(id);
@@ -61,7 +93,7 @@ router.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
   failureRedirect: '/signup',
   failureFlash: true
-})); 
+}));
 
 router.get('/signin', (req, res, next) => {
   res.render('signin');
@@ -74,7 +106,7 @@ router.post('/signin', passport.authenticate('local-signin', {
   failureFlash: true
 }));
 
-router.get('/profile',isAuthenticated, async(req, res, next) => {
+router.get('/profile', isAuthenticated, async (req, res, next) => {
   const usuario = new user;
   const usuarios = await usuario.findAll(req.user._id);
   const asignatura = new Asignatura;
@@ -84,8 +116,8 @@ router.get('/profile',isAuthenticated, async(req, res, next) => {
   });
 });
 
-router.get("/logout", function(req, res, next) {
-  req.logout(function(err) {
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
     if (err) {
       return next(err);
     }
@@ -95,7 +127,7 @@ router.get("/logout", function(req, res, next) {
 
 
 function isAuthenticated(req, res, next) {
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     return next();
   }
 
