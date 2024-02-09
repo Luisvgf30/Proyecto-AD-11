@@ -76,21 +76,16 @@ userSchema.methods.delete= async function (id) {
 };
 
 // Eliminar una asignatura especifica
-userSchema.methods.editAsignaturas = async function(idUsuario, idAsignatura) {
+userSchema.methods.deleteAsignaturas = async function(idAsignatura) {
   const User = mongoose.model("users", userSchema);
-  
-  // Encuentra el usuario por id
-  let usuario = await User.findById(idUsuario);
-  if (!usuario) {
-    console.log(`Usuario con id ${idUsuario} no encontrado.`);
+  if (!this) {
+    console.log(`Usuario con id ${this.id} no encontrado.`);
     return;
   }
-  
   // Filtra las asignaturas para eliminar la especificada
-  usuario.asignaturas = usuario.asignaturas.filter(asignatura => asignatura.toString() !== idAsignatura);
-  
+  this.asignaturas = this.asignaturas.filter(asignatura => asignatura.toString() !== idAsignatura);
   // Guarda el usuario actualizado
-  await usuario.save()
+  await this.save()
     .then(res => {
       console.log("Asignatura eliminada: " + res);
     })
@@ -98,5 +93,18 @@ userSchema.methods.editAsignaturas = async function(idUsuario, idAsignatura) {
       console.log(err);
     });
 };
+
+// añadir una asignatura a un usuario existente
+userSchema.methods.addAsignatura = async function (asignaturaId) {
+  try {
+    this.asignaturas.push(asignaturaId);
+    await this.save();
+    console.log(`Asignatura ${asignaturaId} agregada al usuario ${this._id}`);
+  } catch (error) {
+    console.error(`Error al agregar asignatura ${asignaturaId} al usuario ${this.nombre}:, error`);
+    throw error;
+  }
+};
+
 module.exports = mongoose.model('user', userSchema);
 
