@@ -98,5 +98,17 @@ userSchema.methods.editAsignaturas = async function(idUsuario, idAsignatura) {
       console.log(err);
     });
 };
+
+// añadir una asignatura a un usuario existente
+userSchema.methods.addAsignatura = async function (asignaturaId) {
+  try {
+    this.asignaturas.push(asignaturaId);
+    await this.save();
+    console.log("Asignatura {"+asignaturaId+"} agregada al usuario {"+this._id+"}");
+  } catch (error) {
+    console.error("Error al agregar asignatura {"+asignaturaId+"} al usuario {"+this.nombre+"}:, "+ error);
+    throw error;
+  }
+};
 module.exports = mongoose.model('user', userSchema);
 

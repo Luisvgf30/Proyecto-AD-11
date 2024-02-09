@@ -16,13 +16,6 @@ router.get('/asignaturas',isAuthenticated, async (req, res) => {
   });
 });
 
-router.post('/asignaturas/add', isAuthenticated,async (req, res, next) => {
-  const asignatura = new Asignatura(req.body);
-  asignatura.usuario=req.user._id;
-  await asignatura.insert();
-  res.redirect('/asignaturas');
-});
-
 router.get('/asignaturas/turn/:id',isAuthenticated, async (req, res, next) => {
   let { id } = req.params;
   const asignatura = await Asignatura.findById(id);
@@ -53,6 +46,7 @@ router.post('/asignaturas/edit/:id',isAuthenticated, async (req, res, next) => {
   res.redirect('/asignaturas');
 });
 
+//borrar asignatura borrando todas las asignaturas de la lista de los usuarios
 router.get('/asignaturas/delete/:id', isAuthenticated, async (req, res, next) => {
   let Asignatura = mongoose.model('asignatura');
   let Usuario = mongoose.model('user');
@@ -79,6 +73,36 @@ router.get('/asignaturas/delete/:id', isAuthenticated, async (req, res, next) =>
   // Elimina la asignatura
   await Asignatura.deleteOne({ _id: id });
   
+  res.redirect('/asignaturas');
+});
+
+// Añadir asignatura añadiendosela a los usuarios seleccionados
+router.post('/asignaturas/add', isAuthenticated,async (req, res, next) => {
+  const asignatura = new Asignatura(req.body);
+  asignatura.usuario=req.user._id;
+  await asignatura.insert();
+
+  let asignaturas = await asignatura.findAll();
+  let asignaturaLast = asignaturas[asignaturas.length - 1];
+
+    // Comprueba si asignatura.profesores y asignatura.alumnos son arrays
+    if (Array.isArray(asignaturaLast.profesores)) {
+      for (let profesorId of asignaturaLast.profesores) {
+
+        let profesor = await Usuario.findById(profesorId);
+        await profesor.addAsignatura(asignaturaLast.id);
+      }
+    }
+    
+    if (Array.isArray(asignaturaLast.alumnos)) {
+      for (let alumnoId of asignaturaLast.alumnos) {
+
+        let alumno = await Usuario.findById(alumnoId);
+        await alumno.addAsignatura(asignaturaLast.id);
+
+      }
+    }
+
   res.redirect('/asignaturas');
 });
 
