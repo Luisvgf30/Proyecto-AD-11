@@ -32,8 +32,8 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   const usuario = new Usuario();
   const asignaturas = await asignatura.findAll(req.user._id);
 
-  const profesores = await usuario.findRol("Alumno");
-  const alumnos = await usuario.findRol("Profesor");
+  const alumnos = await usuario.findRol("Alumno");
+  const profesores = await usuario.findRol("Profesor");
 
   asignatura = await asignatura.findById(req.params.id);
   res.render("edit", { asignatura, profesores, alumnos });
@@ -43,25 +43,34 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
 router.post('/asignaturas/edit/:id',isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
   const { id } = req.params;
+
+  //Obtenemos la asignatura antigua y la nueva para editar la lista asignaturas de sus usuarios.
   let asignaturaVieja = await asignatura.findById(id);
   await asignatura.update({_id: id}, req.body);
   let asignaturaNueva = await asignatura.findById(id);
+
+    //Borramos las asignaturas de los profesores de la asignatura antigua
     for (let profesorId of asignaturaVieja.profesores) {
       let profesor = await Usuario.findById(profesorId);
       await profesor.deleteAsignaturas(asignaturaVieja.id);
     }
+    //Añadimos las asignaturas de los profesores de la asignatura nueva
     for (let profesorId of asignaturaNueva.profesores) {
       let profesor = await Usuario.findById(profesorId);
       await profesor.addAsignatura(asignaturaNueva.id);
     }
+    //Borramos las asignaturas de los alumnos de la asignatura antigua
     for (let alumnoId of asignaturaVieja.alumnos) {
       let alumno = await Usuario.findById(alumnoId);
       await alumno.deleteAsignaturas(asignaturaVieja.id);
     }
+    //Añadimos las asignaturas de los alumnos de la asignatura nueva
     for (let alumnoId of asignaturaNueva.alumnos) {
       let alumno = await Usuario.findById(alumnoId);
       await alumno.addAsignatura(asignaturaNueva.id);
     }
+
+    await asignatura.update({_id: id}, req.body);
   res.redirect('/asignaturas');
 
 });
@@ -82,14 +91,14 @@ router.get(
     if (Array.isArray(asignatura.profesores)) {
       for (let profesorId of asignatura.profesores) {
         let profesor = await Usuario.findById(profesorId);
-        await profesor.editAsignaturas(profesor.id, id);
+        await profesor.deleteAsignaturas(id);
       }
     }
 
     if (Array.isArray(asignatura.alumnos)) {
       for (let alumnoId of asignatura.alumnos) {
         let alumno = await Usuario.findById(alumnoId);
-        await alumno.editAsignaturas(alumno.id, id);
+        await alumno.deleteAsignaturas(id);
       }
     }
 
