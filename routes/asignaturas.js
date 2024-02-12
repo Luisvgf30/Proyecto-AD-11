@@ -60,6 +60,7 @@ router.post('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => 
       let profesor = await Usuario.findById(profesorId);
       await profesor.addAsignatura(asignaturaNueva.id);
     }
+    
     //Borramos las asignaturas de los alumnos de la asignatura antigua
     for (let alumnoId of asignaturaVieja.alumnos) {
       let alumno = await Usuario.findById(alumnoId);
@@ -76,7 +77,6 @@ router.post('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => 
   } catch (error) {
     next(error);
   }
-
 
 });
 
