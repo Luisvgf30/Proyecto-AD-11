@@ -8,9 +8,6 @@ router.get('/', (req, res, next) => {
   res.render('signin');
 });
 
-
-
-
 // router.post('/usuarios/add', passport.authenticate('local-signup', {
 //   successRedirect: '/usuarios',
 //   failureRedirect: '/usuarios',
@@ -37,9 +34,6 @@ router.post("/usuarios/add", isAuthenticated, async (req, res, next) => {
 });
 
 // Añadir asignatura añadiendosela a los usuarios seleccionados
-
-
-
 router.get('/usuarios', async(req, res, next) => {
   const usuario = new user;
   const usuarios = await usuario.findAll(req.user.id);
@@ -72,25 +66,21 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
 
 
 router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
-  let Asignatura  = mongoose.model("asignatura");
-  let Usuario = mongoose.model("user") ;
+  const usuario = new user();
+  const asignatura = new Asignatura();
 
   let { id } = req.params;
-  var thisUsuario = await Usuario.findById(id);
+  let thisUsuario = await usuario.findById(id);
+  let asignaturas = await asignatura.findAll();
+
 
   // borrar usuario dentro del array  de usuarios en la sesión
+   for(let i = 0; i < asignaturas.length; i++) {
+    let asignaturaChange = await asignatura.findById(asignaturas[i]);
+    await asignaturaChange.deleteUser(thisUsuario);
+   }    
 
-  for(let asignaturaId in thisUsuario.asignaturas){
-    let asignaturaChange = await Asignatura.findById(asignaturaId);
-    await asignaturaChange.deleteUser(id, thisUsuario.rol);
-    
-    console.log(id);
-    console.log(thisUsuario.rol);
-    
-  }   
-
-
-  await Usuario.deleteOne({_id: id});
+  await usuario.delete(id);
   res.redirect('/usuarios');
 
 });

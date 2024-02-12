@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { findById } = require('./user');
+const User = require("../models/user");
 
 const Schema = mongoose.Schema;
 
@@ -75,7 +76,7 @@ AsignaturaSchema.methods.findSearch = async function (search, asignatura) {
   return await Asignatura.find({ 'title': new RegExp(search, 'i'), 'asignatura': asignatura });
 };
 
-// añadir una usario a un asigntura existente
+// añadir una usario a un asignaturas) {a existente
 AsignaturaSchema.methods.addUsuario = async function (usuarioId, usuarioRol) {
   try {
 
@@ -89,7 +90,7 @@ AsignaturaSchema.methods.addUsuario = async function (usuarioId, usuarioRol) {
       this.alumnos.push(usuarioId);
       await this.save();
     }
-
+    
     console.log(`Usuario ${usuarioId} agregado a la asignatura ${this._id}`);
   } catch (error) {
     console.error(`Error al agregar usuario ${usuarioId} a la asignatura ${this.nombre}:, error`);
@@ -98,35 +99,46 @@ AsignaturaSchema.methods.addUsuario = async function (usuarioId, usuarioRol) {
 };
 
 // añadir un metodo para eliminar usuarios de una asignatura existente
-AsignaturaSchema.methods.deleteUser = async function (usuarioId, usuarioRol) {
-
-  console.log(usuario.id);
-  console.log(usuario.rol);
-  console.log(asignaturaId);
-
-
+AsignaturaSchema.methods.deleteUser = async function (thisUsuario) {
   try {
-    if (usuarioRol === "Profesor" || usuarioRol === "Administrador") {
-      console.log("profesor");
-      this.profesores = this.profesores.filter(usuario => usuario.toString() !== usuarioId);
-      await this.save()
-      .then(result => console.log(result))
-      .catch(error => console.log(error));
+    let rol = thisUsuario.rol;
+
+    if (rol === "Profesor") {
+      for(let i = 0; i < this.profesores.length; i++) {
+        if (this.profesores[i] == thisUsuario.id) {
+          console.log(this.profesores[i]);
+          this.profesores.splice(i, 1);
+        }
+      }
+        const Asignatura = mongoose.model("asignaturas", AsignaturaSchema);
+        await Asignatura.updateOne({_id: this.id}, this)
+        .then(res => {
+          console.log("delete: " + res);
+        })  .catch(err => {
+          console.log(err)  });
     }
 
-    if (usuarioRol === "Alumno") {
-      console.log("alumno");
-      this.alumnos = this.alumnos.filter(usuario => usuario.toString() !== usuarioId);
-      await this.save()
-      .then(result => console.log(result))
-      .catch(error => console.log(error));
+    if (rol === "Alumno") {
+      for(let i = 0; i < this.alumnos.length; i++) {
+        if (this.alumnos[i] == thisUsuario.id) {
+          console.log(this.alumnos[i]);
+          this.alumnos.splice(i, 1);
+        }
+      }
+        const Asignatura = mongoose.model("asignaturas", AsignaturaSchema);
+        await Asignatura.updateOne({_id: this.id}, this)
+        .then(res => {
+          console.log("delete: " + res);
+        })  .catch(err => {
+          console.log(err)  });
     }
-
   } catch (error) {
-    console.error(`Error al agregar usuario ${usuarioId} a la asignatura ${this.nombre}:, error`);
+    console.error(`Error al agregar usuario ${thisUsuario.id} a la asignatura ${this.nombre}:, error`);
     throw error;
   }
 
 };
 
-module.exports = mongoose.model('asignatura', AsignaturaSchema);
+
+
+module.exports = mongoose.model('asignaturas', AsignaturaSchema);

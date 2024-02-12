@@ -85,32 +85,31 @@ router.get(
   "/asignaturas/delete/:id",
   isAuthenticated,
   async (req, res, next) => {
-    let Asignatura = mongoose.model("asignatura");
-    let Usuario = mongoose.model("user");
+    let asignatura = new Asignatura();
+    let usuario = new Usuario();
     let { id } = req.params;
 
     // Encuentra la asignatura por id
-    let asignatura = await Asignatura.findById(id);
+    let asignaturaid = await Asignatura.findById(id);
 
     // Comprueba si asignatura.profesores y asignatura.alumnos son arrays
-    if (Array.isArray(asignatura.profesores)) {
-      for (let profesorId of asignatura.profesores) {
-        let profesor = await Usuario.findById(profesorId);
+    if (Array.isArray(asignaturaid.profesores)) {
+      for (let profesorId of asignaturaid.profesores) {
+        let profesor = await usuario.findById(profesorId);
         await profesor.deleteAsignaturas(id);
       }
     }
 
-    if (Array.isArray(asignatura.alumnos)) {
-      for (let alumnoId of asignatura.alumnos) {
-        let alumno = await Usuario.findById(alumnoId);
+    if (Array.isArray(asignaturaid.alumnos)) {
+      for (let alumnoId of asignaturaid.alumnos) {
+        let alumno = await usuario.findById(alumnoId);
         await alumno.deleteAsignaturas(id);
       }
     }
 
     // Elimina la asignatura
     await Asignatura.deleteOne({ _id: id })
-    
-
+  
     res.redirect("/asignaturas");
   }
 );
