@@ -1,0 +1,58 @@
+<% include partials/_header %>
+
+<div class="container mx-auto">
+    <div class="row mx-auto">
+      <% if (user.rol == "Administrador" ) { %>
+        <!--FORM-->
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-body">
+              <form action="/asignaturas/add" method="post">
+                <div class="form-group pb-2">
+                  <input class="form-control " required type="text" name="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="number" name="curso" placeholder="Curso">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="software" placeholder="Software">
+                </div>
+                <div class="form-group">
+                  <label for="profesores">Profesor Responsable:</label>
+                  <select id="multiple-checkboxes" class="form-control" multiple>
+                    <% for(var i=0; i < profesores.length; i++) { %>
+                      <option value="<%= profesores[i]._id %>">
+                        <%= profesores[i].nombre %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="alumnos">Alumnos:</label>
+                  <select id="multiple-checkboxes" class="form-control" multiple>
+                    <% for(var j=0; j < alumnos.length; j++) { %>
+                      <option value="<%= alumnos[j]._id %>">
+                        <%= alumnos[j].nombre %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                  Add
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<% include partials/_footer %>
