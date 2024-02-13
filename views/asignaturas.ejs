@@ -2,6 +2,7 @@
 
   <div class="container mx-auto">
     <div class="row mx-auto">
+<<<<<<< HEAD
       <!-- LIST -->
       <div class="col-md-12"></div>
       <table class="table fondo_blanco">
@@ -52,6 +53,132 @@
                         <%=profesores[j].nombre %>
                       </span>
                       <% } %>
+=======
+      <% if (user.rol=="Administrador" ) { %>
+        <!--FORM-->
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-body">
+              <form action="/asignaturas/add" method="post">
+                <div class="form-group pb-2">
+                  <input class="form-control " required type="text" name="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="number" name="curso" placeholder="Curso">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" required type="text" name="software" placeholder="Software">
+                </div>
+                <div class="form-group">
+                  <label for="profesores">Profesor Responsable:</label>
+                  <select name="profesores" id="multiple-checkboxes" class="form-control" multiple>
+                    <% for(var i=0; i < profesores.length; i++) { %>
+                      <option value="<%= profesores[i]._id %>">
+                        <%= profesores[i].nombre %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="alumnos">Alumnos:</label>
+                  <select name="alumnos" id="multiple-checkboxes" class="form-control" multiple>
+                    <% for(var j=0; j < alumnos.length; j++) { %>
+                      <option value="<%= alumnos[j]._id %>">
+                        <%= alumnos[j].nombre %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                  Add
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% } %>
+
+          <!-- LIST -->
+          <% if (user.rol !="Administrador" ) { %>
+            <div class="col-md-12"></div>
+            <% }else { %>
+              <div class="col-md-7">
+                <% } %>
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Plan de estudios</th>
+                        <th class="text-center">Cuatrimestre</th>
+                        <th class="text-center">Curso</th>
+                        <th class="text-center">Resposable</th>
+                        <th class="text-center">Alumnos</th>
+                        <% if (user.rol=="Administrador" ) { %>
+                          <th>Operaciones</th>
+                          <% } %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(var i=0; i < asignaturas.length; i++) { %>
+                        <tr>
+                          <td class="text-center">
+                            <%= i + 1%>
+                          </td>
+                          <td class="text-center"><strong>
+                              <%= asignaturas[i].nombre %>
+                                </nombre>
+                          </td>
+                          <td class="text-center">
+                            <%= asignaturas[i].planEstudios %>
+                          </td>
+                          <td class="text-center">
+                            <%= asignaturas[i].cuatrimestre %>
+                          </td>
+                          <td class="text-center">
+                            <%= asignaturas[i].curso %>
+                          </td>
+                          <td class="text-center scrollable-cell">
+                            <% for(var j=0; j < profesores.length; j++) { %>
+                              <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
+                                <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
+                                  <span>
+                                    <%=profesores[j].nombre %>
+                                  </span>
+                                  <% } %>
+                                    <% } %>
+                                      <% } %>
+                          </td>
+                          <td class="text-center scrollable-cell">
+                            <% for(var j=0; j < alumnos.length; j++) { %>
+                              <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
+                                <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>
+                                  <span class="max-width">
+                                    <%=alumnos[j].nombre %>
+                                  </span>
+                                  <% } %>
+                                    <% } %>
+                                      <% } %>
+                          </td>
+                          <% if (user.rol=="Administrador" ) { %>
+                            <td class="text-center">
+                              <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-info">
+                                Edit
+                              </a>
+                              <a href="/asignaturas/delete/<%= asignaturas[i]._id %>" class="btn btn-danger">
+                                Delete
+                              </a>
+                            </td>
+                            <% } %>
+                        </tr>
+>>>>>>> raul
                         <% } %>
                           <% } %>
               </td>

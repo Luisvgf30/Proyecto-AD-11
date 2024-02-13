@@ -1,4 +1,5 @@
 <% include partials/_header %>
+<<<<<<< HEAD
   <div class="container  mx-auto">
     <div class="row mx-auto centrado">
       <!-- LIST -->
@@ -77,6 +78,53 @@
               <% } %>
           </tbody>
         </table>
+=======
+
+<div class="container">
+
+  <div class="row">
+    <!--FORM-->
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <form action="/usuarios/add" method="post">
+            <div class="form-group">
+              <input class="form-control" type="text" name="nombre" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="apellidos" placeholder="apellidos">
+            </div>
+            <div class="form-group">
+                <select name="rol" class="form-control" type="select">
+                  <option selected></option>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Profesor" selected>Profesor</option>
+                  <option value="Alumno">Alumno</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="email" placeholder="email">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="password" placeholder="password" required>
+            </div>
+            <div class="form-group">
+              <label for="asignaturas">Asignaturas</label>
+              <select name="asignaturas" id="asignaturas" class="custom-select" multiple="multiple">
+                <option selected>Elige...</option>
+                <% for(var i=0; i < asignaturas.length; i++) { %>
+                  <option value="<%= asignaturas[i]._id %>" >
+                    <%= asignaturas[i].nombre %>
+                  </option>
+                <% } %>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">
+              Add
+            </button>
+          </form>
+        </div>
+>>>>>>> raul
       </div>
     </div>
 
