@@ -1,58 +1,50 @@
 <% include partials/_header %>
 
-<div class="container mx-auto">
-    <div class="row mx-auto">
-      <% if (user.rol == "Administrador" ) { %>
-        <!--FORM-->
-        <div class="col-md-5">
-          <div class="card">
-            <div class="card-body">
-              <form action="/asignaturas/add" method="post">
-                <div class="form-group pb-2">
-                  <input class="form-control " required type="text" name="nombre" placeholder="Nombre">
-                </div>
-                <div class="form-group">
-                  <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
-                </div>
-                <div class="form-group">
-                  <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
-                </div>
-                <div class="form-group">
-                  <input class="form-control" required type="number" name="curso" placeholder="Curso">
-                </div>
-                <div class="form-group">
-                  <input class="form-control" required type="text" name="software" placeholder="Software">
-                </div>
-                <div class="form-group">
-                  <label for="profesores">Profesor Responsable:</label>
-                  <select id="multiple-checkboxes" class="form-control" multiple>
-                    <% for(var i=0; i < profesores.length; i++) { %>
-                      <option value="<%= profesores[i]._id %>">
-                        <%= profesores[i].nombre %>
-                      </option>
-                      <% } %>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="alumnos">Alumnos:</label>
-                  <select id="multiple-checkboxes" class="form-control" multiple>
-                    <% for(var j=0; j < alumnos.length; j++) { %>
-                      <option value="<%= alumnos[j]._id %>">
-                        <%= alumnos[j].nombre %>
-                      </option>
-                      <% } %>
-                  </select>
-                </div>
-
-                <button class="btn btn-primary" type="submit">
-                  Add
-                </button>
-              </form>
-            </div>
+  <div class="container centrado_total">
+    <div class="row mar_carta">
+      <!--FORM-->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <form action="/usuarios/add" method="post">
+              <div class="form-group">
+                <input class="form-control" type="text" name="nombre" placeholder="Nombre">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="apellidos" placeholder="apellidos">
+              </div>
+              <div class="form-group">
+                <select name="rol" class="form-control" type="select">
+                  <option selected></option>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Profesor" selected>Profesor</option>
+                  <option value="Alumno">Alumno</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="email" placeholder="email">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="password" placeholder="password" required>
+              </div>
+              <div class="form-group">
+                <label for="asignaturas">Asignaturas</label>
+                <select name="asignaturas" id="asignaturas" class="form-control" multiple>
+                  <% for(var i=0; i < asignaturas.length; i++) { %>
+                    <option value="<%= asignaturas[i]._id %>">
+                      <%= asignaturas[i].nombre %>
+                    </option>
+                    <% } %>
+                </select>
+              </div>
+              <button class="btn btn-primary" type="submit">
+                Add
+              </button>
+            </form>
           </div>
         </div>
-        <% } %>
-    </div>
-</div>
+      </div>
+    </div>  
+  </div>    
 
 <% include partials/_footer %>

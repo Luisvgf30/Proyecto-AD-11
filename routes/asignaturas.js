@@ -22,6 +22,18 @@ router.post('/asignaturas/add', isAuthenticated,async (req, res, next) => {
   res.redirect('/asignaturas');
 });
 
+router.get('/asignaturas/addasignaturas', isAuthenticated,async (req, res, next) => {
+  const asignatura = new Asignatura();
+  const usuario = new Usuario();
+  const asignaturas = await asignatura.findAll();
+  const alumnos = await usuario.findRol("Alumno");
+  const profesores = await usuario.findRol("Profesor");
+
+  res.render('addasignaturas', {
+    asignaturas : asignaturas, alumnos : alumnos, profesores : profesores
+  });
+});
+
 router.get('/asignaturas/turn/:id',isAuthenticated, async (req, res, next) => {
   let { id } = req.params;
   const asignatura = await Asignatura.findById(id);
@@ -67,7 +79,6 @@ router.get('/asignaturas/search',isAuthenticated, async (req, res, next) => {
     asignaturas
   });
 });
-
 
 function isAuthenticated(req, res, next) {
   if(req.isAuthenticated()) {

@@ -1,7 +1,7 @@
 <% include partials/_header %>
 
 <div class="col-md-7 mx-auto">
-    <table class="table table-bordered table-hover">
+    <table class="table fondo_blanco">
       <thead>
         <tr>
           <th class="mx-auto text-center"colspan="2">Usuario</th>
@@ -28,9 +28,9 @@
             <th>Asignaturas</th>
             <td>
               <% for(var i=0; i < asignaturas.length; i++) { %>
-                <p>
+                <span>
                   <%= asignaturas[i].nombre %>
-                </p>
+                </span>
               <% } %>
             </td>
           </tr>

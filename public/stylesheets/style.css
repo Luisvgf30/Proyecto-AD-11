@@ -10,9 +10,14 @@ p .msing{
 .fondo_negro{
   background: rgb(32, 32, 32);
 }
-
+.fondo_gris{
+  background-color: #c2c2c2;
+}
 .color-primario{
   background-color: #5499c7;
+}
+.fondo_blanco{
+  background-color: white;
 }
 
 .divider:after,
@@ -29,31 +34,34 @@ background: #eee;
 .btn-group .multiselect {
   border: 1px solid #ced4da;
 }
-.tabla-grande{
-  display: block;
+
+.centrado{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.tabla-peque{
-  display: none;
+.centrado_total{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-@media (min-width: 1530px){
-  .container {
-    max-width: 1700px;
-  }
+th{
+  text-align: center;
+}
+table,
+table-bordered{
+  border-radius: 10px;
 }
 
-@media (max-width: 1530px){
-  .container {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
+.max_width{
+  max-width: 100%;
+}
+
+@media (min-width: 992px){
+  .mar_carta{
+    margin-left: 15%;
+    margin-right: 15%;
   }
-  .tabla-grande{
-    display: none;
-  }
-  .tabla-peque{
-    display: block;
-  }
-  
 }
