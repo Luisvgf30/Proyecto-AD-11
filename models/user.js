@@ -78,23 +78,21 @@ userSchema.methods.delete= async function (id) {
 
 // Eliminar una asignatura especifica
 userSchema.methods.deleteAsignaturas = async function(idAsignatura) {
+  const User = mongoose.model("users", userSchema);
   if (!this) {
     console.log(`Usuario con id ${this.id} no encontrado.`);
     return;
   }
   // Filtra las asignaturas para eliminar la especificada
-  for(let i = 0; i < this.asignaturas.length; i++) {
-    if (this.asignaturas[i] == idAsignatura) {
-      console.log(this.asignaturas[i]);
-      this.asignaturas.splice(i, 1);
-    }
-  }
-    const User = mongoose.model("users", userSchema);
-    await User.updateOne({_id: this.id}, this)
+  this.asignaturas = this.asignaturas.filter(asignatura => asignatura.toString() !== idAsignatura);
+  // Guarda el usuario actualizado
+  await this.save()
     .then(res => {
-      console.log("delete: " + res);
-    })  .catch(err => {
-      console.log(err)  });
+      console.log("Asignatura eliminada: " + res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 

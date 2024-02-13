@@ -20,13 +20,7 @@ const AsignaturaSchema = new Schema({
   },
   software: {
     type: Array
-  },
-  profesores: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'profesores'
-  }],
-  alumnos: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'alumnos'
-  }],
+  }
 });
 
 
@@ -141,4 +135,4 @@ AsignaturaSchema.methods.deleteUser = async function (thisUsuario) {
 
 
 
-module.exports = mongoose.model('asignaturas', AsignaturaSchema);
+module.exports = mongoose.model('asignatura', AsignaturaSchema);

@@ -46,8 +46,8 @@
               </td>
               <td class="text-center scroll-container">
                 <% for(var j=0; j < profesores.length; j++) { %>
-                  <% for(var k=0; k < asignaturas[i].profesores.length; k++) { %>
-                    <% if(profesores[j]._id.toString()===asignaturas[i].profesores[k].toString()){%>
+                  <% for(var k=0; k < profesores[j].asignaturas.length; k++) { %>
+                    <% if(profesores[j].asignaturas[k].toString()===asignaturas[i]._id.toString()){%>
                       <span>
                         <%=profesores[j].nombre %>
                       </span>
@@ -57,9 +57,9 @@
               </td>
               <td class="text-center scroll-container">
                 <% for(var j=0; j < alumnos.length; j++) { %>
-                  <% for(var k=0; k < asignaturas[i].alumnos.length; k++) { %>
-                    <% if(alumnos[j]._id.toString()===asignaturas[i].alumnos[k].toString()){%>
-                      <span class="max-width">
+                  <% for(var k=0; k < alumnos[j].asignaturas.length; k++) { %>
+                    <% if(alumnos[j].asignaturas[k].toString()===asignaturas[i]._id.toString()){%>
+                      <span>
                         <%=alumnos[j].nombre %>
                       </span>
                       <% } %>

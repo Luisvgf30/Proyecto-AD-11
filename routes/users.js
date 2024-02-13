@@ -72,21 +72,6 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
     const { id } = req.params;
 
     //Obtenemos el usu antiguo y el nuevo para editar la lista asignaturas de sus usuarios.
-    let usuViejo = await usuario.findById(id);
-    await usuario.update({ _id: id }, req.body);
-    let usuNuevo = await usuario.findById(id);
-
-    //Borramos las asignaturas de los profesores de la asignatura antigua
-    for (let asignaturaId of usuViejo.asignaturas) {
-      let asignatura = await Asignatura.findById(asignaturaId);
-      await asignatura.deleteUser(usuViejo.id);
-    }
-    //Añadimos las asignaturas de los profesores de la asignatura nueva
-    for (let asignaturaId of usuNuevo.asignaturas) {
-      let asignatura = await Asignatura.findById(asignaturaId);
-      await asignatura.addUsuario(usuNuevo.id);
-    }
-  
     await usuario.update({ _id: id }, req.body);
     res.redirect('/usuarios');
   } catch (error) {
@@ -103,7 +88,6 @@ router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
   let { id } = req.params;
   let thisUsuario = await usuario.findById(id);
   let asignaturas = await asignatura.findAll();
-
 
   // borrar usuario dentro del array  de usuarios en la sesión
    for(let i = 0; i < asignaturas.length; i++) {

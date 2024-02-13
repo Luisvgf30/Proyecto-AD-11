@@ -104,31 +104,21 @@ router.get(
   "/asignaturas/delete/:id",
   isAuthenticated,
   async (req, res, next) => {
-    let asignatura = new Asignatura();
-    let usuario = new Usuario();
     let { id } = req.params;
+    let usuario = new Usuario();
+    let usuarios = await usuario.findAll();
 
-    // Encuentra la asignatura por id
-    let asignaturaid = await Asignatura.findById(id);
-
-    // Comprueba si asignatura.profesores y asignatura.alumnos son arrays
-    if (Array.isArray(asignaturaid.profesores)) {
-      for (let profesorId of asignaturaid.profesores) {
-        let profesor = await usuario.findById(profesorId);
-        await profesor.deleteAsignaturas(id);
+    for(let i = 0; i < usuarios.length; i++) {
+      for(let j = 0; j < usuarios[i].asignaturas.length; j++) {
+        if(usuarios[i].asignaturas[j].toString() == id) {
+          usuarios[i].asignaturas.splice(j, 1);
+          await usuario.update({_id: id}, usuarios[i]);
+        }
       }
     }
-
-    if (Array.isArray(asignaturaid.alumnos)) {
-      for (let alumnoId of asignaturaid.alumnos) {
-        let alumno = await usuario.findById(alumnoId);
-        await alumno.deleteAsignaturas(id);
-      }
-    }
-
     // Elimina la asignatura
-    await Asignatura.deleteOne({ _id: id })
-  
+    await Asignatura.deleteOne({ _id: id });
+
     res.redirect("/asignaturas");
   }
 );
@@ -161,7 +151,43 @@ router.post("/asignaturas/add", isAuthenticated, async (req, res, next) => {
   res.redirect("/asignaturas");
 });
 
+// Editar asignatura y actualizar relaciones con usuarios
+router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => {
+  const { id } = req.params;
+  const updatedAsignaturaData = req.body;
 
+  try {
+    let Asignatura = mongoose.model("asignatura");
+    let Usuario = mongoose.model("user");
+
+    // Encuentra la asignatura por id
+    let asignatura = await Asignatura.findById(id);
+
+    // Actualiza los datos de la asignatura
+    asignatura.nombre = updatedAsignaturaData.nombre;
+    asignatura.descripcion = updatedAsignaturaData.descripcion;
+
+    // Guarda la asignatura actualizada
+    await asignatura.save();
+
+    // Actualiza las relaciones con profesores y alumnos
+    for (let profesorId of updatedAsignaturaData.profesores) {
+      let profesor = await Usuario.findById(profesorId);
+      await profesor.editAsignaturas(profesor.id, id);
+    }
+
+    for (let alumnoId of updatedAsignaturaData.alumnos) {
+      let alumno = await Usuario.findById(alumnoId);
+      await alumno.editAsignaturas(alumno.id, id);
+    }
+
+    res.redirect("/asignaturas");
+  } catch (error) {
+    // Manejo de errores
+    console.error("Error al editar asignatura:", error);
+    res.status(500).send("Error al editar asignatura");
+  }
+});
 
 router.get("/asignaturas/search", isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
