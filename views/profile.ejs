@@ -1,42 +1,46 @@
 <% include partials/_header %>
 
-<div class="col-md-7 mx-auto">
-    <table class="table fondo_blanco">
-      <thead>
-        <tr>
-          <th class="mx-auto text-center"colspan="2">Usuario</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr>
-            <th>ID</th>
-            <td><%= user._id%></td>
-          </tr>
-          <tr>
-            <th>Nombre</th>
-            <td><%= user.nombre%></td>
-          </tr>
-          <tr>
-            <th>Apellidos</th>
-            <td><%= user.apellidos%></td>
-          </tr>
-          <tr>
-            <th>Email</th>
-            <td><%= user.email%></td>
-          </tr>          
-          <tr>
-            <th>Asignaturas</th>
-            <td>
-              <% for(var i=0; i < asignaturas.length; i++) { %>
-                <span>
-                  <%= asignaturas[i].nombre %>
-                </span>
-              <% } %>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card  mt-5">
+        <div class="card-body">
+          <table class="table table-striped table-bordered table-hover">
+            <tbody>
+              <tr>
+                <th class="text-center" colspan="2">Usuario</th>
+              </tr>
+              <tr>
+                <th>ID</th>
+                <td><%= user._id%></td>
+              </tr>
+              <tr>
+                <th>Nombre</th>
+                <td><%= user.nombre.toUpperCase()%></td>
+              </tr>
+              <tr>
+                <th>Apellidos</th>
+                <td><%= user.apellidos.toUpperCase()%></td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td><%= user.email%></td>
+              </tr>
+              <tr>
+                <th>Asignaturas</th>
+                <td>
+                  <% for(var i=0; i < asignaturas.length; i++) { %>
+                    <span>
+                      <%= asignaturas[i].nombre.toUpperCase() %>
+                    </span>
+                  <% } %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
