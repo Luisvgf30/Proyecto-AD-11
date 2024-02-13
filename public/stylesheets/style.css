@@ -3,6 +3,19 @@ h1 .error{
   color:red;
 }
 
+
+body{
+  background-image: url('../img/fondo2.avif'); /* Reemplaza 'ruta/a/la/imagen.jpg' con la ruta de tu imagen */
+  background-size: cover; /* Para cubrir todo el cuerpo */
+  background-position: center; /* Para centrar la imagen */
+  background-attachment: fixed; /* Para que la imagen permanezca fija */
+  /* Opcional: puedes agregar más propiedades CSS para personalizar */
+  /* Ejemplo: */
+  /* background-repeat: no-repeat; */
+  /* background-attachment: fixed; */
+  /* color: white; */
+}
+
 p .msing{
   color:red;
 }
@@ -50,9 +63,9 @@ background: #eee;
 th{
   text-align: center;
 }
-table,
-table-bordered{
+table{
   border-radius: 10px;
+  background-color: white !important;
 }
 
 .max_width{
