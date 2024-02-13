@@ -8,13 +8,6 @@ router.get('/', (req, res, next) => {
   res.render('signin');
 });
 
-<<<<<<< HEAD
-router.post('/usuarios/add', passport.authenticate('local-signup', {
-  successRedirect: '/usuarios',
-  failureRedirect: '/usuarios',
-  failureFlash: true
-})); 
-=======
 // router.post('/usuarios/add', passport.authenticate('local-signup', {
 //   successRedirect: '/usuarios',
 //   failureRedirect: '/usuarios',
@@ -39,7 +32,6 @@ router.post("/usuarios/add", isAuthenticated, async (req, res, next) => {
   }
   res.redirect("/usuarios");
 });
->>>>>>> raul
 
 // Añadir asignatura añadiendosela a los usuarios seleccionados
 router.get('/usuarios', async(req, res, next) => {
