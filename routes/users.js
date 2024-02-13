@@ -8,11 +8,11 @@ router.get('/', (req, res, next) => {
   res.render('signin');
 });
 
-// router.post('/usuarios/add', passport.authenticate('local-signup', {
-//   successRedirect: '/usuarios',
-//   failureRedirect: '/usuarios',
-//   failureFlash: true
-// })); 
+router.post('/usuarios/add', passport.authenticate('local-signup', {
+  successRedirect: '/usuarios',
+  failureRedirect: '/usuarios',
+  failureFlash: true
+})); 
 
 // Añadir asignatura añadiendosela a los usuarios seleccionados
 router.post("/usuarios/add", isAuthenticated, async (req, res, next) => {
@@ -42,6 +42,17 @@ router.get('/usuarios', async(req, res, next) => {
   res.render('usuarios', {
     usuarios, asignaturas
   });
+});
+
+router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
+  var usuario = new user();
+  var asignatura = new Asignatura();
+
+  const usuarios = await usuario.findAll(req.user._id);
+  const asignaturas = await asignatura.findAll();
+
+  usuario = await usuario.findById(req.params.id);
+  res.render('addusuarios', { usuario, asignaturas });
 });
 
 router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
