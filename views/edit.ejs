@@ -22,25 +22,7 @@
               <div class="form-group">
                 <input class="form-control" type="text" name="software" value="<%= asignatura.software %>">
               </div>
-              <div class="form-group">
-                <label for="profesores"></label>
-                <select name="profesores" id="profesores" class="form-control" multiple>
-                  <% for(var i=0; i < profesores.length; i++) { %>
-                    <option value="<%= profesores[i]._id %>">
-                      <%= profesores[i].nombre %>
-                    </option>
-                    <% } %>
-                </select>
-              </div>
-              <div class="form-group">
-                <select name="alumnos" id="alumnos" class="form-control" multiple>
-                  <% for(var j=0; j < alumnos.length; j++) { %>
-                    <option value="<%= alumnos[j]._id %>">
-                      <%= alumnos[j].nombre %>
-                    </option>
-                    <% } %>
-                </select>
-              </div>
+             
               <button class="btn btn-primary" type="submit">
                 Update
               </button>

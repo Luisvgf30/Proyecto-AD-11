@@ -8,23 +8,12 @@ router.get('/', (req, res, next) => {
   res.render('signin');
 });
 
+// añadir usuario ****************************************************************
 router.post('/usuarios/add', passport.authenticate('local-signup', {
   successRedirect: '/usuarios',
-  failureRedirect: '/usuarios',
+  failureRedirect: '/usuarios/addusuarios',
   failureFlash: true
 })); 
-
-
-// Añadir asignatura añadiendosela a los usuarios seleccionados
-router.get('/usuarios', async(req, res, next) => {
-  const usuario = new user;
-  const usuarios = await usuario.findAll(req.user.id);
-  const asignatura = new Asignatura;
-  const asignaturas = await asignatura.findAll();
-  res.render('usuarios', {
-    usuarios, asignaturas
-  });
-});
 
 router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
   var usuario = new user();
@@ -37,6 +26,20 @@ router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
   res.render('addusuarios', { usuario, asignaturas });
 });
 
+
+// Añadir asignatura añadiendosela a los usuarios seleccionados ***********************************************
+router.get('/usuarios', async(req, res, next) => {
+  const usuario = new user;
+  const usuarios = await usuario.findAll(req.user.id);
+  const asignatura = new Asignatura;
+  const asignaturas = await asignatura.findAll();
+  res.render('usuarios', {
+    usuarios, asignaturas
+  });
+});
+
+
+// editar usuarios ****************************************************************************
 router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
   var usuario = new user();
   var asignatura = new Asignatura();
@@ -53,6 +56,10 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
     const usuario = new user();
     const { id } = req.params;
 
+    req.body.password = Usuario.encryptPassword(req.body.password);
+   
+
+
     //Obtenemos el usu antiguo y el nuevo para editar la lista asignaturas de sus usuarios.
     await usuario.update({ _id: id }, req.body);
     res.redirect('/usuarios');
@@ -63,6 +70,8 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
 });
 
 
+
+// borrar usuarios ************************************************************
 router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
   const usuario = new user();
   const asignatura = new Asignatura();
