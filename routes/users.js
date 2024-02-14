@@ -3,6 +3,7 @@ const passport = require('passport');
 const Usuario = require('../models/user');
 const user = require('../models/user');
 const Asignatura = require('../models/asignatura');
+const { default: mongoose } = require('mongoose');
 router.get('/', (req, res, next) => {
   res.render('signin');
 });
@@ -10,15 +11,39 @@ router.get('/', (req, res, next) => {
 
 
 
-router.post('/usuarios/add', passport.authenticate('local-signup', {
-  successRedirect: '/usuarios',
-  failureRedirect: '/usuarios',
-  failureFlash: true
-})); 
+
+// router.post('/usuarios/add', passport.authenticate('local-signup', {
+//   successRedirect: '/usuarios',
+//   failureRedirect: '/usuarios',
+//   failureFlash: true
+// })); 
+
+// Añadir asignatura añadiendosela a los usuarios seleccionados
+router.post("/usuarios/add", isAuthenticated, async (req, res, next) => {
+  const usuario = new Usuario(req.body);
+  usuario.asignatura = req.user._id;
+  await usuario.insert();
+
+  let usuarios = await usuario.findAll();
+  let usuariosLast = usuarios[usuarios.length - 1];
+
+  // Comprueba si asignatura.profesores y asignatura.alumnos son arrays
+  if (Array.isArray(usuariosLast.asignaturas)) {
+    for (let asignaturaId of usuariosLast.asignaturas) {
+      let asignatura = await Asignatura.findById(asignaturaId);
+      await asignatura.addUsuario(usuariosLast.id, usuariosLast.rol);
+    }
+  }
+  res.redirect("/usuarios");
+});
+
+// Añadir asignatura añadiendosela a los usuarios seleccionados
+
+
 
 router.get('/usuarios', async(req, res, next) => {
   const usuario = new user;
-  const usuarios = await usuario.findAll(req.user._id);
+  const usuarios = await usuario.findAll(req.user.id);
   const asignatura = new Asignatura;
   const asignaturas = await asignatura.findAll();
   res.render('usuarios', {
@@ -46,11 +71,29 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
   res.redirect('/usuarios');
 });
 
+
 router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
-  const usuario = new user();
+  let Asignatura  = mongoose.model("asignatura");
+  let Usuario = mongoose.model("user") ;
+
   let { id } = req.params;
-  await usuario.delete(id);
+  var thisUsuario = await Usuario.findById(id);
+
+  // borrar usuario dentro del array  de usuarios en la sesión
+
+  for(let asignaturaId in thisUsuario.asignaturas){
+    let asignaturaChange = await Asignatura.findById(asignaturaId);
+    await asignaturaChange.deleteUser(id, thisUsuario.rol);
+    
+    console.log(id);
+    console.log(thisUsuario.rol);
+    
+  }   
+
+
+  await Usuario.deleteOne({_id: id});
   res.redirect('/usuarios');
+
 });
 
 router.get('/signup', (req, res, next) => {
