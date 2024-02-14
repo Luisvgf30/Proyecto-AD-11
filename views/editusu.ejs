@@ -1,4 +1,5 @@
 <% include partials/_header %>
+
     <div class="container centrado_total">
         <div class="row mar_carta">
             <!--FORM-->
@@ -14,29 +15,30 @@
                                 <input class="form-control" type="text" name="apellidos"
                                     value="<%= usuario.apellidos %>">
                             </div>
-                            <div class="form-group">
-                                <select name="rol" class="form-control" type="select">
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Profesor" selected>Profesor</option>
-                                    <option value="Alumno">Alumno</option>
+                            <div class="form-group" >
+                                <select  id="selectBox" onchange="changeFunc();" name="rol" class="form-control" type="select" required>
+                                  <option value="" hidden selected>Selecciona un Rol</option>
+                                  <option value="Administrador">Administrador</option>
+                                  <option value="Profesor">Profesor</option>
+                                  <option value="Alumno">Alumno</option>
                                 </select>
-                            </div>
+                              </div>
                             <div class="form-group">
                                 <input class="form-control" type="mail" name="email" value="<%= usuario.email %>">
                             </div>
                             <div class="form-group">
                                 <input class="form-control" type="password" name="password" placeholder="password">
                             </div>
-                            <div class="form-group">
+                            <div id="asig" class="form-group">
                                 <label for="asignaturas">Asignaturas</label>
                                 <select name="asignaturas" id="asignaturas" class="form-control" multiple>
-                                    <% for(var i=0; i < asignaturas.length; i++) { %>
-                                        <option value="<%= asignaturas[i]._id %>">
-                                            <%= asignaturas[i].nombre %>
-                                        </option>
-                                        <% } %>
+                                  <% for(var i=0; i < asignaturas.length; i++) { %>
+                                    <option value="<%= asignaturas[i]._id %>">
+                                      <%= asignaturas[i].nombre %>
+                                    </option>
+                                    <% } %>
                                 </select>
-                            </div>
+                              </div>
                             <button class="btn btn-primary" type="submit">
                                 Update
                             </button>
@@ -47,4 +49,4 @@
         </div>
     </div>
 
-    <% include partials/_footer%>
+    <% include partials/_footer %>

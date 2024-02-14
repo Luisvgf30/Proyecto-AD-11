@@ -139,11 +139,10 @@ router.post('/signin', passport.authenticate('local-signin', {
 
 router.get('/profile', isAuthenticated, async (req, res, next) => {
   const usuario = new user;
-  const usuarios = await usuario.findAll(req.user._id);
-  const asignatura = new Asignatura;
-  const asignaturas = await asignatura.findAll();
+  let { id } = req.params;
+  let miusuario = await usuario.findById(id);
   res.render('profile', {
-    usuarios, asignaturas
+    miusuario
   });
 });
 

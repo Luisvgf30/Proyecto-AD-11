@@ -1,5 +1,4 @@
 <% include partials/_header %>
-
   <div class="container centrado_total">
     <div class="row mar_carta">
       <!--FORM-->
@@ -13,21 +12,24 @@
               <div class="form-group">
                 <input class="form-control" type="text" name="apellidos" placeholder="apellidos">
               </div>
-              <div class="form-group">
-                <select name="rol" class="form-control" type="select">
-                  <option selected></option>
+              <div class="form-group" >
+                <select  id="selectBox" onchange="changeFunc();" name="rol" class="form-control" type="select" required>
+                  <option value="" hidden selected>Selecciona un Rol</option>
                   <option value="Administrador">Administrador</option>
-                  <option value="Profesor" selected>Profesor</option>
+                  <option value="Profesor">Profesor</option>
                   <option value="Alumno">Alumno</option>
                 </select>
               </div>
-              <div class="form-group">
-                <input class="form-control" type="text" name="email" placeholder="email">
-              </div>
+
+                <div class="form-group">
+                  <input class="form-control" type="text" name="email" placeholder="email">
+                </div>
+              
               <div class="form-group">
                 <input class="form-control" type="text" name="password" placeholder="password" required>
               </div>
-              <div class="form-group">
+              
+              <div id="asig" class="form-group">
                 <label for="asignaturas">Asignaturas</label>
                 <select name="asignaturas" id="asignaturas" class="form-control" multiple>
                   <% for(var i=0; i < asignaturas.length; i++) { %>
@@ -46,5 +48,6 @@
       </div>
     </div>  
   </div>    
+
 
 <% include partials/_footer %>
