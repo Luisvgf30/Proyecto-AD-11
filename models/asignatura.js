@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { findById } = require('./user');
+const User = require("../models/user");
 
 const Schema = mongoose.Schema;
 
@@ -18,13 +20,7 @@ const AsignaturaSchema = new Schema({
   },
   software: {
     type: Array
-  },
-  profesores: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'profesores'
-  }],
-  alumnos: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'alumnos'
-  }],
+  }
 });
 
 
@@ -45,22 +41,23 @@ AsignaturaSchema.methods.insert = async function () {
 
 AsignaturaSchema.methods.update = async (id, asignatura) => {
   const Asignatura = mongoose.model("asignaturas", AsignaturaSchema);
-  await Asignatura.updateOne({_id: id}, asignatura)
+  await Asignatura.updateOne({ _id: id }, asignatura)
     .then(res => {
       console.log("saved: " + res);
     }).catch(err => {
       console.log(err)
     });
-    console.log("prueba update")
 };
 
 AsignaturaSchema.methods.delete = async function (id) {
   const Asignatura = mongoose.model("asignaturas", AsignaturaSchema);
   await Asignatura.deleteOne({ _id: id })
-  .then(res => {
-    console.log("delete: " + res);
-  })  .catch(err => {
-    console.log(err)  });
+    .then(res => {
+      console.log("delete: " + res);
+    }).catch(err => {
+      console.log(err)
+    });
+
 };
 
 AsignaturaSchema.methods.findById = async function (id) {

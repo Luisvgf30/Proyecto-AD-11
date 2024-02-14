@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const Asignatura = require('../models/asignatura');
 
 const Schema = mongoose.Schema;
 
@@ -9,7 +10,7 @@ const userSchema = new Schema({
   rol: { type: String, required: true },
   email: { type: String },
   password: { type: String, required: true },
-  asignaturas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'asignaturas'}]
+  asignaturas: [{ type: Schema.Types.ObjectId, ref: 'Asignatura' }]
 });
 
 //prueba 
@@ -75,5 +76,38 @@ userSchema.methods.delete= async function (id) {
     console.log(err)  });
 };
 
+// Eliminar una asignatura especifica
+userSchema.methods.deleteAsignaturas = async function(idAsignatura) {
+  const User = mongoose.model("users", userSchema);
+  if (!this) {
+    console.log(`Usuario con id ${this.id} no encontrado.`);
+    return;
+  }
+  // Filtra las asignaturas para eliminar la especificada
+  this.asignaturas = this.asignaturas.filter(asignatura => asignatura.toString() !== idAsignatura);
+  // Guarda el usuario actualizado
+  await this.save()
+    .then(res => {
+      console.log("Asignatura eliminada: " + res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+
+// añadir una asignatura a un usuario existente
+userSchema.methods.addAsignatura = async function (asignaturaId) {
+  try {
+    this.asignaturas.push(asignaturaId);
+    await this.save();
+    console.log(`Asignatura ${asignaturaId} agregada al usuario ${this._id}`);
+  } catch (error) {
+    console.error(`Error al agregar asignatura ${asignaturaId} al usuario ${this.nombre}:, error`);
+    throw error;
+  }
+};
+
 module.exports = mongoose.model('user', userSchema);
+
 
