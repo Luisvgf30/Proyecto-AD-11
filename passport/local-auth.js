@@ -13,10 +13,16 @@ passport.deserializeUser(async (id, done) => {
 });
 
 passport.use('local-signup', new LocalStrategy({
-  usernameField: 'email',
+  usernameField: 'nombre',
+  userApellidosField: 'apellidos',
+  userrolField: 'rol',
+  useremailField: 'email',
   passwordField: 'password',
+  userasignaturasField: 'asignaturas',
+
   passReqToCallback: true
-}, async (req, nombre, apellidos, rol, email, password, asignaturas, done) => {
+  }, async (req, email, password, done) => {
+
 
 
   var user = new User();
@@ -37,7 +43,7 @@ passport.use('local-signup', new LocalStrategy({
 
     await newUser.insert();
     //done(null, null);
-    //done(null, req.user);
+    return done(null, req.user);
   }
 }));
 

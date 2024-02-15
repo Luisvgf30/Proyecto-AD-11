@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const passport = require('passport');
-const Usuario = require('../models/user');
 const user = require('../models/user');
 const Asignatura = require('../models/asignatura');
 const { default: mongoose } = require('mongoose');
@@ -8,6 +7,7 @@ router.get('/', (req, res, next) => {
   res.render('signin');
 });
 
+<<<<<<< HEAD
 router.post('/usuarios/add', passport.authenticate('local-signup', {
   successRedirect: '/usuarios',
   failureRedirect: '/usuarios',
@@ -32,8 +32,27 @@ router.post("/usuarios/add", isAuthenticated, async (req, res, next) => {
   }
   res.redirect("/usuarios");
 });
+=======
+// añadir usuario ****************************************************************
+router.post('/usuarios/add', passport.authenticate('local-signup', {
+  successRedirect: '/usuarios',
+  failureRedirect: '/usuarios/addusuarios',
+  failureFlash: true
+})); 
+>>>>>>> Luis
 
-// Añadir asignatura añadiendosela a los usuarios seleccionados
+router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
+  var usuario = new user();
+  var asignatura = new Asignatura();
+
+  const asignaturas = await asignatura.findAll();
+
+  usuario = await usuario.findById(req.params.id);
+  res.render('addusuarios', { usuario, asignaturas });
+});
+
+
+// Añadir asignatura añadiendosela a los usuarios seleccionados ***********************************************
 router.get('/usuarios', async(req, res, next) => {
   const usuario = new user;
   const usuarios = await usuario.findAll(req.user.id);
@@ -44,25 +63,15 @@ router.get('/usuarios', async(req, res, next) => {
   });
 });
 
-router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
-  var usuario = new user();
-  var asignatura = new Asignatura();
 
-  const usuarios = await usuario.findAll(req.user._id);
-  const asignaturas = await asignatura.findAll();
-
-  usuario = await usuario.findById(req.params.id);
-  res.render('addusuarios', { usuario, asignaturas });
-});
-
+// editar usuarios ****************************************************************************
 router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
   var usuario = new user();
   var asignatura = new Asignatura();
 
-  const usuarios = await usuario.findAll(req.user._id);
   const asignaturas = await asignatura.findAll();
-
   usuario = await usuario.findById(req.params.id);
+
   res.render('editusu', { usuario, asignaturas });
 });
 
@@ -71,22 +80,9 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
     const usuario = new user();
     const { id } = req.params;
 
-    //Obtenemos el usu antiguo y el nuevo para editar la lista asignaturas de sus usuarios.
-    let usuViejo = await usuario.findById(id);
-    await usuario.update({ _id: id }, req.body);
-    let usuNuevo = await usuario.findById(id);
+    req.body.password = usuario.encryptPassword(req.body.password);
 
-    //Borramos las asignaturas de los profesores de la asignatura antigua
-    for (let asignaturaId of usuViejo.asignaturas) {
-      let asignatura = await Asignatura.findById(asignaturaId);
-      await asignatura.deleteUser(usuViejo.id);
-    }
-    //Añadimos las asignaturas de los profesores de la asignatura nueva
-    for (let asignaturaId of usuNuevo.asignaturas) {
-      let asignatura = await Asignatura.findById(asignaturaId);
-      await asignatura.addUsuario(usuNuevo.id);
-    }
-  
+    //Obtenemos el usu antiguo y el nuevo para editar la lista asignaturas de sus usuarios.
     await usuario.update({ _id: id }, req.body);
     res.redirect('/usuarios');
   } catch (error) {
@@ -95,21 +91,10 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
 
 });
 
-
+// borrar usuarios ************************************************************
 router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
   const usuario = new user();
-  const asignatura = new Asignatura();
-
   let { id } = req.params;
-  let thisUsuario = await usuario.findById(id);
-  let asignaturas = await asignatura.findAll();
-
-
-  // borrar usuario dentro del array  de usuarios en la sesión
-   for(let i = 0; i < asignaturas.length; i++) {
-    let asignaturaChange = await asignatura.findById(asignaturas[i]);
-    await asignaturaChange.deleteUser(thisUsuario);
-   }    
 
   await usuario.delete(id);
   res.redirect('/usuarios');

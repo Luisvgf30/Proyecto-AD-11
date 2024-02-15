@@ -7,6 +7,7 @@
           <div class="card-body">
 
             <form action="/asignaturas/edit/<%= asignatura._id %>" method="post">
+            <% if (user.rol=="Administrador" ) { %>
               <div class="form-group">
                 <input class="form-control" type="text" name="nombre" value="<%= asignatura.nombre %>">
               </div>
@@ -19,27 +20,12 @@
               <div class="form-group">
                 <input class="form-control" type="text" name="curso" value="<%= asignatura.curso %>">
               </div>
+            <%}%>
               <div class="form-group">
+                <% if (user.rol=="Profesor" ) { %>
+                <label class="">Software</label>
+                <%}%>
                 <input class="form-control" type="text" name="software" value="<%= asignatura.software %>">
-              </div>
-              <div class="form-group">
-                <label for="profesores"></label>
-                <select name="profesores" id="profesores" class="form-control" multiple>
-                  <% for(var i=0; i < profesores.length; i++) { %>
-                    <option value="<%= profesores[i]._id %>">
-                      <%= profesores[i].nombre %>
-                    </option>
-                    <% } %>
-                </select>
-              </div>
-              <div class="form-group">
-                <select name="alumnos" id="alumnos" class="form-control" multiple>
-                  <% for(var j=0; j < alumnos.length; j++) { %>
-                    <option value="<%= alumnos[j]._id %>">
-                      <%= alumnos[j].nombre %>
-                    </option>
-                    <% } %>
-                </select>
               </div>
               <button class="btn btn-primary" type="submit">
                 Update
