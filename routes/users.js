@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const passport = require('passport');
-const Usuario = require('../models/user');
 const user = require('../models/user');
 const Asignatura = require('../models/asignatura');
 const { default: mongoose } = require('mongoose');
@@ -19,7 +18,6 @@ router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
   var usuario = new user();
   var asignatura = new Asignatura();
 
-  const usuarios = await usuario.findAll(req.user._id);
   const asignaturas = await asignatura.findAll();
 
   usuario = await usuario.findById(req.params.id);
@@ -44,10 +42,9 @@ router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
   var usuario = new user();
   var asignatura = new Asignatura();
 
-  const usuarios = await usuario.findAll(req.user._id);
   const asignaturas = await asignatura.findAll();
-
   usuario = await usuario.findById(req.params.id);
+
   res.render('editusu', { usuario, asignaturas });
 });
 
@@ -56,9 +53,7 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
     const usuario = new user();
     const { id } = req.params;
 
-    req.body.password = Usuario.encryptPassword(req.body.password);
-   
-
+    req.body.password = usuario.encryptPassword(req.body.password);
 
     //Obtenemos el usu antiguo y el nuevo para editar la lista asignaturas de sus usuarios.
     await usuario.update({ _id: id }, req.body);
@@ -69,22 +64,10 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
 
 });
 
-
-
 // borrar usuarios ************************************************************
 router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
   const usuario = new user();
-  const asignatura = new Asignatura();
-
   let { id } = req.params;
-  let thisUsuario = await usuario.findById(id);
-  let asignaturas = await asignatura.findAll();
-
-  // borrar usuario dentro del array  de usuarios en la sesión
-   for(let i = 0; i < asignaturas.length; i++) {
-    let asignaturaChange = await asignatura.findById(asignaturas[i]);
-    await asignaturaChange.deleteUser(thisUsuario);
-   }    
 
   await usuario.delete(id);
   res.redirect('/usuarios');
