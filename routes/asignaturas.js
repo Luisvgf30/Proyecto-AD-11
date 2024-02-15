@@ -18,11 +18,7 @@ router.get("/asignaturas", isAuthenticated, async (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-router.post('/asignaturas/add', isAuthenticated,async (req, res, next) => {
-=======
 router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
->>>>>>> Luis
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
   await asignatura.insert();
@@ -41,11 +37,7 @@ router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next
   });
 });
 
-<<<<<<< HEAD
-router.get('/asignaturas/turn/:id',isAuthenticated, async (req, res, next) => {
-=======
 router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
->>>>>>> Luis
   let { id } = req.params;
   const asignatura = await Asignatura.findById(id);
   asignatura.status = !asignatura.status;

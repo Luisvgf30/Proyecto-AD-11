@@ -7,39 +7,12 @@ router.get('/', (req, res, next) => {
   res.render('signin');
 });
 
-<<<<<<< HEAD
-router.post('/usuarios/add', passport.authenticate('local-signup', {
-  successRedirect: '/usuarios',
-  failureRedirect: '/usuarios',
-  failureFlash: true
-})); 
-
-// Añadir asignatura añadiendosela a los usuarios seleccionados
-router.post("/usuarios/add", isAuthenticated, async (req, res, next) => {
-  const usuario = new Usuario(req.body);
-  usuario.asignatura = req.user._id;
-  await usuario.insert();
-
-  let usuarios = await usuario.findAll();
-  let usuariosLast = usuarios[usuarios.length - 1];
-
-  // Comprueba si asignatura.profesores y asignatura.alumnos son arrays
-  if (Array.isArray(usuariosLast.asignaturas)) {
-    for (let asignaturaId of usuariosLast.asignaturas) {
-      let asignatura = await Asignatura.findById(asignaturaId);
-      await asignatura.addUsuario(usuariosLast.id, usuariosLast.rol);
-    }
-  }
-  res.redirect("/usuarios");
-});
-=======
 // añadir usuario ****************************************************************
 router.post('/usuarios/add', passport.authenticate('local-signup', {
   successRedirect: '/usuarios',
   failureRedirect: '/usuarios/addusuarios',
   failureFlash: true
 })); 
->>>>>>> Luis
 
 router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
   var usuario = new user();
