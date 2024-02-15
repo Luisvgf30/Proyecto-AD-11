@@ -1,47 +1,59 @@
 <% include partials/_header %>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 mx-auto">
-      <div class="card  mt-5">
-        <div class="card-body">
-          <table class="table table-striped table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th class="text-center" colspan="2">Usuario</th>
-              </tr>
-              <tr>
-                <th>ID</th>
-                <td><%= user._id%></td>
-              </tr>
-              <tr>
-                <th>Nombre</th>
-                <td><%= user.nombre.toUpperCase()%></td>
-              </tr>
-              <tr>
-                <th>Apellidos</th>
-                <td><%= user.apellidos.toUpperCase()%></td>
-              </tr>
-              <tr>
-                <th>Email</th>
-                <td><%= user.email%></td>
-              </tr>
-              <tr>
-                <th>Asignaturas</th>
-                <td>
-                  <% for(var i=0; i < user.asignaturas.length; i++) { %>
-                    <span>
-                      <%= user.asignaturas[i].nombre.toUpperCase() %>
-                    </span>
-                  <% } %>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card  mt-5">
+          <div class="card-body">
+            <table class="table table-striped table-bordered table-hover">
+              <tbody>
+                <tr>
+                  <th class="text-center" colspan="2">Usuario</th>
+                </tr>
+                <tr>
+                  <th>ID</th>
+                  <td>
+                    <%= user.id%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Nombre</th>
+                  <td>
+                    <%= user.nombre.toUpperCase()%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Apellidos</th>
+                  <td>
+                    <%= user.apellidos.toUpperCase()%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>
+                    <%= user.email%>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Asignaturas</th>
+                  <td>
+                    <% for(var j=0; j < asignaturas.length; j++) { %>
+                        <% for(var k=0; k < user.asignaturas.length; k++) { %>
+                          <% if(asignaturas[j]._id.toString()===user.asignaturas[k].toString()){%>
+                            <span>
+                              <%=asignaturas[j].nombre %>
+                            </span>
+                            <% } %>
+                              <% } %>
+                                  <% } %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<% include partials/_footer %>
+  <% include partials/_footer %>

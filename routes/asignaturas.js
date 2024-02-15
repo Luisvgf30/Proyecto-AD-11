@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 router.get("/asignaturas", isAuthenticated, async (req, res) => {
   const asignatura = new Asignatura();
   const usuario = new Usuario();
+  let { id } = req.params;
+  const miusuario = await usuario.findById(id);
   const asignaturas = await asignatura.findAll();
   const alumnos = await usuario.findRol("Alumno");
   const profesores = await usuario.findRol("Profesor");
@@ -15,6 +17,7 @@ router.get("/asignaturas", isAuthenticated, async (req, res) => {
     asignaturas: asignaturas,
     alumnos: alumnos,
     profesores: profesores,
+    miusuario: miusuario
   });
 });
 
