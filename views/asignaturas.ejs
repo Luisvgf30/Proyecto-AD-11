@@ -13,10 +13,10 @@
               <th>Plan de estudios</th>
               <th>Cuatrimestre</th>
               <th>Curso</th>
-              <th>Software</th>
               <th>Resposable</th>
-              <% } %>
               <th>Alumnos</th>
+              <% } %>
+              <th>Software</th>
                 <% if (user.rol=="Administrador" ) { %>
                   <th class=""><span class="ml-2"><a href="/asignaturas/addasignaturas" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -50,9 +50,6 @@
                 <td class="text-center">
                   <%= asignaturas[i].curso %>
                 </td>
-                <td class="text-center">
-                  <%= asignaturas[i].software %>
-                </td>
                 <td class="text-center scroll-container">
                   <% for(var j=0; j < profesores.length; j++) { %>
                     <% for(var k=0; k < profesores[j].asignaturas.length; k++) { %>
@@ -75,7 +72,9 @@
                           <% } %>
                             <% } %>
                 </td>
-
+                <td class="text-center">
+                  <%= asignaturas[i].software %>
+                </td>
                 <td class="text-center">
                   <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-success">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
