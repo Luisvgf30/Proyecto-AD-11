@@ -52,7 +52,6 @@ router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
 router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   var asignatura = new Asignatura();
   const usuario = new Usuario();
-  const asignaturas = await asignatura.findAll(req.user._id);
 
   const alumnos = await usuario.findRol("Alumno");
   const profesores = await usuario.findRol("Profesor");
@@ -101,6 +100,7 @@ router.post("/asignaturas/add", isAuthenticated, async (req, res, next) => {
 router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const updatedAsignaturaData = req.body;
+  let usu = req.user;
 
   try {
 
@@ -108,18 +108,18 @@ router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => 
     let asignatura = await Asignatura.findById(id);
 
     // Actualiza los datos de la asignatura
-    asignatura.nombre = updatedAsignaturaData.nombre;
-    asignatura.planEstudios = updatedAsignaturaData.planEstudios;
-    asignatura.cuatrimestre = updatedAsignaturaData.cuatrimestre;
-    asignatura.curso = updatedAsignaturaData.curso;
-    asignatura.software = updatedAsignaturaData.software;
-
-
+    if(usu.rol == "Administrador"){
+      asignatura.nombre = updatedAsignaturaData.nombre;
+      asignatura.planEstudios = updatedAsignaturaData.planEstudios;
+      asignatura.cuatrimestre = updatedAsignaturaData.cuatrimestre;
+      asignatura.curso = updatedAsignaturaData.curso;
+      asignatura.software = updatedAsignaturaData.software;
+    }else{
+      asignatura.software = updatedAsignaturaData.software;
+    }
+    
     // Guarda la asignatura actualizada
     await asignatura.save();
-
-
-
     res.redirect("/asignaturas");
   } catch (error) {
     // Manejo de errores
