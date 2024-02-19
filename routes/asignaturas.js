@@ -79,6 +79,34 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   res.render("edit", { asignatura, profesores, alumnos });
 });
 
+router.get('/asignaturas/miasignatura/:id', isAuthenticated, async (req, res, next) => {
+  const asignatura = new Asignatura();
+  const miasignatura = await asignatura.findById(req.params.id);
+
+  res.render("miasignatura", {
+    miasignatura: miasignatura
+  });
+});
+
+router.post("/asignaturas/miasignatura/:id", isAuthenticated, async (req, res, next) => {
+  const updatedAsignaturaData = req.body;
+  try {
+    // Encuentra la asignatura por id
+    let asignatura = await Asignatura.findById(req.params.id);
+      asignatura.software = updatedAsignaturaData.software;
+
+    // Guarda la asignatura actualizada
+    await asignatura.save();
+    res.render("miasignatura", {
+      miasignatura: asignatura
+    });
+  } catch (error) {
+    // Manejo de errores
+    console.error("Error al editar asignatura:", error);
+    res.status(500).send("Error al editar asignatura");
+  }
+});
+
 
 
 //borrar asignatura borrando todas las asignaturas de la lista de los usuarios
