@@ -8,17 +8,16 @@
             <table class="table table-striped mt-3">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th class="text-center"><strong>
+                        <th class="text-center" colspan="2"><strong>
                                 <%= miasignatura.nombre %>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-
                     <tr>
                         <th class="text-center">Software</th>
-                        <th class=""><span class="ml-2"><a href="/asignaturas/" class="btn btn-primary">
+                        <% if(user.rol!="Alumno" ){%>
+                        <th class=""><span class="ml-2"><a href="/asignaturas/addsoftware/<%= miasignatura._id %>" class="btn btn-primary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-plus-square" viewBox="0 0 16 16">
                                         <path
@@ -27,17 +26,16 @@
                                             d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                                     </svg>
                                 </a></span></th>
+                                <%}%>
                     </tr>
-
+                    <% for(var i=0; i < miasignatura.software.length; i++) { %>
                     <tr>
                         <td class="text-center">
-                            <% for(var i=0; i < miasignatura.software.length; i++) { %>
-                                <%= miasignatura.software[i] %>
-                                    
+                           <a href="<%= miasignatura.software[i] %>"><%= miasignatura.software[i] %></a>
                         </td>
-                        <% if(user.rol=="Profesor" ){%>
+                        <% if(user.rol!="Alumno" ){%>
                             <td class="text-center">
-                                <a href="/asignaturas/edit/<%= miasignatura._id %>" class="btn btn-success">
+                                <a href="/asignaturas/miasignatura/<%= miasignatura._id %>/<%= i %>" class="btn btn-success">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-pencil-square" viewBox="0 0 16 16">
                                         <path
@@ -55,9 +53,8 @@
                                 </a>
                             </td>
                             <% } %>
-                            <%}%>
                     </tr>
-
+                    <%}%>
                 </tbody>
             </table>
         </div>

@@ -1,12 +1,11 @@
 <% include partials/_header %>
 <div class="container centrado_total">
-  <div class="row mar_carta">
     <!--FORM-->
     <div class="col-md-12">
       <div class="card">
         <div class="card-body">
           <form
-            action="/asignaturas/addsoftware/<%= asignatura.id %>"
+            action="/asignaturas/miasignatura/<%= asignatura.id %>/<%= index %>"
             method="post"
           >
             <div class="form-group">
@@ -18,11 +17,10 @@
                 placeholder="Introduce URL"
               />
             </div>
-            <button class="btn btn-primary" type="submit">add</button>
+            <button class="btn btn-primary" type="submit">edit</button>
           </form>
         </div>
       </div>
     </div>
-  </div>
 </div>
 <% include partials/_footer %>

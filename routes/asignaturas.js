@@ -81,21 +81,31 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   res.render("edit", { asignatura, profesores, alumnos });
 });
 
-router.get('/asignaturas/miasignatura/:id', isAuthenticated, async (req, res, next) => {
+
+//editar software
+router.get('/asignaturas/miasignatura/:id/:index', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
   const miasignatura = await asignatura.findById(req.params.id);
+  let { id } = req.params;
+  const { index } = req.params;
 
-  res.render("miasignatura", {
-    miasignatura: miasignatura
+  res.render("editsoftware", {
+    asignatura: miasignatura,
+    index: index
   });
+
+  //res.redirect("/asignaturas/miasignatura/"+id+"/"+index);
 });
 
-router.post("/asignaturas/miasignatura/:id", isAuthenticated, async (req, res, next) => {
-  const updatedAsignaturaData = req.body;
+router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req, res, next) => {
+  const software =  req.body.software;
+  let { id } = req.params;
+  const { index } = req.params;
   try {
     // Encuentra la asignatura por id
     let asignatura = await Asignatura.findById(req.params.id);
-      asignatura.software = updatedAsignaturaData.software;
+      asignatura.software[index] =  software;
+      
 
     // Guarda la asignatura actualizada
     await asignatura.save();
@@ -208,12 +218,34 @@ router.get(
   }
 );
 
-router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
-  const asignatura = new Asignatura(req.body);
-  asignatura.usuario = req.user._id;
-  await asignatura.software.insert();
-  res.redirect('/asignaturas');
+router.get('/asignaturas/addsoftware/:id', isAuthenticated, async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    const asignatura = await Asignatura.findById(id);
+
+    res.render("addsoftware", {
+      asignatura,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
+
+
+router.post("/asignaturas/addsoftware/:id", isAuthenticated, async (req, res, next) => {
+  const software =  req.body.software;
+  const { id } = req.params;
+  const asignatura = await Asignatura.findById(id);
+
+  asignatura.software.push(software);
+
+  await asignatura.update(id, asignatura);
+
+
+  res.redirect("/asignaturas/"+id);
+});
+
+
 
 
 function isAuthenticated(req, res, next) {
