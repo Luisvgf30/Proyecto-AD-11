@@ -21,6 +21,25 @@ router.get("/asignaturas", isAuthenticated, async (req, res) => {
   });
 });
 
+router.get("/asignaturas/aula", isAuthenticated, async (req, res) => {
+  const asignatura = new Asignatura();
+  const asignaturas = await asignatura.findAll();
+
+  res.render('aulavirtual', {
+    asignaturas: asignaturas,
+  });
+});
+
+router.get('/asignaturas/:id', isAuthenticated, async (req, res, next) => {
+  const asignatura = new Asignatura();
+  const miasignatura = await asignatura.findById(req.params.id);
+  console.log(req.params.id);
+
+  res.render("miasignatura", {
+    miasignatura: miasignatura
+  });
+});
+
 router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;

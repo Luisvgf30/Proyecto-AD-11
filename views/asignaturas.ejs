@@ -73,7 +73,7 @@
                             <% } %>
                 </td>
                 <td class="text-center">
-                  <%= asignaturas[i].software %>
+                  <a href="<%= asignaturas[i].software %>"><%= asignaturas[i].software %></a>
                 </td>
                 <td class="text-center">
                   <a href="/asignaturas/edit/<%= asignaturas[i]._id %>" class="btn btn-success">
@@ -97,7 +97,7 @@
               </tr>
               <% } else{%>
                   <% for(var j=0; j < user.asignaturas.length; j++) { %>
-                    <% if(user.asignaturas[j].toString()===asignaturas[i]._id.toString()){%>
+                    <% if(user.asignaturas[j].toString()===miasignatura._id.toString()){%>
                       <tr>
                         <td class="text-center"><strong>
                             <%= asignaturas[i].nombre %>
