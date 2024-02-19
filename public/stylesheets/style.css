@@ -5,15 +5,10 @@ h1 .error{
 
 
 body{
-  background-image: url('../img/azu.avif'); /* Reemplaza 'ruta/a/la/imagen.jpg' con la ruta de tu imagen */
-  background-size: cover; /* Para cubrir todo el cuerpo */
-  background-position: center; /* Para centrar la imagen */
-  background-attachment: fixed; /* Para que la imagen permanezca fija */
-  /* Opcional: puedes agregar más propiedades CSS para personalizar */
-  /* Ejemplo: */
-  /* background-repeat: no-repeat; */
-  /* background-attachment: fixed; */
-  /* color: white; */
+  background-image: url('../img/azu.avif'); 
+  background-size: cover; 
+  background-position: center; 
+  background-attachment: fixed;
   font-size: 18px;
 }
 

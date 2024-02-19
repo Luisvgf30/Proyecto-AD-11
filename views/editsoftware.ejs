@@ -1,5 +1,6 @@
 <% include partials/_header %>
 <div class="container centrado_total">
+  <div class="row mar_carta">
     <!--FORM-->
     <div class="col-md-12">
       <div class="card">
@@ -14,13 +15,14 @@
                 class="form-control"
                 type="url"
                 name="software"
-                placeholder="Introduce URL"
+                value="<%= asignatura.software[index]%>"
               />
             </div>
-            <button class="btn btn-primary" type="submit">edit</button>
+            <button class="btn btn-primary" type="submit">add</button>
           </form>
         </div>
       </div>
     </div>
+  </div>
 </div>
 <% include partials/_footer %>
