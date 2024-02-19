@@ -30,6 +30,8 @@ router.get("/asignaturas/aula", isAuthenticated, async (req, res) => {
   });
 });
 
+
+
 router.get('/asignaturas/:id', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
   const miasignatura = await asignatura.findById(req.params.id);
@@ -183,6 +185,36 @@ router.get("/asignaturas/search", isAuthenticated, async (req, res, next) => {
     asignaturas,
   });
 });
+
+
+router.get(
+  "/asignaturas/softwaredelete/:id/:index",
+  isAuthenticated,
+  async (req, res, next) => {
+    let { id } = req.params;
+    const { index } = req.params;
+    const asignatura = await Asignatura.findById(id);
+
+    for (let i = 0; i < asignatura.software.length; i++) {
+      if(index==i){
+        asignatura.software.splice(i, 1);
+    }
+  }
+    // Elimina la asignatura
+    await asignatura.update(id, asignatura);
+
+    res.redirect("/asignaturas/"+id);
+
+  }
+);
+
+router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
+  const asignatura = new Asignatura(req.body);
+  asignatura.usuario = req.user._id;
+  await asignatura.software.insert();
+  res.redirect('/asignaturas');
+});
+
 
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
