@@ -1,0 +1,32 @@
+<% include partials/_header %>
+
+  <div class="container mx-auto">
+    <div class="row mx-auto">
+      <!-- LIST -->
+      <div class="col-md-12"></div>
+      <!--<table class="table fondo_blanco mt-5 pt-5">-->
+      <table class="table table-striped mt-3">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i < asignaturas.length; i++) { %>
+            <% for(var j=0; j < user.asignaturas.length; j++) { %>
+                <% if(user.asignaturas[j].toString()===asignaturas[i]._id.toString()){%>
+                    <tr>
+                        <td class="text-center"><strong>
+                            <a href="/asignaturas/<%= asignaturas[i]._id %>"><%= asignaturas[i].nombre %></a>
+                        </td>
+                    </tr>
+                <%}%>
+            <%}%>
+        <%}%>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <% include partials/_footer %>
