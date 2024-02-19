@@ -12,17 +12,27 @@
           </tr>
         </thead>
         <tbody>
-          <% for(var i=0; i < asignaturas.length; i++) { %>
-            <% for(var j=0; j < user.asignaturas.length; j++) { %>
-                <% if(user.asignaturas[j].toString()===asignaturas[i]._id.toString()){%>
-                    <tr>
-                        <td class="text-center"><strong>
-                            <a href="/asignaturas/<%= asignaturas[i]._id %>"><%= asignaturas[i].nombre %></a>
-                        </td>
-                    </tr>
-                <%}%>
+          <% if (user.rol != "Administrador" ) { %>
+            <% for(var i=0; i < asignaturas.length; i++) { %>
+              <% for(var j=0; j < user.asignaturas.length; j++) { %>
+                  <% if(user.asignaturas[j].toString()===asignaturas[i]._id.toString()){%>
+                      <tr>
+                          <td class="text-center"><strong>
+                              <a href="/asignaturas/<%= asignaturas[i]._id %>"><%= asignaturas[i].nombre %></a>
+                          </td>
+                      </tr>
+                  <%}%>
+              <%}%>
             <%}%>
-        <%}%>
+          <%}else{%>
+            <% for(var i=0; i < asignaturas.length; i++) { %>
+                  <tr>
+                      <td class="text-center"><strong>
+                          <a href="/asignaturas/<%= asignaturas[i]._id %>"><%= asignaturas[i].nombre %></a>
+                      </td>
+                  </tr>
+              <%}%>
+          <%}%>
         </tbody>
       </table>
       </div>
