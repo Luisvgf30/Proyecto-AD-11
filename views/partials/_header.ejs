@@ -24,14 +24,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <% if (user) { %>
           <ul class="navbar-nav mr-auto">
+            <% if (user.rol=="Administrador" ) { %>
             <li class="nav-item">
               <a class="nav-link" href="/asignaturas">Asignaturas<span class="sr-only">(current)</span></a>
             </li>
-            <% if (user.rol=="Administrador" ) { %>
               <li class="nav-item">
                 <a class="nav-link" href="/usuarios">Usuarios</a>
               </li>
               <% } %>
+              <li class="nav-item">
+                <a class="nav-link" href="/asignaturas/aula">Aulavirtual</a>
+              </li>
           </ul>
           <% } %>
         

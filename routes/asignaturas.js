@@ -35,7 +35,7 @@ router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next
   const alumnos = await usuario.findRol("Alumno");
   const profesores = await usuario.findRol("Profesor");
 
-  res.render('addasignaturas', {
+  res.render('adds/addasignaturas', {
     asignaturas: asignaturas, alumnos: alumnos, profesores: profesores
   });
 });
@@ -57,7 +57,7 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   const profesores = await usuario.findRol("Profesor");
 
   asignatura = await asignatura.findById(req.params.id);
-  res.render("edit", { asignatura, profesores, alumnos });
+  res.render("edits/edit", { asignatura, profesores, alumnos });
 });
 
 
