@@ -30,12 +30,9 @@ router.get("/asignaturas/aula", isAuthenticated, async (req, res) => {
   });
 });
 
-
-
-router.get('/asignaturas/:id', isAuthenticated, async (req, res, next) => {
+router.get('/asignaturas/aula/:id', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
   const miasignatura = await asignatura.findById(req.params.id);
-  console.log(req.params.id);
 
   res.render("miasignatura", {
     miasignatura: miasignatura
@@ -51,14 +48,14 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
 });
 
 
-// router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
-//   const asignatura = new Asignatura();
-//   const asignaturas = await asignatura.findAll();
+router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
+  const asignatura = new Asignatura();
+  const asignaturas = await asignatura.findAll();
 
-//   // res.render('adds/addasignaturas', {
-//   //   asignaturas: asignaturas
-//   // });
-// });
+  res.render('adds/addasignaturas', {
+    asignaturas: asignaturas
+  });
+});
 
 router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
   let { id } = req.params;
@@ -92,8 +89,6 @@ router.get('/asignaturas/miasignatura/:id/:index', isAuthenticated, async (req, 
     asignatura: miasignatura,
     index: index
   });
-
-  //res.redirect("/asignaturas/miasignatura/"+id+"/"+index);
 });
 
 router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req, res, next) => {
@@ -202,7 +197,7 @@ router.get(
     // Elimina la asignatura
     await asignatura.update(id, asignatura);
 
-    res.redirect("/asignaturas/"+id);
+    res.redirect("/asignaturas/aula/"+id);
 
   }
 );
@@ -231,7 +226,7 @@ router.post("/asignaturas/addsoftware/:id", isAuthenticated, async (req, res, ne
   await asignatura.update(id, asignatura);
 
 
-  res.redirect("/asignaturas/"+id);
+  res.redirect("/asignaturas/aula/"+id);
 });
 
 
