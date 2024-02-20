@@ -81,8 +81,7 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
 //editar software
 router.get('/asignaturas/miasignatura/:id/:index', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
-  const miasignatura = await asignatura.findById(req.params.id);
-  let { id } = req.params;
+  const miasignatura = await asignatura.findById(req.params.id);  
   const { index } = req.params;
 
   res.render("edits/editsoftware", {
@@ -103,9 +102,7 @@ router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req,
 
     // Guarda la asignatura actualizada
     await asignatura.save();
-    res.render("miasignatura", {
-      miasignatura: asignatura
-    });
+    res.redirect("/asignaturas/aula/"+id);
   } catch (error) {
     // Manejo de errores
     console.error("Error al editar asignatura:", error);
@@ -151,15 +148,10 @@ router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => 
     let asignatura = await Asignatura.findById(id);
 
     // Actualiza los datos de la asignatura
-    if(usu.rol == "Administrador"){
       asignatura.nombre = updatedAsignaturaData.nombre;
       asignatura.planEstudios = updatedAsignaturaData.planEstudios;
       asignatura.cuatrimestre = updatedAsignaturaData.cuatrimestre;
       asignatura.curso = updatedAsignaturaData.curso;
-      asignatura.software = updatedAsignaturaData.software;
-    }else{
-      asignatura.software = updatedAsignaturaData.software;
-    }
     
     // Guarda la asignatura actualizada
     await asignatura.save();

@@ -6,7 +6,7 @@
       <div class="card">
         <div class="card-body">
           <form
-            action=""
+            action="/asignaturas/miasignatura/<%= asignatura.id %>/<%= index %>"
             method="post"
           >
             <div class="form-group">
@@ -15,7 +15,7 @@
                 class="form-control"
                 type="url"
                 name="software"
-                placeholder="Introduce URL"
+                value="<%= asignatura.software[index]%>"
               />
             </div>
             <button class="btn btn-primary" type="submit">add</button>
