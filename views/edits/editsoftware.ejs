@@ -1,28 +1,85 @@
-<% include ../partials/_header %>
-<div class="container centrado_total">
-  <div class="row mar_carta">
-    <!--FORM-->
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <form
-            action="/asignaturas/miasignatura/<%= asignatura.id %>/<%= index %>"
-            method="post"
-          >
-            <div class="form-group">
-              <label class="">Software</label>
-              <input
-                class="form-control"
-                type="url"
-                name="software"
-                value="<%= asignatura.software[index]%>"
-              />
-            </div>
-            <button class="btn btn-primary" type="submit">add</button>
-          </form>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Sesión y CRUD con Nodejs y MongoDb</title>
+  <!-- BOOTSTRAP CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../public/stylesheets/style.css" />
+</head>
+
+<body style="background-color: rgb(16, 168, 169);">
+  <!--Navbar-->
+  <div class="menu-principal text-center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 pl-5 pr-5">
+      <a class="navbar-brand" href="/">Sesión y CRUD Nodejs Y Mongodb</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <% if (user) { %>
+          <ul class="navbar-nav mr-auto">
+            <% if (user.rol=="Administrador" ) { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/asignaturas">Asignaturas<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/usuarios">Usuarios</a>
+              </li>
+              <% } %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/asignaturas/aula">Aulavirtual</a>
+                </li>
+          </ul>
+          <% } %>
+
+            <ul class="navbar-nav dropdown-menu-right">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <%= user.email %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+                  <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                </ul>
+              </li>
+            </ul>
+
+            <% if (user) { %>
+              <!--<form action="/asignaturas/search" class="form-inline my-2 my-lg-0 text-center"  method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+      <button class="btn btn-outline-light my-2 my-sm-0 mx-auto " type="submit">Buscar</button>
+    </form>-->
+              <% } %>
+      </div>
+    </nav>
+  </div>
+  <div class="container centrado_total" style="
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);">
+    <div class="row mar_carta">
+      <!--FORM-->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <form action="/asignaturas/miasignatura/<%= asignatura.id %>/<%= index %>" method="post">
+              <div class="form-group">
+                <label class="">Software</label>
+                <input class="form-control" type="url" name="software" value="<%= asignatura.software[index]%>" />
+              </div>
+              <button class="btn btn-primary" type="submit">add</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<% include ../partials/_footer %>
+  <% include ../partials/_footer %>
