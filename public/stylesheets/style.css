@@ -12,6 +12,10 @@ body{
   font-size: 18px;
 }
 
+.hola{
+  background-color: #5499c7;
+}
+
 p .msing{
   color:red;
 }

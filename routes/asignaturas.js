@@ -42,6 +42,7 @@ router.get('/asignaturas/:id', isAuthenticated, async (req, res, next) => {
   });
 });
 
+// Añadir asignatura añadiendosela a los usuarios seleccionados
 router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
@@ -49,17 +50,15 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   res.redirect('/asignaturas');
 });
 
-router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
-  const asignatura = new Asignatura();
-  const usuario = new Usuario();
-  const asignaturas = await asignatura.findAll();
-  const alumnos = await usuario.findRol("Alumno");
-  const profesores = await usuario.findRol("Profesor");
 
-  res.render('addasignaturas', {
-    asignaturas: asignaturas, alumnos: alumnos, profesores: profesores
-  });
-});
+// router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
+//   const asignatura = new Asignatura();
+//   const asignaturas = await asignatura.findAll();
+
+//   // res.render('adds/addasignaturas', {
+//   //   asignaturas: asignaturas
+//   // });
+// });
 
 router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
   let { id } = req.params;
@@ -78,7 +77,7 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   const profesores = await usuario.findRol("Profesor");
 
   asignatura = await asignatura.findById(req.params.id);
-  res.render("edit", { asignatura, profesores, alumnos });
+  res.render("edits/edit", { asignatura, profesores, alumnos });
 });
 
 
@@ -89,7 +88,7 @@ router.get('/asignaturas/miasignatura/:id/:index', isAuthenticated, async (req, 
   let { id } = req.params;
   const { index } = req.params;
 
-  res.render("editsoftware", {
+  res.render("edits/editsoftware", {
     asignatura: miasignatura,
     index: index
   });
@@ -144,16 +143,6 @@ router.get(
     res.redirect("/asignaturas");
   }
 );
-
-
-// Añadir asignatura añadiendosela a los usuarios seleccionados
-router.post("/asignaturas/add", isAuthenticated, async (req, res, next) => {
-  const asignatura = new Asignatura(req.body);
-  asignatura.usuario = req.user._id;
-  await asignatura.insert();
-
-  res.redirect("/asignaturas");
-});
 
 // Editar asignatura y actualizar relaciones con usuarios
 router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => {
@@ -223,7 +212,7 @@ router.get('/asignaturas/addsoftware/:id', isAuthenticated, async (req, res, nex
     let { id } = req.params;
     const asignatura = await Asignatura.findById(id);
 
-    res.render("addsoftware", {
+    res.render("adds/addsoftware", {
       asignatura,
     });
   } catch (error) {

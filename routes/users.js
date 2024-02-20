@@ -21,7 +21,7 @@ router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
   const asignaturas = await asignatura.findAll();
 
   usuario = await usuario.findById(req.params.id);
-  res.render('addusuarios', { usuario, asignaturas });
+  res.render('adds/addusuarios', { usuario, asignaturas });
 });
 
 
@@ -45,7 +45,7 @@ router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
   const asignaturas = await asignatura.findAll();
   usuario = await usuario.findById(req.params.id);
 
-  res.render('editusu', { usuario, asignaturas });
+  res.render('edits/editusu', { usuario, asignaturas });
 });
 
 router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {

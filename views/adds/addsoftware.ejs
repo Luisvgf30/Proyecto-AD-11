@@ -1,4 +1,4 @@
-<% include partials/_header %>
+<% include ../partials/_header %>
 <div class="container centrado_total">
   <div class="row mar_carta">
     <!--FORM-->
@@ -6,7 +6,7 @@
       <div class="card">
         <div class="card-body">
           <form
-            action="/asignaturas/miasignatura/<%= asignatura.id %>/<%= index %>"
+            action="/asignaturas/addsoftware/<%= asignatura.id %>"
             method="post"
           >
             <div class="form-group">
@@ -15,7 +15,7 @@
                 class="form-control"
                 type="url"
                 name="software"
-                value="<%= asignatura.software[index]%>"
+                placeholder="Introduce URL"
               />
             </div>
             <button class="btn btn-primary" type="submit">add</button>
@@ -25,4 +25,4 @@
     </div>
   </div>
 </div>
-<% include partials/_footer %>
+<% include ../partials/_footer %>
