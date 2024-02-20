@@ -13,7 +13,7 @@ router.get("/asignaturas", isAuthenticated, async (req, res) => {
   const alumnos = await usuario.findRol("Alumno");
   const profesores = await usuario.findRol("Profesor");
 
-  res.render("asignaturas", {
+  res.render("elements/asignaturas", {
     asignaturas: asignaturas,
     alumnos: alumnos,
     profesores: profesores,
@@ -25,7 +25,7 @@ router.get("/asignaturas/aula", isAuthenticated, async (req, res) => {
   const asignatura = new Asignatura();
   const asignaturas = await asignatura.findAll();
 
-  res.render('aulavirtual', {
+  res.render('elements/aulavirtual', {
     asignaturas: asignaturas,
   });
 });
@@ -34,7 +34,7 @@ router.get('/asignaturas/aula/:id', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura();
   const miasignatura = await asignatura.findById(req.params.id);
 
-  res.render("miasignatura", {
+  res.render("elements/miasignatura", {
     miasignatura: miasignatura
   });
 });
@@ -44,7 +44,7 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
   await asignatura.insert();
-  res.redirect('/asignaturas');
+  res.redirect('elements/asignaturas');
 });
 
 
@@ -62,7 +62,7 @@ router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
   const asignatura = await Asignatura.findById(id);
   asignatura.status = !asignatura.status;
   await asignatura.insert();
-  res.redirect("/asignaturas");
+  res.redirect("elements/asignaturas");
 });
 
 // Render Editar asignatura
@@ -102,7 +102,7 @@ router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req,
 
     // Guarda la asignatura actualizada
     await asignatura.save();
-    res.redirect("/asignaturas/aula/"+id);
+    res.redirect("elements/asignaturas/aula/"+id);
   } catch (error) {
     // Manejo de errores
     console.error("Error al editar asignatura:", error);
