@@ -86,32 +86,34 @@ router.post("/miasignatura/editsoftware/:id/:index", isAuthenticated, async (req
 //Añadir software
 router.get('/miasignatura/addsoftware/:id', isAuthenticated, async (req, res, next) => {
     if (req.user.rol != "Alumno") {
-    try {
-      let { id } = req.params;
-      const asignatura = await Asignatura.findById(id);
-  
-      res.render("adds/addsoftware", {
-        asignatura,
-      });
-    } catch (error) {
-      next(error);
+        try {
+            let { id } = req.params;
+            const asignatura = await Asignatura.findById(id);
+
+            res.render("adds/addsoftware", {
+                asignatura,
+            });
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        return res.redirect("/profile");
     }
-  } else {
-    return res.redirect("/profile");
-  }
-  });
+});
 
 router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, next) => {
-    const software =  req.body.software;
+    const software = req.body.software;
     const { id } = req.params;
     const asignatura = await Asignatura.findById(id);
-  
+
     asignatura.software.push(software);
-  
+
     await asignatura.update(id, asignatura);
-  
-  
-    res.redirect("/miasignatura/"+id);
+    res.redirect("/miasignatura/" + id);
+});
+
+router.get('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
+    
 });
 
 function isAuthenticated(req, res, next) {
