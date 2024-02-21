@@ -25,32 +25,33 @@
         <% if (user) { %>
           <ul class="navbar-nav mr-auto">
             <% if (user.rol=="Administrador" ) { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/asignaturas">Asignaturas<span class="sr-only">(current)</span></a>
-            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/asignaturas">Asignaturas<span class="sr-only">(current)</span></a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="/usuarios">Usuarios</a>
               </li>
               <% } %>
-              <li class="nav-item">
-                <a class="nav-link" href="/asignaturas/aula">Aulavirtual</a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/asignaturas/aula">Aulavirtual</a>
+                </li>
           </ul>
           <% } %>
-        
-          <ul class="navbar-nav dropdown-menu-right">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <%= user.email %>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item" href="/profile">Perfil</a></li>
-                <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
-              </ul>
-            </li>
-          </ul>
-
+            <ul class="navbar-nav dropdown-menu-right">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <%= user.email %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+                  <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+                  <% if (user && (user.rol==="Alumno" || user.rol==="Profesor" )) { %>
+                    <li class="dropdown-item"><a href="">Sugerencias</a></li>
+                    <% } %>
+                </ul>
+              </li>
+            </ul>
             <% if (user) { %>
               <!--<form action="/asignaturas/search" class="form-inline my-2 my-lg-0 text-center"  method="get">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
