@@ -3,23 +3,29 @@ const router = express.Router();
 const Asignatura = require("../models/asignatura");
 const Usuario = require("../models/user");
 const mongoose = require("mongoose");
+const user = require("../models/user");
 
 router.get("/asignaturas", isAuthenticated, async (req, res) => {
-  const asignatura = new Asignatura();
-  const usuario = new Usuario();
-  let { id } = req.params;
-  const miusuario = await usuario.findById(id);
-  const asignaturas = await asignatura.findAll();
-  const alumnos = await usuario.findRol("Alumno");
-  const profesores = await usuario.findRol("Profesor");
-
-  res.render("elements/asignaturas", {
-    asignaturas: asignaturas,
-    alumnos: alumnos,
-    profesores: profesores,
-    miusuario: miusuario
-  });
+  if (req.user.rol == "Administrador") {
+    const asignatura = new Asignatura();
+    const usuario = new Usuario();
+    let { id } = req.params;
+    const miusuario = await usuario.findById(id);
+    const asignaturas = await asignatura.findAll();
+    const alumnos = await usuario.findRol("Alumno");
+    const profesores = await usuario.findRol("Profesor");
+    res.render("elements/asignaturas", {
+      asignaturas: asignaturas,
+      alumnos: alumnos,
+      profesores: profesores,
+      miusuario: miusuario
+    });
+  } else {
+    return res.redirect("profile");
+  }
 });
+
+
 
 router.get("/asignaturas/aula", isAuthenticated, async (req, res) => {
   const asignatura = new Asignatura();
@@ -44,17 +50,21 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
   await asignatura.insert();
-  res.redirect('elements/asignaturas');
+  res.redirect('/asignaturas');
 });
 
 
 router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
+  if (req.user.rol == "Administrador") {
   const asignatura = new Asignatura();
   const asignaturas = await asignatura.findAll();
 
   res.render('adds/addasignaturas', {
     asignaturas: asignaturas
   });
+} else {
+  return res.redirect("/profile");
+}
 });
 
 router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
@@ -62,11 +72,12 @@ router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
   const asignatura = await Asignatura.findById(id);
   asignatura.status = !asignatura.status;
   await asignatura.insert();
-  res.redirect("elements/asignaturas");
+  res.redirect("/asignaturas");
 });
 
 // Render Editar asignatura
 router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
+  if (req.user.rol == "Administrador") {
   var asignatura = new Asignatura();
   const usuario = new Usuario();
 
@@ -75,19 +86,26 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
 
   asignatura = await asignatura.findById(req.params.id);
   res.render("edits/edit", { asignatura, profesores, alumnos });
+} else {
+  return res.redirect("/profile");
+}
 });
 
 
 //editar software
 router.get('/asignaturas/miasignatura/:id/:index', isAuthenticated, async (req, res, next) => {
+  if(req.user.rol != "Alumno"){
   const asignatura = new Asignatura();
-  const miasignatura = await asignatura.findById(req.params.id);  
+  const miasignatura = await asignatura.findById(req.params.id);
   const { index } = req.params;
 
   res.render("edits/editsoftware", {
     asignatura: miasignatura,
     index: index
   });
+} else {
+  return res.redirect("/profile");
+}
 });
 
 router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req, res, next) => {
@@ -177,6 +195,7 @@ router.get(
   "/asignaturas/softwaredelete/:id/:index",
   isAuthenticated,
   async (req, res, next) => {
+    if(req.user.rol != "Alumno"){
     let { id } = req.params;
     const { index } = req.params;
     const asignatura = await Asignatura.findById(id);
@@ -190,11 +209,14 @@ router.get(
     await asignatura.update(id, asignatura);
 
     res.redirect("/asignaturas/aula/"+id);
-
+  } else {
+    return res.redirect("/profile");
+  }
   }
 );
 
 router.get('/asignaturas/addsoftware/:id', isAuthenticated, async (req, res, next) => {
+  if (req.user.rol != "Alumno") {
   try {
     let { id } = req.params;
     const asignatura = await Asignatura.findById(id);
@@ -205,6 +227,9 @@ router.get('/asignaturas/addsoftware/:id', isAuthenticated, async (req, res, nex
   } catch (error) {
     next(error);
   }
+} else {
+  return res.redirect("/profile");
+}
 });
 
 
@@ -220,9 +245,6 @@ router.post("/asignaturas/addsoftware/:id", isAuthenticated, async (req, res, ne
 
   res.redirect("/asignaturas/aula/"+id);
 });
-
-
-
 
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

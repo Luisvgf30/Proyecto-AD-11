@@ -15,6 +15,7 @@ router.post('/usuarios/add', passport.authenticate('local-signup', {
 })); 
 
 router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
+  if (req.user.rol == "Administrador") {
   var usuario = new user();
   var asignatura = new Asignatura();
 
@@ -22,11 +23,15 @@ router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
 
   usuario = await usuario.findById(req.params.id);
   res.render('adds/addusuarios', { usuario, asignaturas });
+} else {
+  return res.redirect("/profile");
+}
 });
 
 
 // Añadir asignatura añadiendosela a los usuarios seleccionados ***********************************************
 router.get('/usuarios', isAuthenticated, async(req, res, next) => {
+  if (req.user.rol == "Administrador") {
   const usuario = new user;
   const usuarios = await usuario.findAll(req.user.id);
   const asignatura = new Asignatura;
@@ -34,11 +39,15 @@ router.get('/usuarios', isAuthenticated, async(req, res, next) => {
   res.render('elements/usuarios', {
     usuarios, asignaturas
   });
+  } else {
+    return res.redirect("profile");
+  }
 });
 
 
 // editar usuarios ****************************************************************************
 router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
+  if (req.user.rol == "Administrador") {
   var usuario = new user();
   var asignatura = new Asignatura();
 
@@ -46,6 +55,9 @@ router.get('/usuarios/editusu/:id', isAuthenticated, async (req, res, next) => {
   usuario = await usuario.findById(req.params.id);
 
   res.render('edits/editusu', { usuario, asignaturas });
+} else {
+  return res.redirect("/profile");
+}
 });
 
 router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
@@ -57,7 +69,7 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
 
     //Obtenemos el usu antiguo y el nuevo para editar la lista asignaturas de sus usuarios.
     await usuario.update({ _id: id }, req.body);
-    res.redirect('elements/usuarios');
+    res.redirect('/usuarios');
   } catch (error) {
     next(error);
   }
@@ -66,16 +78,21 @@ router.post('/usuarios/editusu/:id',isAuthenticated, async (req, res, next) => {
 
 // borrar usuarios ************************************************************
 router.get('/usuarios/delete/:id', isAuthenticated,async (req, res, next) => {
+  if(req.user.rol == "Administrador"){
   const usuario = new user();
   let { id } = req.params;
 
   await usuario.delete(id);
-  res.redirect('elements/usuarios');
+  res.redirect('/usuarios');
 
-});
+} else {
+  return res.redirect("/profile");
+}});
+
 
 router.get('/signup', (req, res, next) => {
   res.render('signup');
+
 });
 
 router.post('/signup', passport.authenticate('local-signup', {
