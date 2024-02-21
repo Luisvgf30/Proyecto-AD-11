@@ -120,7 +120,7 @@ router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req,
 
     // Guarda la asignatura actualizada
     await asignatura.save();
-    res.redirect("elements/asignaturas/aula/"+id);
+    res.redirect("/asignaturas/aula/"+id);
   } catch (error) {
     // Manejo de errores
     console.error("Error al editar asignatura:", error);
