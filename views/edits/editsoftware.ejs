@@ -33,7 +33,7 @@
               </li>
               <% } %>
                 <li class="nav-item">
-                  <a class="nav-link" href="/asignaturas/aula">Aulavirtual</a>
+                  <a class="nav-link" href="/aulavirtual">Aulavirtual</a>
                 </li>
           </ul>
           <% } %>
@@ -70,7 +70,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-            <form action="/asignaturas/miasignatura/<%= asignatura.id %>/<%= index %>" method="post">
+            <form action="/miasignatura/editsoftware/<%= asignatura.id %>/<%= index %>" method="post">
               <div class="form-group">
                 <label class="">Software</label>
                 <input class="form-control" type="url" name="software" value="<%= asignatura.software[index]%>" />

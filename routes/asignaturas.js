@@ -25,27 +25,7 @@ router.get("/asignaturas", isAuthenticated, async (req, res) => {
   }
 });
 
-
-
-router.get("/asignaturas/aula", isAuthenticated, async (req, res) => {
-  const asignatura = new Asignatura();
-  const asignaturas = await asignatura.findAll();
-
-  res.render('elements/aulavirtual', {
-    asignaturas: asignaturas,
-  });
-});
-
-router.get('/asignaturas/aula/:id', isAuthenticated, async (req, res, next) => {
-  const asignatura = new Asignatura();
-  const miasignatura = await asignatura.findById(req.params.id);
-
-  res.render("elements/miasignatura", {
-    miasignatura: miasignatura
-  });
-});
-
-// Añadir asignatura añadiendosela a los usuarios seleccionados
+// Añadir asignaturas post
 router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
@@ -53,7 +33,7 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   res.redirect('/asignaturas');
 });
 
-
+// Añadir asignaturas get
 router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
   if (req.user.rol == "Administrador") {
   const asignatura = new Asignatura();
@@ -90,45 +70,6 @@ router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   return res.redirect("/profile");
 }
 });
-
-
-//editar software
-router.get('/asignaturas/miasignatura/:id/:index', isAuthenticated, async (req, res, next) => {
-  if(req.user.rol != "Alumno"){
-  const asignatura = new Asignatura();
-  const miasignatura = await asignatura.findById(req.params.id);
-  const { index } = req.params;
-
-  res.render("edits/editsoftware", {
-    asignatura: miasignatura,
-    index: index
-  });
-} else {
-  return res.redirect("/profile");
-}
-});
-
-router.post("/asignaturas/miasignatura/:id/:index", isAuthenticated, async (req, res, next) => {
-  const software =  req.body.software;
-  let { id } = req.params;
-  const { index } = req.params;
-  try {
-    // Encuentra la asignatura por id
-    let asignatura = await Asignatura.findById(req.params.id);
-      asignatura.software[index] =  software;
-      
-
-    // Guarda la asignatura actualizada
-    await asignatura.save();
-    res.redirect("/asignaturas/aula/"+id);
-  } catch (error) {
-    // Manejo de errores
-    console.error("Error al editar asignatura:", error);
-    res.status(500).send("Error al editar asignatura");
-  }
-});
-
-
 
 //borrar asignatura borrando todas las asignaturas de la lista de los usuarios
 router.get(
@@ -188,62 +129,6 @@ router.get("/asignaturas/search", isAuthenticated, async (req, res, next) => {
   res.render("asignaturas", {
     asignaturas,
   });
-});
-
-
-router.get(
-  "/asignaturas/softwaredelete/:id/:index",
-  isAuthenticated,
-  async (req, res, next) => {
-    if(req.user.rol != "Alumno"){
-    let { id } = req.params;
-    const { index } = req.params;
-    const asignatura = await Asignatura.findById(id);
-
-    for (let i = 0; i < asignatura.software.length; i++) {
-      if(index==i){
-        asignatura.software.splice(i, 1);
-    }
-  }
-    // Elimina la asignatura
-    await asignatura.update(id, asignatura);
-
-    res.redirect("/asignaturas/aula/"+id);
-  } else {
-    return res.redirect("/profile");
-  }
-  }
-);
-
-router.get('/asignaturas/addsoftware/:id', isAuthenticated, async (req, res, next) => {
-  if (req.user.rol != "Alumno") {
-  try {
-    let { id } = req.params;
-    const asignatura = await Asignatura.findById(id);
-
-    res.render("adds/addsoftware", {
-      asignatura,
-    });
-  } catch (error) {
-    next(error);
-  }
-} else {
-  return res.redirect("/profile");
-}
-});
-
-
-router.post("/asignaturas/addsoftware/:id", isAuthenticated, async (req, res, next) => {
-  const software =  req.body.software;
-  const { id } = req.params;
-  const asignatura = await Asignatura.findById(id);
-
-  asignatura.software.push(software);
-
-  await asignatura.update(id, asignatura);
-
-
-  res.redirect("/asignaturas/aula/"+id);
 });
 
 function isAuthenticated(req, res, next) {
