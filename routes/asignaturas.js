@@ -69,14 +69,15 @@ const readCsvFile = async (fileName) => {
 
       result.map (async asig=> {
         var asignatura = new Asignatura();
-        if (asig.nombre && asig.planEstudios && asig.cuatrimestre && asig.curso) {
+ 
+        if (asig.nombre && asig.cuatrimestre && asig.curso && asig.planEstudios) { 
               asignatura.nombre = asig.nombre;
               asignatura.planEstudios = asig.planEstudios;
               asignatura.cuatrimestre = asig.cuatrimestre;
               asignatura.curso = asig.curso;
               await asignatura.save();
       } else {
-        console.error('Algunos campos requeridos están vacíos. El usuario no se guardará.');
+        console.error('error');
       }
       });
     

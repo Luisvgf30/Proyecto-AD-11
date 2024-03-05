@@ -81,7 +81,20 @@ router.post("/miasignatura/editsoftware/:id/:index", isAuthenticated, async (req
         console.error("Error al editar asignatura:", error);
         res.status(500).send("Error al editar asignatura");
     }
+
+
 });
+
+router.post('/miasignatura/editsoftware/:id/:index/upload',(req,res) => { 
+    let EDFile = req.files.file 
+    let { id } = req.params;
+    EDFile.mv(`./files/softwares/${EDFile.name}`,err => { 
+    if(err) return res.status(500).send({ message : err }) 
+    return res.status(200).send({ message : 'File upload' }) 
+    }) 
+    res.redirect("/miasignatura/" + id);
+    });
+    
 
 //Añadir software
 router.get('/miasignatura/addsoftware/:id', isAuthenticated, async (req, res, next) => {
@@ -111,6 +124,18 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
     await asignatura.update(id, asignatura);
     res.redirect("/miasignatura/" + id);
 });
+
+router.post('/miasignatura/addsoftware/:id/upload',(req,res) => { 
+    let EDFile = req.files.file 
+    const { id } = req.params;
+    EDFile.mv(`./files/${EDFile.name}`,err => { 
+    if(err) return res.status(500).send({ message : err }) 
+    return res.status(200).send({ message : 'File upload' }) 
+    }) 
+    res.redirect("/miasignatura/" + id);
+    });
+
+
 
 router.get('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
     
