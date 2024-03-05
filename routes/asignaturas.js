@@ -4,6 +4,9 @@ const Asignatura = require("../models/asignatura");
 const Usuario = require("../models/user");
 const mongoose = require("mongoose");
 const user = require("../models/user");
+const fs = require('fs');// filesystem
+const csv = require('csv-parser');// Encargado de parsear
+const result=[];
 
 router.get("/asignaturas", isAuthenticated, async (req, res) => {
   if (req.user.rol == "Administrador") {
@@ -46,6 +49,39 @@ router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next
   return res.redirect("/profile");
 }
 });
+
+router.post('/asignaturas/addAsignaturaCSV', (req, res) => {
+  var fileAsignaturas = req.files.file;
+  cont = 0;
+  console.log(fileAsignaturas.mimetype);
+  fileAsignaturas.mv(`./files/asignaturas/${fileAsignaturas.name}`, err => {
+    if (err) return res.status(500).send({ message: err });
+    readCsvFile(`./files/asignaturas/${fileAsignaturas.name}`);
+    res.redirect("/asignaturas");
+  });
+});
+
+const readCsvFile = async (fileName) => {
+  await fs.createReadStream(fileName)
+    .pipe(csv({ separator: ";" }))
+    .on("data", (data) => result.push(data))
+    .on("end", () => {
+
+      result.map (async asig=> {
+        var asignatura = new Asignatura();
+        if (asig.nombre && asig.planEstudios && asig.cuatrimestre && asig.curso) {
+              asignatura.nombre = asig.nombre;
+              asignatura.planEstudios = asig.planEstudios;
+              asignatura.cuatrimestre = asig.cuatrimestre;
+              asignatura.curso = asig.curso;
+              await asignatura.save();
+      } else {
+        console.error('Algunos campos requeridos están vacíos. El usuario no se guardará.');
+      }
+      });
+    
+    })
+};
 
 router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
   let { id } = req.params;

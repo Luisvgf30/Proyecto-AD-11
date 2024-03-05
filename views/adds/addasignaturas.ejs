@@ -12,7 +12,12 @@
                   <input class="form-control " required type="text" name="nombre" placeholder="Nombre">
                 </div>
                 <div class="form-group">
-                  <input class="form-control" required type="text" name="planEstudios" placeholder="Plan de estudio">
+                  <label for="planEstudios">Planes de estudio</label>
+                  <select name="planEstudios" id="planEstudios" class="form-control">
+                      <option value="grado">Grado</option>
+                      <option value="master">Master</option>
+                      <option value="doctorado">Doctorado</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
@@ -24,6 +29,12 @@
                   Add
                 </button>
               </form>
+              <form action='/asignaturas/addAsignaturaCSV' method="POST" enctype="multipart/form-data"> 
+                <input type="file" name="file"> 
+                <button class="btn btn-primary" type="submit">
+                  Agregar por CSV
+                </button>
+              </form> 
             </div>
           </div>
         </div>

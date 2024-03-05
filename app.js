@@ -1,5 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
+const fileUpload = require('express-fileupload');
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -7,8 +9,9 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 
-
 var app = express();
+app.use(fileUpload());
+
 require('./database');
 require('./passport/local-auth');
 const mongoose = require('mongoose');
@@ -16,9 +19,6 @@ const mongoose = require('mongoose');
 var usersRouter = require('./routes/users');
 var asignaturasRouter = require('./routes/asignaturas');
 var aulavirtualRouter = require('./routes/aulavirtual');
-
-
-var app = express();
 
 app.set('port', process.env.PORT || 3000);
 //app.set('views', path.join(__dirname, 'views'));
