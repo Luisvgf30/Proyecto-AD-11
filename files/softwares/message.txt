@@ -1,7 +1,12 @@
-modificacion asigna mail usuarios
-buzon de sugerencias
-subir csv alumnos y asignaturas
-poder subir archivos a softwarew
-corregir errores
-cualquier tipo: zip, esquemas, etc
-añadir planes de estudios
+router.post('/miasignatura/addsoftware/:id/upload', (req, res) => {
+    let EDFile = req.files.file;
+    const { id } = req.params;
+    
+    EDFile.mv(`./files/softwares/${EDFile.name}`, err => {
+        if (err) {
+            return res.status(500).send({ message: err });
+        } else {
+            res.redirect("/miasignatura/" + id);
+        }
+    });
+});
