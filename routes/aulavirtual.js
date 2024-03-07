@@ -85,14 +85,24 @@ router.post("/miasignatura/editsoftware/:id/:index", isAuthenticated, async (req
 
 });
 
-router.post('/miasignatura/editsoftware/upload/:id', (req, res) => {
-    let EDFile = req.files.file
-    let { id } = req.params;
-    EDFile.mv(`./files/softwares/${EDFile.name}`, err => {
-        if (err) return res.status(500).send({ message: err })
-        return res.status(200).send({ message: 'File upload' })
-    })
-    res.redirect("/miasignatura/" + id);
+router.post('/miasignatura/editsoftware/upload/:id', async (req, res) => {
+    try {
+        let EDFile = req.files.file;
+        const { id, index } = req.params;
+        EDFile.mv(`./files/softwares/${EDFile.name}`, async (err) => {
+                const asignatura = await Asignatura.findById(id);
+                if (!asignatura) {
+                    return res.status(404).send({ message: 'Asignatura no encontrada' });
+                }
+                asignatura.software[index] = `./files/softwares/${EDFile.name}`;
+                await asignatura.save();
+
+                res.redirect("/miasignatura/" + id);
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error interno del servidor' });
+    }
 });
 
 
@@ -125,6 +135,18 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
     res.redirect("/miasignatura/" + id);
 });
 
+<<<<<<< HEAD
+=======
+// router.post('/miasignatura/addsoftware/:id/upload',(req,res) => { 
+//     let EDFile = req.files.file 
+//     const { id } = req.params;
+//     EDFile.mv(`./files/softwares${EDFile.name}`,err => { 
+//     if(err) return res.status(500).send({ message : err }) 
+//     return res.status(200).send({ message : 'File upload' }) 
+//     }) 
+//     res.redirect("/miasignatura/" + id);
+//     });
+>>>>>>> ibra
 
 router.post('/miasignatura/addsoftware/upload/:id', (req, res) => {
     let EDFile = req.files.file;
@@ -138,6 +160,31 @@ router.post('/miasignatura/addsoftware/upload/:id', (req, res) => {
         }
     });
    
+});
+
+
+router.post('/miasignatura/addsoftware/:id/upload', async (req, res) => {
+    try {
+        let EDFile = req.files.file;
+        const { id } = req.params;
+
+        EDFile.mv(`./files/softwares/${EDFile.name}`, async (err) => {
+            if (err) {
+                return res.status(500).send({ message: err });
+            } else {
+                const asignatura = await Asignatura.findById(id);
+                if (!asignatura) {
+                    return res.status(404).send({ message: 'Asignatura no encontrada' });
+                }
+                asignatura.software.push(`./files/softwares/${EDFile.name}`);
+                await asignatura.save();
+                res.redirect("/miasignatura/" + id);
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Error interno del servidor' });
+    }
 });
 
 
