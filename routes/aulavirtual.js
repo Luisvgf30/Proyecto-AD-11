@@ -85,7 +85,7 @@ router.post("/miasignatura/editsoftware/:id/:index", isAuthenticated, async (req
 
 });
 
-router.post('/miasignatura/editsoftware/upload/:id', async (req, res) => {
+router.post('/miasignatura/editsoftware/upload/:id/:index', async (req, res) => {
     try {
         let EDFile = req.files.file;
         const { id, index } = req.params;

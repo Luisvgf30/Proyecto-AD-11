@@ -5,7 +5,7 @@ const Asignatura = require('../models/asignatura');
 const { default: mongoose } = require('mongoose');
 const fs = require('fs');// filesystem
 const csv = require('csv-parser');// Encargado de parsear
-const result=[];
+const result = [];
 
 router.get('/', (req, res, next) => {
   res.render('signin');
@@ -32,45 +32,52 @@ router.get('/usuarios/addusuarios', isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.post('/usuarios/addUserCSV', (req, res) => {
+router.post('/usuarios/addUserCSV', async (req, res) => {
   var fileUsers = req.files.file;
-  cont = 0;
-  console.log(fileUsers.mimetype);
-  fileUsers.mv(`./files/users/${fileUsers.name}`, err => {
-    if (err) return res.status(500).send({ message: err });
+  try {
+    await fileUsers.mv(`./files/users/${fileUsers.name}`);
     readCsvFile(`./files/users/${fileUsers.name}`);
     res.redirect("/usuarios");
-  });
+  } catch (err) {
+    console.error('Error al mover el archivo:', err);
+    res.status(500).send({ message: err });
+  }
 });
 
 const readCsvFile = async (fileName) => {
-  await fs.createReadStream(fileName)
-    .pipe(csv({ separator: ";" }))
-    .on("data", (data) => result.push(data))
-    .on("end", () => {
+  const results = [];
 
-      result.map (async usu=> {
-        var usuario = new user();
-        if (usu.nombre && usu.rol && usu.password) {
-          var usuarioEmail =  await usuario.findEmail(usu.email);
-          if(usuarioEmail != null){
-            if(usuarioEmail.email != usu.email){
+  try {
+    await fs.createReadStream(fileName)
+      .pipe(csv({ separator: ";" }))
+      .on("data", (data) => results.push(data))
+      .on("end", async () => {
+        for (const usu of results) {
+          var usuario = new user();
+          if (usu.nombre && usu.rol && usu.password) {
+            var usuarioEmail = await usuario.findEmail(usu.email);
+            if (usuarioEmail == null) {
               usuario.nombre = usu.nombre;
               usuario.apellidos = usu.apellidos;
               usuario.rol = usu.rol;
               usuario.email = usu.email;
-              usuario.password = usuario.encryptPassword(usu.password);
+              usuario.password = await usuario.encryptPassword(usu.password);
+
+              const asignaturas = usu.asignaturas.split(',');
+              usuario.asignaturas = asignaturas;
+
               await usuario.save();
+            } else {
+              console.error('El mail no se puede repetir');
             }
-          }else{
-            console.error('El mail no se puede repetir');
+          } else {
+            console.error('Algunos campos requeridos están vacíos. El usuario no se guardará.');
           }
-      } else {
-        console.error('Algunos campos requeridos están vacíos. El usuario no se guardará.');
-      }
+        }
       });
-    
-    })
+  } catch (err) {
+    console.error('Error al leer el archivo CSV:', err);
+  }
 };
 
 
