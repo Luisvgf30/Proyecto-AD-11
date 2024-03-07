@@ -46,7 +46,6 @@ router.post('/usuarios/addUserCSV', async (req, res) => {
 
 const readCsvFile = async (fileName) => {
   const results = [];
-
   try {
     await fs.createReadStream(fileName)
       .pipe(csv({ separator: ";" }))
