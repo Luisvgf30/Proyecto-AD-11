@@ -145,22 +145,8 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
 //     res.redirect("/miasignatura/" + id);
 //     });
 
-router.post('/miasignatura/addsoftware/upload/:id', (req, res) => {
-    let EDFile = req.files.file;
-    const { id } = req.params;
 
-    EDFile.mv(`./files/softwares/${EDFile.name}`, err => {
-        if (err) {
-            return res.status(500).send({ message: err });
-        }else{
-            res.redirect("/miasignatura/" + id);
-        }
-    });
-   
-});
-
-
-router.post('/miasignatura/addsoftware/:id/upload', async (req, res) => {
+router.post('/miasignatura/addsoftware/upload/:id', async (req, res) => {
     try {
         let EDFile = req.files.file;
         const { id } = req.params;
