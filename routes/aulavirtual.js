@@ -135,8 +135,6 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
     res.redirect("/miasignatura/" + id);
 });
 
-<<<<<<< HEAD
-=======
 // router.post('/miasignatura/addsoftware/:id/upload',(req,res) => { 
 //     let EDFile = req.files.file 
 //     const { id } = req.params;
@@ -146,7 +144,6 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
 //     }) 
 //     res.redirect("/miasignatura/" + id);
 //     });
->>>>>>> ibra
 
 router.post('/miasignatura/addsoftware/upload/:id', (req, res) => {
     let EDFile = req.files.file;
