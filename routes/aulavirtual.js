@@ -125,16 +125,28 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
     res.redirect("/miasignatura/" + id);
 });
 
-router.post('/miasignatura/addsoftware/:id/upload',(req,res) => { 
-    let EDFile = req.files.file 
-    const { id } = req.params;
-    EDFile.mv(`./files/${EDFile.name}`,err => { 
-    if(err) return res.status(500).send({ message : err }) 
-    return res.status(200).send({ message : 'File upload' }) 
-    }) 
-    res.redirect("/miasignatura/" + id);
-    });
+// router.post('/miasignatura/addsoftware/:id/upload',(req,res) => { 
+//     let EDFile = req.files.file 
+//     const { id } = req.params;
+//     EDFile.mv(`./files/softwares${EDFile.name}`,err => { 
+//     if(err) return res.status(500).send({ message : err }) 
+//     return res.status(200).send({ message : 'File upload' }) 
+//     }) 
+//     res.redirect("/miasignatura/" + id);
+//     });
 
+router.post('/miasignatura/addsoftware/:id/upload', (req, res) => {
+    let EDFile = req.files.file;
+    const { id } = req.params;
+    
+    EDFile.mv(`./files/softwares/${EDFile.name}`, err => {
+        if (err) {
+            return res.status(500).send({ message: err });
+        } else {
+            res.redirect("/miasignatura/" + id);
+        }
+    });
+});
 
 
 router.get('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
