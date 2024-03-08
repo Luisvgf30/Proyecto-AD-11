@@ -61,7 +61,6 @@ const readCsvFile = async (fileName) => {
               usuario.rol = usu.rol;
               usuario.email = usu.email;
               usuario.password = await usuario.encryptPassword(usu.password);
-
               const asignaturas = usu.asignaturas.split(',');
               usuario.asignaturas = asignaturas;
 
