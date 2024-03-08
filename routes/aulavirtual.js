@@ -2,6 +2,8 @@ const router = require('express').Router();
 const passport = require('passport');
 const Asignatura = require('../models/asignatura');
 const { default: mongoose } = require('mongoose');
+const path = require('path'); // Asegúrate de importar el módulo 'path'
+
 
 //Aula virtual con las asignaturas
 router.get("/aulavirtual", isAuthenticated, async (req, res) => {
@@ -20,6 +22,20 @@ router.get('/miasignatura/:id', isAuthenticated, async (req, res, next) => {
 
     res.render("elements/miasignatura", {
         miasignatura: miasignatura
+    });
+});
+
+//Descargar archivo
+router.get('/miasignatura/download/:id/:software', isAuthenticated, async (req, res, next) => {
+    var { id, software } = req.params;
+
+    var filePath = path.join( __dirname, '..', 'files', 'softwares', software);
+
+    res.download(filePath, (err) => {
+        if (err) {
+            console.error('Error al descargar el archivo:', err);
+            return next(err); 
+        }
     });
 });
 
