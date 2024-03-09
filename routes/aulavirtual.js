@@ -3,7 +3,8 @@ const passport = require('passport');
 const Asignatura = require('../models/asignatura');
 const { default: mongoose } = require('mongoose');
 const path = require('path'); // Asegúrate de importar el módulo 'path'
-
+const Sugerencia = require('../models/sugerencia');
+const Usuario = require("../models/user");
 
 //Aula virtual con las asignaturas
 router.get("/aulavirtual", isAuthenticated, async (req, res) => {
@@ -189,6 +190,33 @@ router.post('/miasignatura/addsoftware/upload/:id', async (req, res) => {
         res.status(500).send({ message: 'Error interno del servidor' });
     }
 });
+
+router.post('/sugerencia', isAuthenticated, async (req, res) => {
+    try {
+        const { sugerencia } = req.body;
+        if (!req.session.Usuario) {
+            return res.status(401).json({ message: 'Usuario no autenticado' });
+        }
+
+        const email = req.session.usuario.email;
+        const nuevaSugerencia = new Sugerencia({
+            mail: email,
+            contenido: sugerencia,
+            fecha: Date.now() 
+        });
+
+        await nuevaSugerencia.save();
+        res.status(201).json({ message: 'Sugerencia guardada con éxito' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Hubo un error al guardar la sugerencia' });
+    }
+});
+
+
+
+
+
 
 
 router.get('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
