@@ -29,14 +29,51 @@
                             <div class="form-group">
                                 <input class="form-control" type="password" name="password" placeholder="password" required>
                             </div>
-                            <div id="asig" class="form-group">
-                                <label for="asignaturas">Asignaturas</label>
+                            <div class="form-group" id="divplanEstudio">
+                                <select  id="planEstudio" onchange="changeFunc2();" name="planEstudio" class="form-control" type="select" required>
+                                  <option value="" hidden selected>Selecciona un Planes de estudio</option>
+                                  <option value="Grado">Grado</option>
+                                  <option value="Master">Master</option>
+                                  <option value="Doctorado">Doctorado</option>
+                                </select>
+                              </div>
+                              
+                              <div id="asigGrado" class="form-group">
+                                <label for="asignaturas">Asignaturas Grado</label>
                                 <select name="asignaturas" id="asignaturas" class="form-control" multiple>
                                   <% for(var i=0; i < asignaturas.length; i++) { %>
+                                    <% if(asignaturas[i].planEstudios == "Grado") { %>
                                     <option value="<%= asignaturas[i]._id %>">
                                       <%= asignaturas[i].nombre %>
                                     </option>
                                     <% } %>
+                                  <% } %>
+                                </select>
+                              </div>
+                
+                              <div id="asigMaster" class="form-group">
+                                <label for="asignaturas">Asignaturas Master</label>
+                                <select name="asignaturas" id="asignaturas" class="form-control" multiple>
+                                  <% for(var i=0; i < asignaturas.length; i++) { %>
+                                    <% if(asignaturas[i].planEstudios == "Master") { %>
+                                    <option value="<%= asignaturas[i]._id %>">
+                                      <%= asignaturas[i].nombre %>
+                                    </option>
+                                    <% } %>
+                                  <% } %>
+                                </select>
+                              </div>
+                
+                              <div id="asigDoctorado" class="form-group">
+                                <label for="asignaturas">Asignaturas Doctorado</label>
+                                <select name="asignaturas" id="asignaturas" class="form-control" multiple>
+                                  <% for(var i=0; i < asignaturas.length; i++) { %>
+                                    <% if(asignaturas[i].planEstudios == "Doctorado") { %>
+                                    <option value="<%= asignaturas[i]._id %>">
+                                      <%= asignaturas[i].nombre %>
+                                    </option>
+                                    <% } %>
+                                  <% } %>
                                 </select>
                               </div>
                             <button class="btn btn-primary" type="submit">

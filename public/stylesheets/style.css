@@ -77,6 +77,10 @@ table th{
   max-width: 100%;
 }
 
+.invisible{
+  display: none;
+}
+
 @media (min-width: 992px){
   .mar_carta{
     margin-left: 15%;
