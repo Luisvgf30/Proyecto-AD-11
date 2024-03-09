@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { findById } = require('./user');
-const User = require("../models/user");
 
 const Schema = mongoose.Schema;
 

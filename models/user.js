@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
-const Asignatura = require('../models/asignatura');
 
 const Schema = mongoose.Schema;
 

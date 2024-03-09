@@ -45,10 +45,8 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                   <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+                  <li><a class="dropdown-item" href="/buzon">Sugerencias</a></li>
                   <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
-                  <% if (user && (user.rol==="Alumno" || user.rol==="Profesor" )) { %>
-                    <li class="dropdown-item"><a href="">Sugerencias</a></li>
-                    <% } %>
                 </ul>
               </li>
             </ul>
