@@ -15,6 +15,10 @@ router.get("/aulavirtual", isAuthenticated, async (req, res) => {
     });
 });
 
+router.get('/buzon', isAuthenticated, async (req, res, next) => {
+    res.render('elements/buzon');
+});
+
 //
 router.get('/miasignatura/:id', isAuthenticated, async (req, res, next) => {
     const asignatura = new Asignatura();
