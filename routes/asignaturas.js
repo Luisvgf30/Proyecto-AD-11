@@ -3,7 +3,7 @@ const router = express.Router();
 const Asignatura = require("../models/asignatura");
 const Usuario = require("../models/user");
 const mongoose = require("mongoose");
-const user = require("../models/user");
+const Mail = require("../public/javascripts/mail");
 const fs = require('fs');// filesystem
 const csv = require('csv-parser');// Encargado de parsear
 const result = [];
@@ -33,23 +33,7 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
   await asignatura.insert();
-  // const usuario = new Usuario();
-  // const alumnos = await usuario.findRol("Alumnos");
-  // const asig = new Asignatura();
-  // const asignaturas = await asig.findAll();
 
-// console.log("aa")
-//   for (let i = 0; i < alumnos.length; i++) {
-//     for (let k = 0; k < alumnos.asignaturas.length; k++) {
-//       for (let j = 0; j < asignaturas.length; j++) {
-//         if (alumnos.asignatura[k] == asignaturas[j]._id) {
-
-//           enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Creada Asignatura", `Nueva Asignatura ${asignaturas[j].nombre}`);
-
-//         }
-//       }
-//     }
-//   }
   res.redirect('/asignaturas');
 });
 
@@ -130,9 +114,25 @@ router.get(
   "/asignaturas/delete/:id",
   isAuthenticated,
   async (req, res, next) => {
+    //Uso del delete
     let { id } = req.params;
     let usuario = new Usuario();
     let usuarios = await usuario.findAll();
+
+    //Uso de mailer
+    const usu = new Usuario();
+    const alumnos = await usu.findRol("Alumno");
+    const asig = new Asignatura();
+    const asignatura = await asig.findById({ _id: id });
+
+    for (let i = 0; i < alumnos.length; i++) {
+      for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+        console.log(alumnos[i].asignaturas[j].toString());
+          if (alumnos[i].asignaturas[j].toString() == id) {
+            enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Borrar Asignatura", `Asignatura ${asignatura.nombre} ha sido eliminada`);
+          }
+      }
+    }
 
     for (let i = 0; i < usuarios.length; i++) {
       for (let j = 0; j < usuarios[i].asignaturas.length; j++) {
@@ -142,9 +142,9 @@ router.get(
         }
       }
     }
+
     // Elimina la asignatura
     await Asignatura.deleteOne({ _id: id });
-
     res.redirect("/asignaturas");
   }
 );
@@ -153,7 +153,21 @@ router.get(
 router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const updatedAsignaturaData = req.body;
-  let usu = req.user;
+
+  //Uso de mailer
+  const usu = new Usuario();
+  const alumnos = await usu.findRol("Alumno");
+  const asig = new Asignatura();
+  const asignatura = await asig.findById({ _id: id });
+
+  for (let i = 0; i < alumnos.length; i++) {
+    for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+      console.log(alumnos[i].asignaturas[j].toString());
+        if (alumnos[i].asignaturas[j].toString() == id) {
+          enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Edición Asignatura", `Asignatura ${asignatura.nombre} ha sido editada`);
+        }
+    }
+  }
 
   try {
 
