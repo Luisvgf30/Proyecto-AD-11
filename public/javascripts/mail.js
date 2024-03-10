@@ -1,16 +1,14 @@
-//Requerimos el paquete
 var nodemailer = require('nodemailer');
 
-methods.enviarmail = function(mailfrom, mailto, subject, text) {
-    
-    //Creamos el objeto de transporte
+enviarmail = function (mailfrom, mailto, subject, text) {
+
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
-        secure: true, // use SSL
+        secure: true,
         auth: {
-            user: 'luisvgf30@gmail.com',
-            pass: 'atiq xlqv lppz fwvp'
+            user: 'practicamariomail@gmail.com',
+            pass: 'oshj ntlr qokm xqde'
         }
     });
 
@@ -20,7 +18,7 @@ methods.enviarmail = function(mailfrom, mailto, subject, text) {
         subject: subject,
         text: text
     };
-    
+
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);

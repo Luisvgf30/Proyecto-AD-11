@@ -5,6 +5,7 @@ const { default: mongoose } = require('mongoose');
 const path = require('path'); // Asegúrate de importar el módulo 'path'
 const Sugerencia = require('../models/sugerencia');
 const Usuario = require("../models/user");
+const Mail = require("../public/javascripts/mail");
 
 //Aula virtual con las asignaturas
 router.get("/aulavirtual", isAuthenticated, async (req, res) => {
@@ -197,8 +198,15 @@ router.post('/sugerencia', isAuthenticated, async (req, res) => {
         suge.mail = req.user.email;
         suge.contenido = req.body.sugerencia;
         suge.fecha = Date.now();
+
         await suge.save();
-        res.status(201).json({ message: 'Sugerencia guardada con éxito' });
+        const usuario = new Usuario();
+        const administradores = usuario.findRol("Administrador");
+
+        for(let i = 0; i < administradores.length; i++) {
+            enviarmail(suge.mail, administradores[i].email, "Sugerencia", suge.contenido);
+        }
+        res.render('elements/buzon');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Hubo un error al guardar la sugerencia' });
@@ -206,12 +214,10 @@ router.post('/sugerencia', isAuthenticated, async (req, res) => {
 });
 
 
+router.post('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
+    
+    enviarmail("raul@gmail.com", "ibravmben55@gmail.com","prueba", "hola aaaaaaa");
 
-
-
-
-
-router.get('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
 
 });
 
