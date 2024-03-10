@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const user = require("../models/user");
 const fs = require('fs');// filesystem
 const csv = require('csv-parser');// Encargado de parsear
-const result=[];
+const result = [];
 
 router.get("/asignaturas", isAuthenticated, async (req, res) => {
   if (req.user.rol == "Administrador") {
@@ -33,21 +33,38 @@ router.post('/asignaturas/add', isAuthenticated, async (req, res, next) => {
   const asignatura = new Asignatura(req.body);
   asignatura.usuario = req.user._id;
   await asignatura.insert();
+  // const usuario = new Usuario();
+  // const alumnos = await usuario.findRol("Alumnos");
+  // const asig = new Asignatura();
+  // const asignaturas = await asig.findAll();
+
+// console.log("aa")
+//   for (let i = 0; i < alumnos.length; i++) {
+//     for (let k = 0; k < alumnos.asignaturas.length; k++) {
+//       for (let j = 0; j < asignaturas.length; j++) {
+//         if (alumnos.asignatura[k] == asignaturas[j]._id) {
+
+//           enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Creada Asignatura", `Nueva Asignatura ${asignaturas[j].nombre}`);
+
+//         }
+//       }
+//     }
+//   }
   res.redirect('/asignaturas');
 });
 
 // Añadir asignaturas get
 router.get('/asignaturas/addasignaturas', isAuthenticated, async (req, res, next) => {
   if (req.user.rol == "Administrador") {
-  const asignatura = new Asignatura();
-  const asignaturas = await asignatura.findAll();
+    const asignatura = new Asignatura();
+    const asignaturas = await asignatura.findAll();
 
-  res.render('adds/addasignaturas', {
-    asignaturas: asignaturas
-  });
-} else {
-  return res.redirect("/profile");
-}
+    res.render('adds/addasignaturas', {
+      asignaturas: asignaturas
+    });
+  } else {
+    return res.redirect("/profile");
+  }
 });
 
 router.post('/asignaturas/addAsignaturaCSV', (req, res) => {
@@ -67,20 +84,20 @@ const readCsvFile = async (fileName) => {
     .on("data", (data) => result.push(data))
     .on("end", () => {
 
-      result.map (async asig=> {
+      result.map(async asig => {
         var asignatura = new Asignatura();
- 
-        if (asig.nombre && asig.cuatrimestre && asig.curso && asig.planEstudios) { 
-              asignatura.nombre = asig.nombre;
-              asignatura.planEstudios = asig.planEstudios;
-              asignatura.cuatrimestre = asig.cuatrimestre;
-              asignatura.curso = asig.curso;
-              await asignatura.save();
-      } else {
-        console.error('error');
-      }
+
+        if (asig.nombre && asig.cuatrimestre && asig.curso && asig.planEstudios) {
+          asignatura.nombre = asig.nombre;
+          asignatura.planEstudios = asig.planEstudios;
+          asignatura.cuatrimestre = asig.cuatrimestre;
+          asignatura.curso = asig.curso;
+          await asignatura.save();
+        } else {
+          console.error('error');
+        }
       });
-    
+
     })
 };
 
@@ -95,17 +112,17 @@ router.get('/asignaturas/turn/:id', isAuthenticated, async (req, res, next) => {
 // Render Editar asignatura
 router.get('/asignaturas/edit/:id', isAuthenticated, async (req, res, next) => {
   if (req.user.rol == "Administrador") {
-  var asignatura = new Asignatura();
-  const usuario = new Usuario();
+    var asignatura = new Asignatura();
+    const usuario = new Usuario();
 
-  const alumnos = await usuario.findRol("Alumno");
-  const profesores = await usuario.findRol("Profesor");
+    const alumnos = await usuario.findRol("Alumno");
+    const profesores = await usuario.findRol("Profesor");
 
-  asignatura = await asignatura.findById(req.params.id);
-  res.render("edits/edit", { asignatura, profesores, alumnos });
-} else {
-  return res.redirect("/profile");
-}
+    asignatura = await asignatura.findById(req.params.id);
+    res.render("edits/edit", { asignatura, profesores, alumnos });
+  } else {
+    return res.redirect("/profile");
+  }
 });
 
 //borrar asignatura borrando todas las asignaturas de la lista de los usuarios
@@ -144,11 +161,11 @@ router.post("/asignaturas/edit/:id", isAuthenticated, async (req, res, next) => 
     let asignatura = await Asignatura.findById(id);
 
     // Actualiza los datos de la asignatura
-      asignatura.nombre = updatedAsignaturaData.nombre;
-      asignatura.planEstudios = updatedAsignaturaData.planEstudios;
-      asignatura.cuatrimestre = updatedAsignaturaData.cuatrimestre;
-      asignatura.curso = updatedAsignaturaData.curso;
-    
+    asignatura.nombre = updatedAsignaturaData.nombre;
+    asignatura.planEstudios = updatedAsignaturaData.planEstudios;
+    asignatura.cuatrimestre = updatedAsignaturaData.cuatrimestre;
+    asignatura.curso = updatedAsignaturaData.curso;
+
     // Guarda la asignatura actualizada
     await asignatura.save();
     res.redirect("/asignaturas");

@@ -20,7 +20,8 @@
     "morgan": "~1.9.1",
     "nodemailer": "^6.9.9",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "sweetalert": "^2.1.2"
   },
   "description": "Para poner comentarios\r Prueba de git",
   "main": "app.js",

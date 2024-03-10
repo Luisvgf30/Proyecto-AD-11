@@ -35,12 +35,12 @@ router.get('/miasignatura/:id', isAuthenticated, async (req, res, next) => {
 router.get('/miasignatura/download/:id/:software', isAuthenticated, async (req, res, next) => {
     var { id, software } = req.params;
 
-    var filePath = path.join( __dirname, '..', 'files', 'softwares', software);
+    var filePath = path.join(__dirname, '..', 'files', 'softwares', software);
 
     res.download(filePath, (err) => {
         if (err) {
             console.error('Error al descargar el archivo:', err);
-            return next(err); 
+            return next(err);
         }
     });
 });
@@ -112,14 +112,14 @@ router.post('/miasignatura/editsoftware/upload/:id/:index', async (req, res) => 
         let EDFile = req.files.file;
         const { id, index } = req.params;
         EDFile.mv(`./files/softwares/${EDFile.name}`, async (err) => {
-                const asignatura = await Asignatura.findById(id);
-                if (!asignatura) {
-                    return res.status(404).send({ message: 'Asignatura no encontrada' });
-                }
-                asignatura.software[index] = `./files/softwares/${EDFile.name}`;
-                await asignatura.save();
+            const asignatura = await Asignatura.findById(id);
+            if (!asignatura) {
+                return res.status(404).send({ message: 'Asignatura no encontrada' });
+            }
+            asignatura.software[index] = `./files/softwares/${EDFile.name}`;
+            await asignatura.save();
 
-                res.redirect("/miasignatura/" + id);
+            res.redirect("/miasignatura/" + id);
         });
     } catch (error) {
         console.error(error);
@@ -201,15 +201,12 @@ router.post('/sugerencia', isAuthenticated, async (req, res) => {
 
         await suge.save();
         const usuario = new Usuario();
-        const administradores = [usuario.findRol("Administrador")];
+        const administradores = await usuario.findRol("Administrador");
 
-        console.log(administradores[0].nombre);
-        console.log(administradores.length);
-        for(let i = 0; i < administradores.length; i++) {
+        for (let i = 0; i < administradores.length; i++) {
             enviarmail("practicamariomail@gmail.com", administradores[i].email, "Sugerencia", suge.contenido);
         }
-
-        enviarmail("practicamariomail@gmail.com", "ibravmben55@gmail.com", "Sugerencia", suge.contenido);
+        
         res.render('elements/buzon');
     } catch (error) {
         console.error(error);
@@ -219,8 +216,8 @@ router.post('/sugerencia', isAuthenticated, async (req, res) => {
 
 
 router.post('/miasignatura/mail', isAuthenticated, async (req, res, next) => {
-    
-    enviarmail("raul@gmail.com", "ibravmben55@gmail.com","prueba", "hola aaaaaaa");
+
+    enviarmail("raul@gmail.com", "ibravmben55@gmail.com", "prueba", "hola aaaaaaa");
 
 
 });

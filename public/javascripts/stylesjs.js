@@ -3,7 +3,7 @@ document.getElementById("asigMaster").style.display="none"
 document.getElementById("asigDoctorado").style.display="none"
 
 function changeFunc() {
-    var selectBox = document.getElementById("rol");
+    var selectBox = document.getElementById("selectBox");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
     if(selectedValue == "Administrador"){
@@ -19,7 +19,7 @@ function changeFunc() {
 }
 
 function changeFunc2() {
-    var selectBox = document.getElementById("rol");
+    var selectBox = document.getElementById("selectBox");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
     var selectBox2 = document.getElementById("planEstudio");
