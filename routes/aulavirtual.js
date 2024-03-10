@@ -193,19 +193,11 @@ router.post('/miasignatura/addsoftware/upload/:id', async (req, res) => {
 
 router.post('/sugerencia', isAuthenticated, async (req, res) => {
     try {
-        const { sugerencia } = req.body;
-        if (!req.session.Usuario) {
-            return res.status(401).json({ message: 'Usuario no autenticado' });
-        }
-
-        const email = req.session.usuario.email;
-        const nuevaSugerencia = new Sugerencia({
-            mail: email,
-            contenido: sugerencia,
-            fecha: Date.now() 
-        });
-
-        await nuevaSugerencia.save();
+        const suge = new Sugerencia();
+        suge.mail = req.user.email;
+        suge.contenido = req.body.sugerencia;
+        suge.fecha = Date.now();
+        await suge.save();
         res.status(201).json({ message: 'Sugerencia guardada con éxito' });
     } catch (error) {
         console.error(error);
