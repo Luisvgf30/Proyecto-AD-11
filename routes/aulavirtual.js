@@ -201,11 +201,15 @@ router.post('/sugerencia', isAuthenticated, async (req, res) => {
 
         await suge.save();
         const usuario = new Usuario();
-        const administradores = usuario.findRol("Administrador");
+        const administradores = [usuario.findRol("Administrador")];
 
+        console.log(administradores[0].nombre);
+        console.log(administradores.length);
         for(let i = 0; i < administradores.length; i++) {
-            enviarmail(suge.mail, administradores[i].email, "Sugerencia", suge.contenido);
+            enviarmail("practicamariomail@gmail.com", administradores[i].email, "Sugerencia", suge.contenido);
         }
+
+        enviarmail("practicamariomail@gmail.com", "ibravmben55@gmail.com", "Sugerencia", suge.contenido);
         res.render('elements/buzon');
     } catch (error) {
         console.error(error);
