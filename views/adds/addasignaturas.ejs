@@ -12,29 +12,33 @@
                   <input class="form-control " required type="text" name="nombre" placeholder="Nombre">
                 </div>
                 <div class="form-group">
-                  <label for="planEstudios">Planes de estudio</label>
-                  <select name="planEstudios" id="planEstudios" class="form-control">
+                  <select name="planEstudios" id="planEstudios" class="form-control" required>
+                    <option  value="" hidden selected>Plan de estudio</option>
                       <option value="Grado">Grado</option>
                       <option value="Master">Master</option>
                       <option value="Doctorado">Doctorado</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" required type="number" name="cuatrimestre" placeholder="Cuatrimestre">
+                  <input class="form-control" required type="number" name="cuatrimestre" min="1" max="4" placeholder="Cuatrimestre">
                 </div>
                 <div class="form-group">
-                  <input class="form-control" required type="number" name="curso" placeholder="Curso">
+                  <input class="form-control" required type="number" name="curso" min="1" max="2" placeholder="Curso">
                 </div>
-                <button class="btn btn-primary" type="submit">
-                  Add
-                </button>
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">
+                    Add
+                  </button>
+                </div>
               </form>
-              <form action='/asignaturas/addAsignaturaCSV' method="POST" enctype="multipart/form-data"> 
-                <input type="file" name="file"> 
-                <button class="btn btn-primary" type="submit">
-                  Agregar por CSV
-                </button>
-              </form> 
+              <div class="form-group">
+                <form action='/asignaturas/addAsignaturaCSV' method="POST" enctype="multipart/form-data"> 
+                  <input type="file" name="file"> 
+                  <button class="btn btn-primary" type="submit">
+                    Agregar por CSV
+                  </button>
+                </form> 
+              </div>
             </div>
           </div>
         </div>

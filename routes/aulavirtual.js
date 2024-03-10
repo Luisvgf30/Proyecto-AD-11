@@ -62,7 +62,7 @@ router.get(
                 for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
                 console.log(alumnos[i].asignaturas[j].toString());
                     if (alumnos[i].asignaturas[j].toString() == id) {
-                    enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Elimanar Software", `Software de la asignatura ${asignatura.nombre} ha sido eliminado`);
+                    enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Eliminar Software", `Software de la asignatura ${asignatura.nombre} ha sido eliminado`);
                     }
                 }
             }

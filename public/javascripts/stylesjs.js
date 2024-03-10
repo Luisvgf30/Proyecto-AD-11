@@ -45,3 +45,12 @@ function changeFunc2() {
         selectBox2.disabled = true;
     }
 }
+
+function mostrarMensaje() {
+    swal ( "Ok" ,  "Sugerecia Enviada!" ,  "success" )
+}
+
+function mostrarMensajeIncorrecta() {
+    swal ( "Error " ,  "Contraseña Incorrecta" ,  "error" )
+}
+

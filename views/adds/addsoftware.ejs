@@ -18,14 +18,18 @@
                 placeholder="Introduce URL"
               />
             </div>
-            <button class="btn btn-primary" type="submit">add</button>
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">add</button>
+            </div>
           </form>
-          <form action='/miasignatura/addsoftware/upload/<%= asignatura.id %>' method="POST" enctype="multipart/form-data"> 
-            <input type="file" name="file"> 
-            <button class="btn btn-primary" type="submit">
-              Agregar archivo
-            </button>
-          </form> 
+          <div class="form-group">
+            <form action='/miasignatura/addsoftware/upload/<%= asignatura.id %>' method="POST" enctype="multipart/form-data"> 
+              <input type="file" name="file"> 
+              <button class="btn btn-primary" type="submit">
+                Agregar archivo
+              </button>
+            </form> 
+          </div>
         </div>
       </div>
     </div>

@@ -77,19 +77,20 @@
                   <% } %>
                 </select>
               </div>
-
+              <div class="form-group">
               <button class="btn btn-primary" type="submit">
                 Add
               </button>
+              </div>
             </form>
-
+            <div class="form-group">
             <form action='/usuarios/addUserCSV' method="POST" enctype="multipart/form-data"> 
               <input type="file" name="file"> 
               <button class="btn btn-primary" type="submit">
                 Agregar por CSV
               </button>
             </form> 
-              
+            </div>
           </div>
         </div>
       </div>
