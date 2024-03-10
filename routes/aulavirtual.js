@@ -54,6 +54,19 @@ router.get(
             const { index } = req.params;
             const asignatura = await Asignatura.findById(id);
 
+            //Uso de mailer
+            const usu = new Usuario();
+            const alumnos = await usu.findRol("Alumno");
+
+            for (let i = 0; i < alumnos.length; i++) {
+                for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+                console.log(alumnos[i].asignaturas[j].toString());
+                    if (alumnos[i].asignaturas[j].toString() == id) {
+                    enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Elimanar Software", `Software de la asignatura ${asignatura.nombre} ha sido eliminado`);
+                    }
+                }
+            }
+
             for (let i = 0; i < asignatura.software.length; i++) {
                 if (index == i) {
                     asignatura.software.splice(i, 1);
@@ -89,6 +102,21 @@ router.post("/miasignatura/editsoftware/:id/:index", isAuthenticated, async (req
     const software = req.body.software;
     let { id } = req.params;
     const { index } = req.params;
+
+     //Uso de mailer
+     const usu = new Usuario();
+     const alumnos = await usu.findRol("Alumno");
+     const asig =  new Asignatura();
+     const asignatura = await asig.findById({ _id: id });
+
+     for (let i = 0; i < alumnos.length; i++) {
+         for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+         console.log(alumnos[i].asignaturas[j].toString());
+             if (alumnos[i].asignaturas[j].toString() == id) {
+             enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Edición Software", `Software de la asignatura ${asignatura.nombre} ha sido editado`);
+             }
+         }
+     }
     try {
         // Encuentra la asignatura por id
         let asignatura = await Asignatura.findById(req.params.id);
@@ -111,6 +139,22 @@ router.post('/miasignatura/editsoftware/upload/:id/:index', async (req, res) => 
     try {
         let EDFile = req.files.file;
         const { id, index } = req.params;
+
+        //Uso de mailer
+        const usu = new Usuario();
+        const alumnos = await usu.findRol("Alumno");
+        const asig = new Asignatura();
+        const asignatura = await asig.findById({ _id: id });
+
+        for (let i = 0; i < alumnos.length; i++) {
+            for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+            console.log(alumnos[i].asignaturas[j].toString());
+                if (alumnos[i].asignaturas[j].toString() == id) {
+                enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Edición Software", `Software de la asignatura ${asignatura.nombre} ha sido editado`);
+                }
+            }
+        }
+
         EDFile.mv(`./files/softwares/${EDFile.name}`, async (err) => {
             const asignatura = await Asignatura.findById(id);
             if (!asignatura) {
@@ -151,6 +195,19 @@ router.post("/miasignatura/addsoftware/:id", isAuthenticated, async (req, res, n
     const { id } = req.params;
     const asignatura = await Asignatura.findById(id);
 
+    //Uso de mailer
+    const usu = new Usuario();
+    const alumnos = await usu.findRol("Alumno");
+
+    for (let i = 0; i < alumnos.length; i++) {
+        for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+        console.log(alumnos[i].asignaturas[j].toString());
+            if (alumnos[i].asignaturas[j].toString() == id) {
+            enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Software añadido", `Software de la asignatura ${asignatura.nombre} ha sido añadido`);
+            }
+        }
+    }
+
     asignatura.software.push(software);
 
     await asignatura.update(id, asignatura);
@@ -172,6 +229,21 @@ router.post('/miasignatura/addsoftware/upload/:id', async (req, res) => {
     try {
         let EDFile = req.files.file;
         const { id } = req.params;
+
+         //Uso de mailer
+        const usu = new Usuario();
+        const alumnos = await usu.findRol("Alumno");
+        const asig = new Asignatura();
+        const asignatura = await asig.findById({ _id: id });
+
+        for (let i = 0; i < alumnos.length; i++) {
+            for (let j = 0; j < alumnos[i].asignaturas.length; j++) {
+            console.log(alumnos[i].asignaturas[j].toString());
+                if (alumnos[i].asignaturas[j].toString() == id) {
+                enviarmail("practicamariomail@gmail.com", alumnos[i].email, "Software añadido", `Software de la asignatura ${asignatura.nombre} ha sido añadido`);
+                }
+            }
+        }
 
         EDFile.mv(`./files/softwares/${EDFile.name}`, async (err) => {
             if (err) {
