@@ -33,7 +33,7 @@ router.get('/miasignatura/:id', isAuthenticated, async (req, res, next) => {
 
 //Descargar archivo
 router.get('/miasignatura/download/:id/:software', isAuthenticated, async (req, res, next) => {
-    var { id, software } = req.params;
+    var { software } = req.params;
 
     var filePath = path.join(__dirname, '..', 'files', 'softwares', software);
 
