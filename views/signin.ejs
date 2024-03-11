@@ -64,32 +64,19 @@
       </div>
     </section>
 
-    <%if (signinMessage == "Incorrect Password") {%>
-      <div id="password" class="card centrado_total">
+    <%if (signinMessage == "Incorrect Password" || signinMessage == "No User Found") {%>
+      <div id="password" class="card centrado_total error">
         <div class="card-body m-4">
-            <h2 style="color: maroon;">Contraseña incorrecta</h2>
+            <h2>Usuario o contraseña incorrecta</h2>
             <button
                 type="submit"
-                class="btn btn-primary btn-lg btn-block"
-                style="background-color: #5d6d7e"
+                class="btn btn-danger btn-lg btn-block"
                 onclick="nonepasswordmensaje()">
-                Valep
+                OK
               </button>
         </div>
-    </div>
-    <% } else if(signinMessage == "No User Found"){%> 
-      <div id="password" class="card centrado_total">
-        <div class="card-body m-4">
-            <h2 style="color: maroon;">El usuario no existe</h2>
-            <button
-                type="submit"
-                class="btn btn-primary btn-lg btn-block"
-                style="background-color: #5d6d7e"
-                onclick="nonepasswordmensaje()">
-                Valep
-              </button>
-        </div>
-    </div>
-      <% } %>
-    <% include partials/_footer %>
+      </div>
+    <% } %>
+
+<% include partials/_footer %>
 

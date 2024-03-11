@@ -81,6 +81,14 @@ table th{
   display: none;
 }
 
+.succesfull{
+  border: solid 5px green;
+}
+
+.error{
+  border: solid 5px maroon;
+}
+
 @media (min-width: 992px){
   .mar_carta{
     margin-left: 15%;

@@ -7,16 +7,16 @@ document.getElementById("asigDoctorado").style.display="none"
 function changeFunc() {
     var selectBox = document.getElementById("selectBox");
     var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    var selectBox2 = document.getElementById("planEstudio");
+
 
     if(selectedValue == "Administrador"){
         document.getElementById("asigGrado").style.display="none";
         document.getElementById("asigMaster").style.display="none";
         document.getElementById("asigDoctorado").style.display="none";
-        document.getElementById("divplanEstudio").style.display="none";
-
-
+        selectBox2.disabled = true;
     }else{
-        document.getElementById("divplanEstudio").style.display="block";
+        selectBox2.disabled = false;
     }
 }
 
@@ -43,8 +43,6 @@ function changeFunc2() {
             document.getElementById("asigMaster").style.display="none"
             document.getElementById("asigDoctorado").style.display="block";
         } 
-    }else {
-        selectBox2.disabled = true;
     }
 }
 

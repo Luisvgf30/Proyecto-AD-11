@@ -18,7 +18,10 @@ router.get("/aulavirtual", isAuthenticated, async (req, res) => {
 });
 
 router.get('/buzon', isAuthenticated, async (req, res, next) => {
-    res.render('elements/buzon');
+    const enviado = false;
+    res.render('elements/buzon', {
+        enviado: enviado
+    });
 });
 
 //
@@ -279,7 +282,10 @@ router.post('/sugerencia', isAuthenticated, async (req, res) => {
             enviarmail("practicamariomail@gmail.com", administradores[i].email, "Sugerencia", suge.contenido);
         }
         
-        res.render('elements/buzon');
+        const enviado = true;
+        res.render('elements/buzon', {
+            enviado: enviado
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Hubo un error al guardar la sugerencia' });
