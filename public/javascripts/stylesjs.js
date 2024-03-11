@@ -1,3 +1,5 @@
+
+
 document.getElementById("asigGrado").style.display="none";
 document.getElementById("asigMaster").style.display="none"
 document.getElementById("asigDoctorado").style.display="none"
@@ -50,7 +52,6 @@ function mostrarMensaje() {
     swal ( "Ok" ,  "Sugerecia Enviada!" ,  "success" )
 }
 
-function mostrarMensajeIncorrecta() {
-    swal ( "Error " ,  "Contraseña Incorrecta" ,  "error" )
+function nonepasswordmensaje() {
+    document.getElementById("password").style.display="none";
 }
-
